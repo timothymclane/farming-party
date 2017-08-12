@@ -150,7 +150,7 @@ function FarmingPartyHighscore:UpdateHighscoreWindow()
     for k, v in pairs(highscoreSettings.members) do
         count = count + 1
 
-        if count > 24 then break end
+        if count > 12 then break end
 
         FarmingPartyHighscoreWindow:GetNamedChild("ROW" .. count .. "NAME"):SetText(v.displayName)
         FarmingPartyHighscoreWindow:GetNamedChild("ROW" .. count .. "BESTLOOT"):SetText(v.bestLoot)
@@ -166,7 +166,7 @@ function FarmingPartyHighscore:UpdateHighscoreWindow()
 
     -- Hide all the rest lines that are not needed
     -- 24 is the max amount of rows
-    while count < 24 do
+    while count < 12 do
         count = count + 1
         FarmingPartyHighscoreWindow:GetNamedChild("ROW" .. count .. "NAME"):SetHidden(true)
         FarmingPartyHighscoreWindow:GetNamedChild("ROW" .. count .. "BESTLOOT"):SetHidden(true)
