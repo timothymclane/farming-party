@@ -1,0 +1,27 @@
+## Title: Farming Party
+## Description: Displays the loot gathered by group members. Based upon Temeez's Group Loot.
+## Author: Aldanga
+## Version: 0.1.0
+## APIVersion: 100019
+## OptionalDependsOn: LibAddonMenu-2.0
+## SavedVariables: FarmingParty_db FarmingPartyHighScore_db
+
+libs/LibStub/LibStub.lua
+libs/LibAddonMenu-2.0/LibAddonMenu-2.0.lua
+libs/LibAddonMenu-2.0/controls/panel.lua
+libs/LibAddonMenu-2.0/controls/submenu.lua
+libs/LibAddonMenu-2.0/controls/button.lua
+libs/LibAddonMenu-2.0/controls/checkbox.lua
+libs/LibAddonMenu-2.0/controls/colorpicker.lua
+libs/LibAddonMenu-2.0/controls/custom.lua
+libs/LibAddonMenu-2.0/controls/description.lua
+libs/LibAddonMenu-2.0/controls/dropdown.lua
+libs/LibAddonMenu-2.0/controls/header.lua
+libs/LibAddonMenu-2.0/controls/slider.lua
+libs/LibAddonMenu-2.0/controls/texture.lua
+
+FarmingPartySettings.lua
+FarmingPartyHighScore.lua
+FarmingPartyHighScore.xml
+FarmingParty.xml
+FarmingParty.lua

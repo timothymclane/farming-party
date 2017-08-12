@@ -1,0 +1,21 @@
+<GuiXml>
+  <Controls>
+    <TopLevelControl name="FarmingPartyWindow" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true">
+      <Dimensions x="400" y="80" />
+
+      <OnMoveStart>FarmingPartySettings:MoveStart()</OnMoveStart>
+      <OnMoveStop>FarmingPartySettings:MoveStop()</OnMoveStop>
+
+      <Controls>
+        <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop"/>
+        <TextBuffer 
+          name="$(parent)Buffer" 
+          inheritAlpha="true" 
+          font="ZoFontGameSmall" 
+          linkEnabled="true" 
+          maxHistoryLines="30"/>
+      </Controls>
+
+    </TopLevelControl>
+  </Controls>
+</GuiXml>
