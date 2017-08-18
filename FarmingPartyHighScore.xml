@@ -1,10 +1,10 @@
 <GuiXml>
   <Controls>
-    <TopLevelControl name="FarmingPartyHighscoreWindow" mouseEnabled="true" movable="true" clampedToScreen="true">
+    <TopLevelControl name="FarmingPartyHighScoreWindow" mouseEnabled="true" movable="true" clampedToScreen="true">
       <Dimensions x="500" y="122" />
       <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
 
-      <OnMoveStop>FarmingPartyHighscore:MoveStop()</OnMoveStop>
+      <OnMoveStop>FarmingPartyHighScore:MoveStop()</OnMoveStop>
 
       <Controls>
         <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" alpha="0.6" />
@@ -12,6 +12,14 @@
         <Label name="$(parent)TITLE" font="ZoFontBookPaperTitle" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" text="Loot Highscores">
           <Anchor point="BOTTOM" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="50" />
         </Label>
+        <Button name="$(parent)CloseButton" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+          <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-20" offsetY="20" />
+          <Dimensions x="48" y="48" />
+          <Textures normal="/esoui/art/hud/radialicon_cancel_up.dds" mouseOver="/esoui/art/hud/radialicon_cancel_over.dds" />
+          <OnClicked>
+            FarmingPartyHighScoreWindow:SetHidden(true)
+          </OnClicked>
+        </Button>
         
         <Texture name="$(parent)DIVIDERTITLE" textureFile="/esoui/art/miscellaneous/horizontaldivider.dds" hidden="false">
           <Dimensions x="2" y="4" />
@@ -41,6 +49,14 @@
         <Label hidden="true" text="0" name="$(parent)ROW1TOTALVALUE" font="ZoFontGameLargeBoldShadow" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_SELECTED" horizontalAlignment="LEFT">
           <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="400" offsetY="96" />
         </Label>
+        <Button name="$(parent)ItemsButton" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+          <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-20" offsetY="20" />
+          <Dimensions x="48" y="48" />
+          <Textures normal="/esoui/art/tradinghouse/tradinghouse_listings_tabicon_up.dds" mouseOver="/esoui/art/tradinghouse/tradinghouse_listings_tabicon_over.dds" />
+          <OnClicked>
+            FarmingPartyHighScore:ShowMemberItems()
+          </OnClicked>
+        </Button>
         <!-- ROW 2 -->
         <Label hidden="true" text="-" name="$(parent)ROW2NAME" font="ZoFontGameSmall" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_SELECTED" horizontalAlignment="LEFT">
           <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="122" />

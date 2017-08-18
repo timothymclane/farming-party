@@ -181,7 +181,7 @@ function FarmingPartySettings:DisplayOwnLoot()
     return settings.displayOwnLoot
 end
 
-function FarmingPartySettings:displayGroupLoot()
+function FarmingPartySettings:DisplayGroupLoot()
     return settings.displayGroupLoot
 end
 

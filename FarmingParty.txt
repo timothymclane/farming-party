@@ -25,3 +25,4 @@ FarmingPartyHighScore.lua
 FarmingPartyHighScore.xml
 FarmingParty.xml
 FarmingParty.lua
+MemberItems.xml
