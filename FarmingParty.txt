@@ -20,9 +20,11 @@ libs/LibAddonMenu-2.0/controls/header.lua
 libs/LibAddonMenu-2.0/controls/slider.lua
 libs/LibAddonMenu-2.0/controls/texture.lua
 
+Startup.lua
 FarmingPartySettings.lua
-FarmingPartyHighScore.lua
-FarmingPartyHighScore.xml
 FarmingParty.xml
-FarmingParty.lua
+Members.lua
+MemberList.lua
+MemberList.xml
+MemberItems.lua
 MemberItems.xml
