@@ -79,9 +79,9 @@ function MemberList:ShowAllGroupMembers()
         end
     end
     if (countMembers == 0) then
-        local name = GetDisplayName()
-        members[GetDisplayName()] = GetDisplayName()
+        members[GetUnitName("player")] = GetDisplayName("player")
     end
+    d(members)
 end
 
 function MemberList:FormatNumber(num, numDecimalPlaces)
