@@ -1,19 +1,17 @@
 local ADDON_NAME = "FarmingParty"
 
 local FPSettings
-local FPHighScore
-local Members
-local members
-local saveData
 local listContainer
 local highscoreWindowIsHidden = true
 
-FarmingParty = {}
+FarmingParty = ZO_Object:Subclass()
+FarmingParty.Modules = {}
 FarmingParty.DataTypes = {
     MEMBER = 1,
     MEMBER_ITEM = 2
 }
 FarmingParty.SaveData = {}
+FarmingParty.Settings = {}
 
 -- EVENT_ADD_ON_LOADED
 function FarmingParty:OnAddOnLoaded(event, addonName)
@@ -22,7 +20,7 @@ function FarmingParty:OnAddOnLoaded(event, addonName)
     end
 
     EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_ADD_ON_LOADED)
-    FPSettings = FarmingPartySettings:New()
+    FarmingParty.Settings = FarmingPartySettings:New()
     self:Initialize()
 end
 
@@ -34,6 +32,7 @@ function FarmingParty:Initialize()
         nil,
         {members = {}, memberCount = 0, positionLeft = 0, positionTop = 0}
     )
+    self.Modules.MembersList = FarmingPartyMemberList:New()
     FarmingParty:ConsoleCommands()
 end
 
@@ -85,7 +84,7 @@ function FarmingParty:ConsoleCommands()
 
     -- Clear all members from the .member table
     SLASH_COMMANDS["/fpm"] = function()
-        MemberList:ShowAllGroupMembers()
+        self.Modules.MembersList:ShowAllGroupMembers()
     end
 end
 
