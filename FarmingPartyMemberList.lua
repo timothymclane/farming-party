@@ -23,10 +23,10 @@ function FarmingPartyMemberList:Initialize()
     )
     Members = FarmingPartyMembers
     members = Members:New(saveData)
-    members:RegisterCallback("OnKeysUpdated", UpdateScrollList)
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
+    members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
 
 function FarmingPartyMemberList:SetupScrollList()
@@ -36,7 +36,9 @@ function FarmingPartyMemberList:SetupScrollList()
         FarmingParty.DataTypes.MEMBER,
         "FarmingPartyMemberDataRow",
         20,
-        InitializeRow
+        function(listControl, data)
+            self:SetupMemberRow(listControl, data)
+        end
     )
 end
 
@@ -47,10 +49,26 @@ function FarmingPartyMemberList:UpdateScrollList()
     local groupMembers = members:GetKeys()
     for i = 1, #groupMembers do
         scrollData[#scrollData + 1] =
-            ZO_ScrollList_CreateDataEntry(FarmingParty.DataTypes.MEMBER, {key = groupMembers[i]})
+            ZO_ScrollList_CreateDataEntry(FarmingParty.DataTypes.MEMBER, members:GetMember(groupMembers[i]))
     end
 
     ZO_ScrollList_Commit(listContainer)
+end
+
+function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
+    rowControl.data = rowData
+    local data = rowData.rawData
+    local memberName = GetControl(rowControl, "Farmer")
+    local bestItem = GetControl(rowControl, "BestItemName")
+    local totalValue = GetControl(rowControl, "TotalValue")
+
+    memberName:SetText(rowData.displayName)
+    bestItem:SetText(rowData.bestItem.itemLink .. ' (' .. rowData.bestItem.value .. 'g)')
+    totalValue:SetText(rowData.totalValue .. 'g')
+end
+
+function FarmingPartyMemberList:ToggleMembersWindow()
+    FarmingPartyMembersWindow:SetHidden(false)
 end
 
 function FarmingPartyMemberList:AddAllGroupMembers()
@@ -74,7 +92,7 @@ function FarmingPartyMemberList:AddAllGroupMembers()
     -- Add all missing members
     for name, displayName in pairs(rawMembers) do
         if not members:HasMember(name) then
-            local newMember = members:NewMember(name)
+            local newMember = members:NewMember(name, displayName)
             members:SetMember(name, newMember)
         end
     end
@@ -155,7 +173,6 @@ end
 
 function FarmingPartyMemberList:GetATTPrice(itemLink)
     if (ArkadiusTradeTools.Modules.Sales == nil) then
-        d('ATT is nil')
         return nil
     end
     local itemPrice = ArkadiusTradeTools.Modules.Sales:GetAveragePricePerItem(itemLink)
@@ -187,12 +204,28 @@ end
 function FarmingPartyMemberList:AddNewLootedItem(memberName, itemLink, itemValue, count)
     local items = members:GetItemsForMember(memberName)
     local itemDetails = items[itemLink]
-    if(itemDetails == nil) then
+    if (itemDetails == nil) then
         itemDetails = FarmingPartyMemberItem:New(itemLink)
     end
     -- This update and replace might be super expensive and inefficient. Need to investigate
     itemDetails = FarmingPartyMemberItem:UpdateItemCount(itemDetails, itemValue, count)
     items[itemLink] = itemDetails
-    members:SetItemsForMember(memberName, items)    
-    members:UpdateTotalValue(memberName)
+    members:SetItemsForMember(memberName, items)
+    members:UpdateTotalValueAndSetBestItem(memberName)
+end
+
+function FarmingPartyMemberList:PrintScoresToChat()
+    local topScorers = 'FARMING SCORES: '
+    local array = {}
+    local groupMembers = members:GetKeys()
+    for i = 1, #groupMembers do
+        local member = members:GetMember(groupMembers[i])
+        local scoreData = {name = groupMembers[i], totalValue = member.totalValue}
+        array[#array + 1] = scoreData
+    end
+    table.sort(array, function(a,b) return a.totalValue > b.totalValue end)
+    for i = 1, #array do
+        topScorers = topScorers .. array[i].name .. ': ' .. FarmingPartyMemberList:FormatNumber(array[i].totalValue, 2) .. 'g. '
+    end
+    ZO_ChatWindowTextEntryEditBox:SetText(topScorers)
 end

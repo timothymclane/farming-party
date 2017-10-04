@@ -1,7 +1,6 @@
 FarmingPartyMembers = ZO_CallbackObject:Subclass()
 
 function FarmingPartyMembers:New(saveData)
-    d("Inside FarmingPartyMembers:New")
     local storage = ZO_CallbackObject.New(self)
     storage.members = saveData.members or {}
     saveData.members = storage.members
@@ -63,25 +62,34 @@ function FarmingPartyMembers:SetItemsForMember(key, items)
     local member = self:GetMember(key)
     member.items = items
     self:SetMember(member)
+    self:FireCallbacks("OnKeysUpdated")
     return member
 end
 
 function FarmingPartyMembers:NewMember(name, displayName)
     name = zo_strformat(SI_UNIT_NAME, name)
     local newMember = {
-        bestLoot = "None (0g)",
+        bestItem = {itemLink = "None", value = 0},
         totalValue = 0,
         items = {},
         displayName = displayName
     }
+    self:FireCallbacks("OnKeysUpdated")
     return newMember
 end
 
-function FarmingPartyMembers:UpdateTotalValue(name)
+function FarmingPartyMembers:UpdateTotalValueAndSetBestItem(name)
     local member = self:GetMember(name)
     local totalValue = 0
-    for _, item in pairs(member.items) do
+    local bestItem = member.bestItem
+    for link, item in pairs(member.items) do
+        if(item.value > bestItem.value) then
+            bestItem = item
+            bestItem.itemLink = link
+        end
         totalValue = totalValue + item.totalValue
     end
+    member.bestItem = bestItem
     member.totalValue = totalValue
+    self:FireCallbacks("OnKeysUpdated")
 end

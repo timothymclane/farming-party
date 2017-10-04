@@ -48,26 +48,11 @@ function FarmingParty:ConsoleCommands()
 
     -- Toggle the highscore window
     SLASH_COMMANDS["/fp"] = function()
-        if highscoreWindowIsHidden then
-            FarmingPartyMembersWindow:SetHidden(false)
-            highscoreWindowIsHidden = false
-        else
-            FarmingPartyMembersWindow:SetHidden(true)
-            highscoreWindowIsHidden = true
-        end
+        self.Modules.MembersList:ToggleMembersWindow()
     end
 
-    -- Print highscores to the chat
     SLASH_COMMANDS["/fpc"] = function()
-        local next = next
-        if next(highscoreSettings.members) ~= nil then
-            d("Name: Best Loot | Total Value")
-            for k, v in pairs(highscoreSettings.members) do
-                d(k .. ": " .. v.bestLoot .. " | " .. v.totalValue)
-            end
-        else
-            d("Nothing recorded yet.")
-        end
+        self.Modules.MembersList:PrintScoresToChat()
     end
 
     -- Reset all stats from the .member table
@@ -84,7 +69,7 @@ function FarmingParty:ConsoleCommands()
 
     -- Clear all members from the .member table
     SLASH_COMMANDS["/fpm"] = function()
-        self.Modules.MembersList:ShowAllGroupMembers()
+        self.Modules.MembersList:UpdateScrollList()
     end
 end
 
