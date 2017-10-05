@@ -73,9 +73,9 @@ function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
     local memberName = GetControl(rowControl, "Farmer")
     local bestItem = GetControl(rowControl, "BestItemName")
     local totalValue = GetControl(rowControl, "TotalValue")
-
+    
     memberName:SetText(rowData.displayName)
-    bestItem:SetText(rowData.bestItem.itemLink .. ' (' .. rowData.bestItem.value .. 'g)')
+    bestItem:SetText(rowData.bestItem.itemLink)
     totalValue:SetText(rowData.totalValue .. 'g')
 end
 

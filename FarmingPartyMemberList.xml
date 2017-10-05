@@ -1,7 +1,7 @@
 <GuiXml>
   <Controls>
   <TopLevelControl name="FarmingPartyMembersWindow" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="true" resizeHandleSize="8" tier="HIGH" inherits="ZO_RightPanelFootPrint">
-    <DimensionConstraints minX="575" minY="150" />
+    <DimensionConstraints minX="650" minY="150" />
       <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
       <OnMoveStop>
         <!-- FarmingParty:OnWindowMoveStop(self) -->
@@ -29,7 +29,7 @@
           <Controls>
             <Button name="$(parent)Farmer" mouseEnabled="true">
               <Anchor point="TOPLEFT" offsetX="15"/>
-              <Dimensions x="54" y="32" />
+              <Dimensions x="200" y="32" />
               <Controls>
                 <Label name="$(parent)Name" font="ZoFontGame" color="3689EF"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Farmer">
                   <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
@@ -44,20 +44,9 @@
               </OnMouseExit>
             </Button>
             <Control name="$(parent)BestItemName" mouseEnabled="true">
-              <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="110" />
-              <Dimensions x="200" y="32" />              
-              <OnMouseEnter>
-                  InitializeTooltip(ItemTooltip, self)
-                  ItemTooltip:SetLink(self:GetText())
-              </OnMouseEnter>
-              <OnMouseExit>
-                  ClearTooltip(ItemTooltip)
-              </OnMouseExit>
-              <OnMouseUp>
-                  if upInside then
-                      ZO_LinkHandler_OnLinkClicked(self:GetText(), button, self)
-                  end
-              </OnMouseUp>
+              <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" />
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" />
+              <Dimensions x="200" y="32" />  
               <Controls>
                 <Label name="$(parent)Name" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Best Item">
                   <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
@@ -115,18 +104,49 @@
 
     <Control name="FarmingPartyMemberDataRow" inherits="FarmingPartyListRow" virtual="true">
           <Controls>
-              <Texture name="$(parent)BG" inherits="ZO_ThinListBgStrip" />
               <Label name="$(parent)Farmer" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-                  <Dimensions x="100" y="32" />
+                  <Dimensions x="200" y="32" />
                   <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="15" offsetY="0"/>
               </Label>
-              <Label name="$(parent)BestItemName" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-                  <Dimensions x="200" y="32" />
-                  <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="67" offsetY="0"/>
-              </Label>
-              <Label name="$(parent)TotalValue" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
+              <Control name="$(parent)BestItemName" inheritAlpha="true" mouseEnabled="true">
+                <Dimensions x="200" y="32" />
+                <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" offsetY="0"/>
+                <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" offsetY="0"/>
+                <OnInitialized>
+                  self.GetText = function(control)
+                    return control:GetNamedChild("Link"):GetText()
+                  end
+                  self.SetText = function(control, text)
+                      control:GetNamedChild("Link"):SetText(text)
+                  end
+                </OnInitialized>            
+                <OnMouseEnter>
+                    if(string.len(self:GetText()) > 0) then
+                      InitializeTooltip(ItemTooltip, self)
+                      ItemTooltip:SetLink(self:GetText())
+                    end
+                </OnMouseEnter>
+                <OnMouseExit>
+                    if(string.len(self:GetText()) > 0) then
+                      ClearTooltip(ItemTooltip)
+                    end
+                </OnMouseExit>
+                <OnMouseUp>
+                    if upInside then
+                        ZO_LinkHandler_OnLinkClicked(self:GetText(), button, self)
+                    end
+                </OnMouseUp>
+                <Controls>
+                  <Label name="$(parent)Link" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
+                      <Dimensions x="200" y="32" />
+                      <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="0" offsetY="0"/>
+                  </Label>
+                </Controls>
+              </Control>
+              <Label name="$(parent)TotalValue" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="RIGHT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
                   <Dimensions x="100" y="32" />
-                  <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="60" offsetY="0"/>
+                  <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="40" offsetY="0"/>
+                  <Anchor point="BOTTOMLEFT" relativeTo="$(parent)BestItemName" relativePoint="BOTTOMRIGHT" offsetX="40" offsetY="0"/>
               </Label>
           </Controls>
       </Control>

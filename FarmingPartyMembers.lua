@@ -69,7 +69,7 @@ end
 function FarmingPartyMembers:NewMember(name, displayName)
     name = zo_strformat(SI_UNIT_NAME, name)
     local newMember = {
-        bestItem = {itemLink = "None", value = 0},
+        bestItem = {itemLink = "", value = 0},
         totalValue = 0,
         items = {},
         displayName = displayName
