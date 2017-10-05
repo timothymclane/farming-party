@@ -16,30 +16,29 @@ end
 
 function FarmingPartySettings:Initialize()
     local FarmingPartyDefaults = {
-        displayOnWindow     = true,
-        displayOnChat       = true,
-        displayOwnLoot      = true,
-        displayGroupLoot    = true,
-        positionLeft        = nil,
-        positionTop         = nil,
-        displayLootValue    = true,
+        displayOnWindow = true,
+        displayOnChat = true,
+        displayOwnLoot = true,
+        displayGroupLoot = true,
+        positionLeft = nil,
+        positionTop = nil,
+        displayLootValue = true,
         manualHighscoreReset = true,
     }
-
+    
     --
     settings = ZO_SavedVars:New(ADDON_NAME .. "_db", 2, nil, FarmingPartyDefaults)
-    -- 
+    --
     if not settings.displayOnWindow then FarmingPartyWindow:SetHidden(not settings.displayOnWindow) end
     local sceneFragment = ZO_HUDFadeSceneFragment:New(FarmingPartyWindow)
     sceneFragment:SetConditional(function() return settings.displayOnWindow end)
     HUD_SCENE:AddFragment(sceneFragment)
     HUD_UI_SCENE:AddFragment(sceneFragment)
     --
-
     if settings.displayOnWindow then
         self:SetWindowValues()
     end
-
+    
     local panelData = {
         type = "panel",
         name = "Farming Party",
@@ -50,9 +49,9 @@ function FarmingPartySettings:Initialize()
         registerForRefresh = true,
         registerForDefaults = true,
     }
-
+    
     LAM2:RegisterAddonPanel(ADDON_NAME .. "Panel", panelData)
-
+    
     local optionsTable = {
         {
             type = "header",
@@ -64,7 +63,7 @@ function FarmingPartySettings:Initialize()
             name = "Own loot",
             tooltip = "Show or hide loot the loot you get.",
             getFunc = function() return settings.displayOwnLoot end,
-            setFunc = function(value) self:ToggleOwnLoot(value) end,
+            setFunc = function(value)self:ToggleOwnLoot(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayOwnLoot,
         },
@@ -73,7 +72,7 @@ function FarmingPartySettings:Initialize()
             name = "Group loot",
             tooltip = "Show or hide the loot group members get.",
             getFunc = function() return settings.displayGroupLoot end,
-            setFunc = function(value) self:ToggleFarmingParty(value) end,
+            setFunc = function(value)self:ToggleFarmingParty(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayGroupLoot,
         },
@@ -82,7 +81,7 @@ function FarmingPartySettings:Initialize()
             name = "Loot value",
             tooltip = "Show or hide loot value on chat/window.",
             getFunc = function() return settings.displayLootValue end,
-            setFunc = function(value) self:ToggleLootValue(value) end,
+            setFunc = function(value)self:ToggleLootValue(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayLootValue,
         },
@@ -91,7 +90,7 @@ function FarmingPartySettings:Initialize()
             name = "Trash",
             tooltip = "Show or hide trash (grey) items on loot.",
             getFunc = function() return settings.displayTrash end,
-            setFunc = function(value) self:ToggleTrash(value) end,
+            setFunc = function(value)self:ToggleTrash(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayTrash
         },
@@ -100,7 +99,7 @@ function FarmingPartySettings:Initialize()
             name = "Normal",
             tooltip = "Show or hide normal (white) items on loot.",
             getFunc = function() return settings.displayNormal end,
-            setFunc = function(value) self:ToggleNormal(value) end,
+            setFunc = function(value)self:ToggleNormal(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayNormal
         },
@@ -109,7 +108,7 @@ function FarmingPartySettings:Initialize()
             name = "Fine",
             tooltip = "Show or hide fine (green) items on loot.",
             getFunc = function() return settings.displayFine end,
-            setFunc = function(value) self:ToggleFine(value) end,
+            setFunc = function(value)self:ToggleFine(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayFine
         },
@@ -118,7 +117,7 @@ function FarmingPartySettings:Initialize()
             name = "Superior",
             tooltip = "Show or hide superior (blue) items on loot.",
             getFunc = function() return settings.displaySuperior end,
-            setFunc = function(value) self:ToggleSuperior(value) end,
+            setFunc = function(value)self:ToggleSuperior(value) end,
             width = "full",
             default = FarmingPartyDefaults.displaySuperior
         },
@@ -127,7 +126,7 @@ function FarmingPartySettings:Initialize()
             name = "Epic",
             tooltip = "Show or hide epic (purple) items on loot.",
             getFunc = function() return settings.displayEpic end,
-            setFunc = function(value) self:ToggleEpic(value) end,
+            setFunc = function(value)self:ToggleEpic(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayEpic
         },
@@ -136,11 +135,11 @@ function FarmingPartySettings:Initialize()
             name = "Legendary",
             tooltip = "Show or hide legendary (yellow) items on loot.",
             getFunc = function() return settings.displayLegendary end,
-            setFunc = function(value) self:ToggleLegendary(value) end,
+            setFunc = function(value)self:ToggleLegendary(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayLegendary
         },
-
+        
         {
             type = "header",
             name = "Display Settings",
@@ -151,7 +150,7 @@ function FarmingPartySettings:Initialize()
             name = "Display on chat",
             tooltip = "Show or hide loot on chat.",
             getFunc = function() return settings.displayOnChat end,
-            setFunc = function(value) self:ToggleOnChat(value) end,
+            setFunc = function(value)self:ToggleOnChat(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayOnChat
         },
@@ -160,12 +159,12 @@ function FarmingPartySettings:Initialize()
             name = "Display on window",
             tooltip = "Show or hide loot on the window.",
             getFunc = function() return settings.displayOnWindow end,
-            setFunc = function(value) self:ToggleOnWindow(value) end,
+            setFunc = function(value)self:ToggleOnWindow(value) end,
             width = "full",
             default = FarmingPartyDefaults.displayOnWindow,
         },
     }
-
+    
     LAM2:RegisterOptionControls(ADDON_NAME .. "Panel", optionsTable)
 end
 
@@ -201,20 +200,20 @@ function FarmingPartySettings:MoveStop()
 end
 
 function FarmingPartySettings:SetWindowValues()
-    local left  = settings.positionLeft
-    local top   = settings.positionTop
-
+    local left = settings.positionLeft
+    local top = settings.positionTop
+    
     FarmingPartyWindow:ClearAnchors()
     FarmingPartyWindow:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
     FarmingPartyWindow:SetAlpha(0.5)
     FarmingPartyWindowBG:SetAlpha(0)
     FarmingPartyWindow:SetHidden(false)
-
+    
     FarmingPartyWindowBuffer:ClearAnchors()
     FarmingPartyWindowBuffer:SetAnchor(TOP, FarmingPartyWindow, TOP, 0, 0)
     FarmingPartyWindowBuffer:SetWidth(400)
     FarmingPartyWindowBuffer:SetHeight(80)
-
+    
     --use the same font as in chat window
     local face = ZoFontEditChat:GetFontInfo()
     local fontSize = GetChatFontSize()
@@ -223,8 +222,9 @@ function FarmingPartySettings:SetWindowValues()
 end
 
 --[[
-    Addon menu functions
-]]--
+Addon menu functions
+]]
+--
 function FarmingPartySettings:ToggleTrash(value)
     settings.displayTrash = value
 end

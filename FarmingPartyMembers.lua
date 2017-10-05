@@ -83,7 +83,7 @@ function FarmingPartyMembers:UpdateTotalValueAndSetBestItem(name)
     local totalValue = 0
     local bestItem = member.bestItem
     for link, item in pairs(member.items) do
-        if(item.value > bestItem.value) then
+        if (item.value > bestItem.value) then
             bestItem = item
             bestItem.itemLink = link
         end

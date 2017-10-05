@@ -51,19 +51,19 @@ function FarmingPartyMemberList:SetupScrollList()
         function(listControl, data)
             self:SetupMemberRow(listControl, data)
         end
-    )
+)
 end
 
 function FarmingPartyMemberList:UpdateScrollList()
     local scrollData = ZO_ScrollList_GetDataList(listContainer)
     ZO_ScrollList_Clear(listContainer)
-
+    
     local groupMembers = members:GetKeys()
     for i = 1, #groupMembers do
         scrollData[#scrollData + 1] =
             ZO_ScrollList_CreateDataEntry(FarmingParty.DataTypes.MEMBER, members:GetMember(groupMembers[i]))
     end
-
+    
     ZO_ScrollList_Commit(listContainer)
 end
 
@@ -88,7 +88,7 @@ function FarmingPartyMemberList:AddAllGroupMembers()
     local rawMembers = {}
     local playerName = GetUnitName("player")
     rawMembers[GetUnitName("player")] = GetDisplayName("player")
-
+    
     -- Get list of member names in current group
     for i = 1, countMembers do
         local unitTag = GetGroupUnitTagByIndex(i)
@@ -100,7 +100,7 @@ function FarmingPartyMemberList:AddAllGroupMembers()
             end
         end
     end
-
+    
     -- Add all missing members
     for name, displayName in pairs(rawMembers) do
         if not members:HasMember(name) then
@@ -124,13 +124,13 @@ end
 function FarmingPartyMemberList:OnItemLooted(event, name, itemLink, quantity, itemSound, lootType, player)
     local looterName = zo_strformat(SI_UNIT_NAME, name)
     local itemValue = FarmingPartyMemberList:GetItemPrice(itemLink)
-
+    
     local lootMessage = nil
     local itemQuality = GetItemLinkQuality(itemLink)
-    local totalValue = FarmingPartyMemberList:FormatNumber(itemValue * quantity, 2) --GetItemLinkValue(itemLink, true) * quantity
+    local totalValue = FarmingPartyMemberList:FormatNumber(itemValue * quantity, 2)--GetItemLinkValue(itemLink, true) * quantity
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
-
+    
     -- Return if own (player) loot is off
     -- if player and not FPSettings:DisplayOwnLoot() then
     --     return
@@ -144,25 +144,23 @@ function FarmingPartyMemberList:OnItemLooted(event, name, itemLink, quantity, it
     --     local newMember = Members:NewMember(name)
     --     Members:SetMember(name, displayName)
     -- end
-
     -- -- Update best loot
     -- if FPHighScore:IsBestLoot(name, totalValue) then
     --     FPHighScore:UpdateBestLoot(name, itemLink, itemValue)
     -- end
-
     FarmingPartyMemberList:AddNewLootedItem(looterName, itemLink, itemValue, quantity)
-
+    
     -- Player or group member
     if not player then
         if FarmingParty.Settings:DisplayLootValue() then
             lootMessage =
                 zo_strformat(
-                "<<C:1>> received <<t:2>> x<<3>> worth |cFFFFFF<<4>>|rg",
-                name,
-                itemLink,
-                quantity,
-                totalValue
-            )
+                    "<<C:1>> received <<t:2>> x<<3>> worth |cFFFFFF<<4>>|rg",
+                    name,
+                    itemLink,
+                    quantity,
+                    totalValue
+        )
         else
             lootMessage = zo_strformat("<<C:1>> received <<t:2>> x<<3>>", looterName, itemLink, quantity)
         end
@@ -212,7 +210,6 @@ function FarmingPartyMemberList:GetItemPrice(itemLink)
 end
 
 -- Member Items Funcs --
-
 function FarmingPartyMemberList:AddNewLootedItem(memberName, itemLink, itemValue, count)
     local items = members:GetItemsForMember(memberName)
     local itemDetails = items[itemLink]
@@ -235,7 +232,7 @@ function FarmingPartyMemberList:PrintScoresToChat()
         local scoreData = {name = groupMembers[i], totalValue = member.totalValue}
         array[#array + 1] = scoreData
     end
-    table.sort(array, function(a,b) return a.totalValue > b.totalValue end)
+    table.sort(array, function(a, b) return a.totalValue > b.totalValue end)
     for i = 1, #array do
         topScorers = topScorers .. array[i].name .. ': ' .. FarmingPartyMemberList:FormatNumber(array[i].totalValue, 2) .. 'g. '
     end

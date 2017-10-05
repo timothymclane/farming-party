@@ -8,14 +8,14 @@ end
 
 local function InitializeRow(control, data)
     control:SetText(data.key)
-
+    
     control:SetHandler(
         "OnClicked",
         function()
             local note = members:GetMember(data.key)
-
+            
             currentKey = data.key
             d(currentKey)
         end
-    )
+)
 end
