@@ -21,12 +21,24 @@ function FarmingPartyMemberList:Initialize()
             self:OnItemLooted(...)
         end
     )
+    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
+    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
     Members = FarmingPartyMembers
     members = Members:New(saveData)
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
+end
+
+-- EVENT_GROUP_MEMBER_JOINED
+function FarmingPartyMemberList:OnMemberJoined(event, memberName)
+    self:AddAllGroupMembers()
+end
+
+-- EVENT_GROUP_MEMBER_LEFT
+function FarmingPartyMemberList:OnMemberLeft(event, memberName, reason, wasLocalPlayer)
+    members:DeleteMember(memberName)
 end
 
 function FarmingPartyMemberList:SetupScrollList()
