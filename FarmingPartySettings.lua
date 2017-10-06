@@ -86,61 +86,6 @@ function FarmingPartySettings:Initialize()
             default = FarmingPartyDefaults.displayLootValue,
         },
         {
-            type = "checkbox",
-            name = "Trash",
-            tooltip = "Show or hide trash (grey) items on loot.",
-            getFunc = function() return settings.displayTrash end,
-            setFunc = function(value)self:ToggleTrash(value) end,
-            width = "full",
-            default = FarmingPartyDefaults.displayTrash
-        },
-        {
-            type = "checkbox",
-            name = "Normal",
-            tooltip = "Show or hide normal (white) items on loot.",
-            getFunc = function() return settings.displayNormal end,
-            setFunc = function(value)self:ToggleNormal(value) end,
-            width = "full",
-            default = FarmingPartyDefaults.displayNormal
-        },
-        {
-            type = "checkbox",
-            name = "Fine",
-            tooltip = "Show or hide fine (green) items on loot.",
-            getFunc = function() return settings.displayFine end,
-            setFunc = function(value)self:ToggleFine(value) end,
-            width = "full",
-            default = FarmingPartyDefaults.displayFine
-        },
-        {
-            type = "checkbox",
-            name = "Superior",
-            tooltip = "Show or hide superior (blue) items on loot.",
-            getFunc = function() return settings.displaySuperior end,
-            setFunc = function(value)self:ToggleSuperior(value) end,
-            width = "full",
-            default = FarmingPartyDefaults.displaySuperior
-        },
-        {
-            type = "checkbox",
-            name = "Epic",
-            tooltip = "Show or hide epic (purple) items on loot.",
-            getFunc = function() return settings.displayEpic end,
-            setFunc = function(value)self:ToggleEpic(value) end,
-            width = "full",
-            default = FarmingPartyDefaults.displayEpic
-        },
-        {
-            type = "checkbox",
-            name = "Legendary",
-            tooltip = "Show or hide legendary (yellow) items on loot.",
-            getFunc = function() return settings.displayLegendary end,
-            setFunc = function(value)self:ToggleLegendary(value) end,
-            width = "full",
-            default = FarmingPartyDefaults.displayLegendary
-        },
-        
-        {
             type = "header",
             name = "Display Settings",
             width = "full",
@@ -225,30 +170,6 @@ end
 Addon menu functions
 ]]
 --
-function FarmingPartySettings:ToggleTrash(value)
-    settings.displayTrash = value
-end
-
-function FarmingPartySettings:ToggleNormal(value)
-    settings.displayNormal = value
-end
-
-function FarmingPartySettings:ToggleFine(value)
-    settings.displayFine = value
-end
-
-function FarmingPartySettings:ToggleSuperior(value)
-    settings.displaySuperior = value
-end
-
-function FarmingPartySettings:ToggleEpic(value)
-    settings.displayEpic = value
-end
-
-function FarmingPartySettings:ToggleLegendary(value)
-    settings.displayLegendary = value
-end
-
 function FarmingPartySettings:ToggleOnChat(value)
     settings.displayOnChat = value
 end
