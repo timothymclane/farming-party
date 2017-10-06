@@ -61,8 +61,8 @@ function FarmingParty:ConsoleCommands()
 
     -- Reset all stats from the .member table
     SLASH_COMMANDS["/fpreset"] = function()
-        FarmingPartyHighScore:ResetMembers()
-        d("Farming Party highscores have been reset")
+        self.Modules.MemberList:Reset()
+        d("Farming Party has been reset")
     end
 
     -- Clear all members from the .member table

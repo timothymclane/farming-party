@@ -107,6 +107,10 @@ end
 function FarmingPartyMemberList:ToggleMembersWindow()
     FarmingPartyMembersWindow:SetHidden(not FarmingPartyMembersWindow:IsHidden())
 end
+
+function FarmingPartyMemberList:Reset()
+    members:DeleteAllMembers()
+    self:AddAllGroupMembers()
 end
 
 function FarmingPartyMemberList:AddAllGroupMembers()
