@@ -4,7 +4,7 @@
 ## Version: 0.1.0
 ## APIVersion: 100019
 ## OptionalDependsOn: LibAddonMenu-2.0
-## SavedVariables: FarmingParty_db FarmingPartyHighScore_db
+## SavedVariables: FarmingPartyMemberList_db FarmingPartySettings_db
 
 libs/LibStub/LibStub.lua
 libs/LibAddonMenu-2.0/LibAddonMenu-2.0.lua

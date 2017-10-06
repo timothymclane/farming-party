@@ -13,6 +13,10 @@ FarmingParty.DataTypes = {
 FarmingParty.SaveData = {}
 FarmingParty.Settings = {}
 
+local function OnPlayerDeactivated(eventCode)
+    FarmingParty:Finalize()
+end
+
 -- EVENT_ADD_ON_LOADED
 function FarmingParty:OnAddOnLoaded(event, addonName)
     if (addonName ~= ADDON_NAME) then
@@ -24,15 +28,14 @@ function FarmingParty:OnAddOnLoaded(event, addonName)
     self:Initialize()
 end
 
+function FarmingParty:Finalize()
+    for moduleName, moduleObject in pairs(self.Modules) do
+        moduleObject:Finalize()
+    end
+end
+
 function FarmingParty:Initialize()
-    FarmingParty.SaveData =
-        ZO_SavedVars:NewAccountWide(
-        "FarmingParty_db",
-        1,
-        nil,
-        {members = {}, memberCount = 0, positionLeft = 0, positionTop = 0}
-    )
-    self.Modules.MembersList = FarmingPartyMemberList:New()
+    self.Modules.MemberList = FarmingPartyMemberList:New()
     FarmingParty:ConsoleCommands()
 end
 

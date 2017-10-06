@@ -1,4 +1,4 @@
-FarmingPartyMemberItem = ZO_CallbackObject:Subclass()
+FarmingPartyMemberItem = {}
 
 function FarmingPartyMemberItem:New(itemLink)
     return {

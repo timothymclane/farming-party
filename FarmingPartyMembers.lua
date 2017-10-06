@@ -7,6 +7,18 @@ function FarmingPartyMembers:New(saveData)
     return storage
 end
 
+function FarmingPartyMembers:GetMembers()
+    return self.members
+end
+
+function FarmingPartyMembers:GetCleanMembers()
+    local cleanMembers = {}
+    for key, member in pairs(self.members) do
+        cleanMembers[key] = {bestItem = member.bestItem, totalValue = member.totalValue, items = member.items, displayName = member.displayName}
+    end
+    return cleanMembers
+end
+
 function FarmingPartyMembers:GetKeys()
     local keys = {}
     for key in pairs(self.members) do

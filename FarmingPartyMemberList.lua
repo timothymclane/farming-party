@@ -1,5 +1,4 @@
 FarmingPartyMemberList = ZO_Object:Subclass()
-
 function FarmingPartyMemberList:New()
     local obj = ZO_Object.New(self)
     self:Initialize()
@@ -7,12 +6,7 @@ function FarmingPartyMemberList:New()
 end
 
 local members = {}
-MemberList = {}
-local Members = FarmingPartyMembers
-local saveData = {
-    members = {}
-}
-
+local saveData = {}
 function FarmingPartyMemberList:Initialize()
     EVENT_MANAGER:RegisterForEvent(
         ADDON_NAME,
@@ -23,8 +17,9 @@ function FarmingPartyMemberList:Initialize()
     )
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
-    Members = FarmingPartyMembers
-    members = Members:New(saveData)
+    saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", 2, nil, {members = {}})
+    members = FarmingPartyMembers:New(saveData)
+    self.Members = members
     FarmingPartyMembersWindow:ClearAnchors()
     local settings = FarmingPartySettings:GetSettings()
     FarmingPartyMembersWindow:SetAnchor(
@@ -40,6 +35,18 @@ function FarmingPartyMemberList:Initialize()
     self:SetupScrollList()
     self:UpdateScrollList()
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
+end
+
+function FarmingPartyMemberList:Finalize()
+    local _, _, _, _, offsetX, offsetY = FarmingPartyMembersWindow:GetAnchor(0)
+    
+    local settings = FarmingPartySettings:GetSettings()
+    settings.window.positionLeft = FarmingPartyMembersWindow:GetLeft()
+    settings.window.positionTop = FarmingPartyMembersWindow:GetTop()
+    settings.window.width = FarmingPartyMembersWindow:GetWidth()
+    settings.window.height = FarmingPartyMembersWindow:GetHeight()
+
+    saveData.members = members:GetCleanMembers()
 end
 
 function FarmingPartyMemberList:WindowResizeHandler(control)
