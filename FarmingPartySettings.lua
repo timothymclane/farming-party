@@ -24,7 +24,7 @@ function FarmingPartySettings:Initialize()
         positionTop = nil,
         displayLootValue = true,
         manualHighscoreReset = true,
-        window = {positionLeft = 0, positionTop = 0, width = 650, height = 150}
+        window = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 0, width = 650, height = 150}
     }
     
     --
@@ -109,6 +109,26 @@ function FarmingPartySettings:Initialize()
             width = "full",
             default = FarmingPartyDefaults.displayOnWindow,
         },
+        {
+            type = "slider",
+            name = "Member window background transparency",
+            tooltip = "Change the transparency of the background of the member window",
+            min = 0, max = 100, step = 5,
+            getFunc = function() return FarmingPartySettings:GetSettings().window.backgroundTransparency end,
+            setFunc = function(value)FarmingParty.Modules.MemberList:SetWindowBackgroundTransparency(value) end,
+            width = "full",
+            default = 0
+        },
+        {
+            type = "slider",
+            name = "Member window transparency",
+            tooltip = "Change the transparency of the member window",
+            min = 0, max = 100, step = 5,
+            getFunc = function() return FarmingPartySettings:GetSettings().window.transparency end,
+            setFunc = function(value)FarmingParty.Modules.MemberList:SetWindowTransparency(value) end,
+            width = "full",
+            default = 0
+        }
     }
     
     LAM2:RegisterOptionControls(ADDON_NAME .. "Panel", optionsTable)

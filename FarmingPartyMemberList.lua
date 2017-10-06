@@ -31,6 +31,8 @@ function FarmingPartyMemberList:Initialize()
     )
     FarmingPartyMembersWindow:SetDimensions(settings.window.width, settings.window.height)
     FarmingPartyMembersWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
+    FarmingPartyMemberList:SetWindowTransparency()
+    FarmingPartyMemberList:SetWindowBackgroundTransparency()
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
@@ -45,8 +47,27 @@ function FarmingPartyMemberList:Finalize()
     settings.window.positionTop = FarmingPartyMembersWindow:GetTop()
     settings.window.width = FarmingPartyMembersWindow:GetWidth()
     settings.window.height = FarmingPartyMembersWindow:GetHeight()
-
     saveData.members = members:GetCleanMembers()
+end
+
+function FarmingPartyMemberList:GetWindowTransparency()
+    return settings.window.transparency
+end
+
+function FarmingPartyMemberList:SetWindowTransparency(value)
+    local settings = FarmingPartySettings:GetSettings()
+    if value ~= nil then
+        settings.window.transparency = value
+    end
+    FarmingPartyMembersWindow:SetAlpha(settings.window.transparency / 100)
+end
+
+function FarmingPartyMemberList:SetWindowBackgroundTransparency(value)
+    local settings = FarmingPartySettings:GetSettings()
+    if value ~= nil then
+        settings.window.backgroundTransparency = value
+    end
+    FarmingPartyMembersWindow:GetNamedChild("BG"):SetAlpha(settings.window.backgroundTransparency / 100)
 end
 
 function FarmingPartyMemberList:WindowResizeHandler(control)
@@ -199,6 +220,7 @@ function FarmingPartyMemberList:OnItemLooted(event, name, itemLink, quantity, it
         end
         FarmingPartyWindowBuffer:AddMessage(lootMessage, 255, 255, 0, 1)
     else
+        if not FarmingParty.Settings:DisplayOwnLoot() then return end
         if FarmingParty.Settings:DisplayLootValue() then
             lootMessage = zo_strformat("Received <<t:1>> x<<2>> worth |cFFFFFF<<3>>|rg", itemLink, quantity, totalValue)
         else
