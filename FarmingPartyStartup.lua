@@ -52,11 +52,11 @@ function FarmingParty:ConsoleCommands()
 
     -- Toggle the highscore window
     SLASH_COMMANDS["/fp"] = function()
-        self.Modules.MembersList:ToggleMembersWindow()
+        self.Modules.MemberList:ToggleMembersWindow()
     end
 
     SLASH_COMMANDS["/fpc"] = function()
-        self.Modules.MembersList:PrintScoresToChat()
+        self.Modules.MemberList:PrintScoresToChat()
     end
 
     -- Reset all stats from the .member table
@@ -65,15 +65,11 @@ function FarmingParty:ConsoleCommands()
         d("Farming Party has been reset")
     end
 
-    -- Clear all members from the .member table
-    SLASH_COMMANDS["/fpdelete"] = function()
-        FarmingPartyHighScore:DeleteMembers()
-        d("Farming Party highscores have been deleted")
-    end
-
-    -- Clear all members from the .member table
+    -- Show all registered modules
     SLASH_COMMANDS["/fpm"] = function()
-        self.Modules.MembersList:UpdateScrollList()
+        for moduleName, moduleObject in pairs(self.Modules) do
+            d(moduleName)
+        end
     end
 end
 
