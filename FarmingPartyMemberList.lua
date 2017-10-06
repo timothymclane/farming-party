@@ -105,7 +105,8 @@ function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
 end
 
 function FarmingPartyMemberList:ToggleMembersWindow()
-    FarmingPartyMembersWindow:SetHidden(false)
+    FarmingPartyMembersWindow:SetHidden(not FarmingPartyMembersWindow:IsHidden())
+end
 end
 
 function FarmingPartyMemberList:AddAllGroupMembers()
