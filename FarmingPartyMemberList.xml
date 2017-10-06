@@ -1,82 +1,94 @@
 <GuiXml>
   <Controls>
   <TopLevelControl name="FarmingPartyMembersWindow" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="true" resizeHandleSize="8" tier="HIGH" inherits="ZO_RightPanelFootPrint">
+    <OnUpdate>
+      local w, h = self:GetDimensions()
+      if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then
+        self.currentWidth = w
+        self.currentHeight = h
+
+        if (self.OnResize) then
+            self:OnResize(w, h)
+        end
+      end
+    </OnUpdate>
     <DimensionConstraints minX="650" minY="150" />
-      <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
-      <OnMoveStop>
-        <!-- FarmingParty:OnWindowMoveStop(self) -->
-      </OnMoveStop>
-      <Controls>
-        <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" />
-        <Button name="$(parent)CloseButton" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="CENTER">
-          <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-20" offsetY="20" />
-          <Dimensions x="48" y="48" />
-          <Textures normal="/esoui/art/hud/radialicon_cancel_up.dds" mouseOver="/esoui/art/hud/radialicon_cancel_over.dds" />
-          <OnClicked>
-            FarmingPartyMembersWindow:SetHidden(true)
-          </OnClicked>
-        </Button>
-        <Label name="$(parent)Title" font="ZoFontHeader3" height="25" inheritAlpha="true" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Farming Party Members">
-	        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="-10" offsetY="5" />
-        </Label>
-        <Line name="$(parent)LineTop" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" thickness="2">
-            <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="2" offsetY="-32" />
-            <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-4" offsetY="-32" />
-        </Line>
-        <Control name="$(parent)Headers">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="51" />
-          <Dimensions y="32" />
-          <Controls>
-            <Button name="$(parent)Farmer" mouseEnabled="true">
-              <Anchor point="TOPLEFT" offsetX="15"/>
-              <Dimensions x="200" y="32" />
-              <Controls>
-                <Label name="$(parent)Name" font="ZoFontGame" color="3689EF"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Farmer">
-                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
-                  <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
-                </Label>
-              </Controls>
-              <OnMouseEnter>
-                <!-- FarmingParty:HeaderToolTip(self, GetString(SK_BUYER_TOOLTIP)) -->
-              </OnMouseEnter>
-              <OnMouseExit>
-                <!-- ClearTooltip(InformationTooltip) -->
-              </OnMouseExit>
-            </Button>
-            <Control name="$(parent)BestItemName" mouseEnabled="true">
-              <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" />
-              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" />
-              <Dimensions x="200" y="32" />  
-              <Controls>
-                <Label name="$(parent)Name" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Best Item">
-                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
-                  <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
-                </Label>
-              </Controls>
-              <OnMouseEnter>
-                <!-- FarmingParty:HeaderToolTip(self, GetString(SK_ITEM_TOOLTIP)) -->
-              </OnMouseEnter>
-              <OnMouseExit>
-                <!-- ClearTooltip(InformationTooltip) -->
-              </OnMouseExit>
-            </Control>
-            <Control name="$(parent)TotalValue">
-              <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="60" />
-              <Dimensions x="100" y="32" />
-              <Controls>
-                <Label name="$(parent)TotalValue" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Total Value">
-                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
-                  <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
-                </Label>
-              </Controls>
-            </Control>
-          </Controls>
-        </Control>
-        <Control name="$(parent)List" inherits="ZO_ScrollList">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)Headers" relativePoint="BOTTOMLEFT" offsetY="1" />
-          <Anchor point="BOTTOMRIGHT" offsetY="-40" offsetX="-3" />
-        </Control>
-      </Controls>
+    <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
+    <OnMoveStop>
+      <!-- FarmingParty:OnWindowMoveStop(self) -->
+    </OnMoveStop>
+    <Controls>
+      <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop" />
+      <Button name="$(parent)CloseButton" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="CENTER">
+        <Anchor point="CENTER" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-20" offsetY="20" />
+        <Dimensions x="48" y="48" />
+        <Textures normal="/esoui/art/hud/radialicon_cancel_up.dds" mouseOver="/esoui/art/hud/radialicon_cancel_over.dds" />
+        <OnClicked>
+          FarmingPartyMembersWindow:SetHidden(true)
+        </OnClicked>
+      </Button>
+      <Label name="$(parent)Title" font="ZoFontHeader3" height="25" inheritAlpha="true" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Farming Party Members">
+        <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="-10" offsetY="5" />
+      </Label>
+      <Line name="$(parent)LineTop" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" thickness="2">
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="2" offsetY="-32" />
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-4" offsetY="-32" />
+      </Line>
+      <Control name="$(parent)Headers">
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="51" />
+        <Dimensions y="32" />
+        <Controls>
+          <Button name="$(parent)Farmer" mouseEnabled="true">
+            <Anchor point="TOPLEFT" offsetX="15"/>
+            <Dimensions x="200" y="32" />
+            <Controls>
+              <Label name="$(parent)Name" font="ZoFontGame" color="3689EF"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Farmer">
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+                <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+              </Label>
+            </Controls>
+            <OnMouseEnter>
+              <!-- FarmingParty:HeaderToolTip(self, GetString(SK_BUYER_TOOLTIP)) -->
+            </OnMouseEnter>
+            <OnMouseExit>
+              <!-- ClearTooltip(InformationTooltip) -->
+            </OnMouseExit>
+          </Button>
+          <Control name="$(parent)BestItemName" mouseEnabled="true">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" />
+            <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" />
+            <Dimensions x="200" y="32" />  
+            <Controls>
+              <Label name="$(parent)Name" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Best Item">
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+                <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+              </Label>
+            </Controls>
+            <OnMouseEnter>
+              <!-- FarmingParty:HeaderToolTip(self, GetString(SK_ITEM_TOOLTIP)) -->
+            </OnMouseEnter>
+            <OnMouseExit>
+              <!-- ClearTooltip(InformationTooltip) -->
+            </OnMouseExit>
+          </Control>
+          <Control name="$(parent)TotalValue">
+            <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="60" />
+            <Dimensions x="100" y="32" />
+            <Controls>
+              <Label name="$(parent)TotalValue" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Total Value">
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+                <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+              </Label>
+            </Controls>
+          </Control>
+        </Controls>
+      </Control>
+      <Control name="$(parent)List" inherits="ZO_ScrollList">
+        <DimensionConstraints minX="600" minY="50" />
+        <Anchor point="TOPLEFT" relativeTo="$(parent)Headers" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="5"/>
+        <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="-50"/>
+      </Control>
+    </Controls>
     </TopLevelControl>
 
     <!-- Full-size Data Row (virtual) -->

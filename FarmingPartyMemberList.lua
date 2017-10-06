@@ -2,7 +2,7 @@ FarmingPartyMemberList = ZO_Object:Subclass()
 
 function FarmingPartyMemberList:New()
     local obj = ZO_Object.New(self)
-    obj:Initialize()
+    self:Initialize()
     return obj
 end
 
@@ -25,10 +25,28 @@ function FarmingPartyMemberList:Initialize()
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
     Members = FarmingPartyMembers
     members = Members:New(saveData)
+    FarmingPartyMembersWindow:ClearAnchors()
+    local settings = FarmingPartySettings:GetSettings()
+    FarmingPartyMembersWindow:SetAnchor(
+        TOPLEFT,
+        GuiRoot,
+        TOPLEFT,
+        settings.window.positionLeft,
+        settings.window.positionTop
+    )
+    FarmingPartyMembersWindow:SetDimensions(settings.window.width, settings.window.height)
+    FarmingPartyMembersWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
+end
+
+function FarmingPartyMemberList:WindowResizeHandler(control)
+    local width, height = control:GetDimensions()
+    local settings = FarmingPartySettings:GetSettings()
+    settings.window.width = width
+    settings.window.height = height
 end
 
 -- EVENT_GROUP_MEMBER_JOINED
