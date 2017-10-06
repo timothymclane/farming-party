@@ -1,4 +1,4 @@
-local ADDON_NAME = "FarmingParty"
+local ADDON_NAME = "Farming Party"
 local ADDON_VERSION = "0.1.0"
 
 local LAM2 = LibStub("LibAddonMenu-2.0")
@@ -10,7 +10,7 @@ local settings = nil
 
 function FarmingPartySettings:New()
     local obj = ZO_Object.New(self)
-    obj:Initialize()
+    self:Initialize()
     return obj
 end
 
@@ -24,10 +24,11 @@ function FarmingPartySettings:Initialize()
         positionTop = nil,
         displayLootValue = true,
         manualHighscoreReset = true,
+        window = {positionLeft = 0, positionTop = 0, width = 650, height = 150}
     }
     
     --
-    settings = ZO_SavedVars:New(ADDON_NAME .. "_db", 2, nil, FarmingPartyDefaults)
+    settings = ZO_SavedVars:New("FarmingPartySettings_db", 2, nil, FarmingPartyDefaults)
     --
     if not settings.displayOnWindow then FarmingPartyWindow:SetHidden(not settings.displayOnWindow) end
     local sceneFragment = ZO_HUDFadeSceneFragment:New(FarmingPartyWindow)
