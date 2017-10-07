@@ -226,7 +226,7 @@ function FarmingPartyMemberList:GetItemIcon(itemLink, lootType, questItemIcon)
 end
 
 function FarmingPartyMemberList:GetATTPrice(itemLink)
-    if (ArkadiusTradeTools.Modules.Sales == nil) then
+    if (ArkadiusTradeTools == nil or ArkadiusTradeTools.Modules.Sales == nil) then
         return nil
     end
     local itemPrice = ArkadiusTradeTools.Modules.Sales:GetAveragePricePerItem(itemLink)

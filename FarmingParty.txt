@@ -20,13 +20,12 @@ libs/LibAddonMenu-2.0/controls/header.lua
 libs/LibAddonMenu-2.0/controls/slider.lua
 libs/LibAddonMenu-2.0/controls/texture.lua
 
-FarmingPartyTemplates.lua
-FarmingPartyMembers.lua
-FarmingPartyMemberItem.lua
-FarmingPartyMemberList.lua
-FarmingPartyMemberList.xml
-FarmingPartyMemberItems.lua
-FarmingPartyMemberItems.xml
-FarmingPartyStartup.lua
-FarmingPartySettings.lua
+members/Members.lua
+members/MemberItem.lua
+members/MemberList.lua
+members/MemberList.xml
+members/MemberItems.lua
+members/MemberItems.xml
+Startup.lua
+Settings.lua
 FarmingParty.xml
