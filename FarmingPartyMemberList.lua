@@ -143,7 +143,6 @@ function FarmingPartyMemberList:AddAllGroupMembers()
     -- Get list of member names in current group
     for i = 1, countMembers do
         local unitTag = GetGroupUnitTagByIndex(i)
-        d(unitTag)
         if unitTag then
             local name = zo_strformat(SI_UNIT_NAME, GetUnitName(unitTag))
             if (name ~= playerName) then
@@ -172,7 +171,7 @@ function FarmingPartyMemberList:FormatNumber(num, numDecimalPlaces)
 end
 
 -- EVENT_LOOT_RECEIVED
-function FarmingPartyMemberList:OnItemLooted(event, name, itemLink, quantity, itemSound, lootType, player)
+function FarmingPartyMemberList:OnItemLooted(eventCode, name, itemLink, quantity, itemSound, lootType, lootedByPlayer, isPickpocketLoot, questItemIcon, itemId)
     local looterName = zo_strformat(SI_UNIT_NAME, name)
     local itemValue = FarmingPartyMemberList:GetItemPrice(itemLink)
     
@@ -182,55 +181,48 @@ function FarmingPartyMemberList:OnItemLooted(event, name, itemLink, quantity, it
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
     
-    -- Return if own (player) loot is off
-    -- if player and not FPSettings:DisplayOwnLoot() then
-    --     return
-    -- end
-    -- -- Return if group loot is off
-    -- if not player and not FPSettings:DisplayGroupLoot() then
-    --     return
-    -- end
-    -- Check if the loot receiver is already added into the members table, add if not.
-    -- if not Members:HasMember(name) then
-    --     local newMember = Members:NewMember(name)
-    --     Members:SetMember(name, displayName)
-    -- end
-    -- -- Update best loot
-    -- if FPHighScore:IsBestLoot(name, totalValue) then
-    --     FPHighScore:UpdateBestLoot(name, itemLink, itemValue)
-    -- end
     FarmingPartyMemberList:AddNewLootedItem(looterName, itemLink, itemValue, quantity)
-    
-    -- Player or group member
-    if not player then
-        if FarmingParty.Settings:DisplayLootValue() then
-            lootMessage =
-                zo_strformat(
-                    "<<C:1>> received <<t:2>> x<<3>> worth |cFFFFFF<<4>>|rg",
-                    name,
-                    itemLink,
-                    quantity,
-                    totalValue
-        )
-        else
-            lootMessage = zo_strformat("<<C:1>> received <<t:2>> x<<3>>", looterName, itemLink, quantity)
-        end
-        if FarmingParty.Settings:DisplayInChat() then
-            d(lootMessage)
-        end
-        FarmingPartyWindowBuffer:AddMessage(lootMessage, 255, 255, 0, 1)
+    FarmingPartyMemberList:LogLootItem(looterName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
+end
+
+function FarmingPartyMemberList:LogLootItem(looterName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
+    local icon = FarmingPartyMemberList:GetItemIcon(itemLink, lootType, questItemIcon)
+    local itemText
+    local itemValueText = FarmingParty.Settings:DisplayLootValue() and zo_strformat(' - |cFFFFFF<<1>>|r|t16:16:EsoUI/Art/currency/currency_gold.dds|t', totalValue) or ''
+    if quantity == 1 then
+        itemText = zo_strformat(icon .. itemLink .. itemValueText)
+    else
+        itemText = zo_strformat(icon .. itemLink .. ' |cFFFFFFx' .. quantity .. '|r' .. itemValueText)
+    end
+
+    local lootMessage = ''
+    if not lootedByPlayer then
+        lootMessage = zo_strformat("|cFFFFFF<<C:1>>|r |c228B22received|r <<t:2>>", looterName, itemText)
     else
         if not FarmingParty.Settings:DisplayOwnLoot() then return end
-        if FarmingParty.Settings:DisplayLootValue() then
-            lootMessage = zo_strformat("Received <<t:1>> x<<2>> worth |cFFFFFF<<3>>|rg", itemLink, quantity, totalValue)
-        else
-            lootMessage = zo_strformat("Received <<t:1>> x<<2>>", itemLink, quantity)
-        end
-        if FarmingParty.Settings:DisplayInChat() then
-            d(lootMessage)
-        end
-        FarmingPartyWindowBuffer:AddMessage(lootMessage, 255, 255, 0, 1)
+        lootMessage = zo_strformat("|c228B22Received|r <<t:1>>", itemText)
     end
+    if FarmingParty.Settings:DisplayInChat() then
+        CHAT_SYSTEM:AddMessage(lootMessage)
+    end
+
+    FarmingPartyWindowBuffer:AddMessage(lootMessage, 255, 255, 0, 1)
+end
+
+function FarmingPartyMemberList:GetItemIcon(itemLink, lootType, questItemIcon)
+    local icon = ""
+    if lootType == LOOT_TYPE_QUEST_ITEM then
+        icon = questItemIcon
+    elseif lootType == LOOT_TYPE_COLLECTIBLE then
+        local collectibleId = GetCollectibleIdFromLink(itemLink)
+        local _, _, collectibleIcon = GetCollectibleInfo(collectibleId)
+        icon = collectibleIcon
+    else
+        local itemIcon, _, _, _, _ = GetItemLinkInfo(itemLink)
+        icon = itemIcon
+    end
+    icon = icon ~= "" and ("|t16:16:" .. icon .. "|t ") or ""
+    return icon
 end
 
 function FarmingPartyMemberList:GetATTPrice(itemLink)
