@@ -107,7 +107,7 @@ function FarmingPartyMemberList:UpdateScrollList()
     local groupMembers = members:GetKeys()
     for i = 1, #groupMembers do
         scrollData[#scrollData + 1] =
-            ZO_ScrollList_CreateDataEntry(FarmingParty.DataTypes.MEMBER, members:GetMember(groupMembers[i]))
+            ZO_ScrollList_CreateDataEntry(FarmingParty.DataTypes.MEMBER, {rawData = members:GetMember(groupMembers[i])})
     end
     
     ZO_ScrollList_Commit(listContainer)
@@ -120,9 +120,9 @@ function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
     local bestItem = GetControl(rowControl, "BestItemName")
     local totalValue = GetControl(rowControl, "TotalValue")
     
-    memberName:SetText(rowData.displayName)
-    bestItem:SetText(rowData.bestItem.itemLink)
-    totalValue:SetText(rowData.totalValue .. 'g')
+    memberName:SetText(data.displayName)
+    bestItem:SetText(data.bestItem.itemLink)
+    totalValue:SetText(data.totalValue .. 'g')
 end
 
 function FarmingPartyMemberList:ToggleMembersWindow()
