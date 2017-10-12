@@ -84,7 +84,12 @@ end
 
 -- EVENT_GROUP_MEMBER_LEFT
 function FarmingPartyMemberList:OnMemberLeft(event, memberName, reason, wasLocalPlayer)
-    members:DeleteMember(memberName)
+    -- Disbanding a group counts as the local player leaving the group
+    -- so we want to not remove their items if they're on the event
+    if (not wasLocalPlayer) then
+        local name = zo_strformat(SI_UNIT_NAME, memberName)
+        members:DeleteMember(name)
+    end
 end
 
 function FarmingPartyMemberList:SetupScrollList()
@@ -194,7 +199,7 @@ function FarmingPartyMemberList:LogLootItem(looterName, lootedByPlayer, itemLink
     else
         itemText = zo_strformat(icon .. itemLink .. ' |cFFFFFFx' .. quantity .. '|r' .. itemValueText)
     end
-
+    
     local lootMessage = ''
     if not lootedByPlayer then
         lootMessage = zo_strformat("|cFFFFFF<<C:1>>|r |c228B22received|r <<t:2>>", looterName, itemText)
@@ -205,7 +210,7 @@ function FarmingPartyMemberList:LogLootItem(looterName, lootedByPlayer, itemLink
     if FarmingParty.Settings:DisplayInChat() then
         CHAT_SYSTEM:AddMessage(lootMessage)
     end
-
+    
     FarmingPartyWindowBuffer:AddMessage(lootMessage, 255, 255, 0, 1)
 end
 
