@@ -1,5 +1,4 @@
 -- Local functions --
-
 local function GetATTPrice(itemLink)
     if (ArkadiusTradeTools == nil or ArkadiusTradeTools.Modules.Sales == nil) then
         return nil
@@ -69,10 +68,13 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
     
-    local getMember = function()
-        if Members:HasMember(looterName) then return Members:GetMember(looterName) else MembersList:AddAllGroupMembers() return Members:GetMember(looterName) end
+    local getMember = function(looterName)
+        if Members:HasMember(looterName) then
+            return Members:GetMember(looterName)
+        else MembersList:AddAllGroupMembers()
+            return Members:GetMember(looterName) end
     end
-    local looterMember = getMember()
+    local looterMember = getMember(looterName)
     self:AddNewLootedItem(looterName, itemLink, itemValue, quantity)
     Logger:LogLootItem(looterMember.displayName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
 end
