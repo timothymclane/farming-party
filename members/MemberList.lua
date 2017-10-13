@@ -187,7 +187,8 @@ function FarmingPartyMemberList:OnItemLooted(eventCode, name, itemLink, quantity
     local itemFound = false
     
     FarmingPartyMemberList:AddNewLootedItem(looterName, itemLink, itemValue, quantity)
-    FarmingPartyMemberList:LogLootItem(looterName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
+    local looterMember = members:GetMember(looterName)
+    FarmingPartyMemberList:LogLootItem(looterMember.displayName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
 end
 
 function FarmingPartyMemberList:LogLootItem(looterName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
@@ -278,12 +279,12 @@ function FarmingPartyMemberList:PrintScoresToChat()
     local groupMembers = members:GetKeys()
     for i = 1, #groupMembers do
         local member = members:GetMember(groupMembers[i])
-        local scoreData = {name = groupMembers[i], totalValue = member.totalValue}
+        local scoreData = {name = groupMembers[i], totalValue = member.totalValue, displayName = groupMembers[i].displayName}
         array[#array + 1] = scoreData
     end
     table.sort(array, function(a, b) return a.totalValue > b.totalValue end)
     for i = 1, #array do
-        topScorers = topScorers .. array[i].name .. ': ' .. FarmingPartyMemberList:FormatNumber(array[i].totalValue, 2) .. 'g. '
+        topScorers = topScorers .. array[i].displayName .. ': ' .. FarmingPartyMemberList:FormatNumber(array[i].totalValue, 2) .. 'g. '
     end
     ZO_ChatWindowTextEntryEditBox:SetText(topScorers)
 end
