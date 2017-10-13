@@ -1,3 +1,4 @@
+local RELEASE_COUNT = 3
 FarmingPartyMemberList = ZO_Object:Subclass()
 function FarmingPartyMemberList:New()
     local obj = ZO_Object.New(self)
@@ -17,7 +18,7 @@ function FarmingPartyMemberList:Initialize()
     )
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
-    saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", 2, nil, {members = {}})
+    saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", RELEASE_COUNT, nil, {members = {}})
     members = FarmingPartyMembers:New(saveData)
     self.Members = members
     FarmingPartyMembersWindow:ClearAnchors()
