@@ -143,7 +143,7 @@ function FarmingPartyMemberList:AddAllGroupMembers()
     local countMembers = GetGroupSize()
     local rawMembers = {}
     local playerName = GetUnitName("player")
-    rawMembers[GetUnitName("player")] = GetDisplayName("player")
+    rawMembers[GetUnitName("player")] = UndecorateDisplayName(GetDisplayName("player"))
     
     -- Get list of member names in current group
     for i = 1, countMembers do
@@ -151,7 +151,7 @@ function FarmingPartyMemberList:AddAllGroupMembers()
         if unitTag then
             local name = zo_strformat(SI_UNIT_NAME, GetUnitName(unitTag))
             if (name ~= playerName) then
-                rawMembers[name] = GetUnitDisplayName(unitTag)
+                rawMembers[name] = UndecorateDisplayName(GetUnitDisplayName(unitTag))
             end
         end
     end
