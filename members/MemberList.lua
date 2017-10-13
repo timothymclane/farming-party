@@ -89,6 +89,14 @@ function FarmingPartyMemberList:OnMemberLeft(event, memberName, reason, wasLocal
     if (not wasLocalPlayer) then
         local name = zo_strformat(SI_UNIT_NAME, memberName)
         members:DeleteMember(name)
+    else
+        local playerName = GetUnitName("player")
+        local memberKeys = members:GetKeys()
+        for i = 1, #memberKeys do
+            if (memberKeys[i] ~= playerName) then
+                members:DeleteMember(memberKeys[i])
+            end
+        end
     end
 end
 
