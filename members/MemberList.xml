@@ -30,10 +30,6 @@
       <Label name="$(parent)Title" font="ZoFontHeader3" height="25" inheritAlpha="true" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Farming Party Members">
         <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="-10" offsetY="5" />
       </Label>
-      <Line name="$(parent)LineTop" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" thickness="2">
-          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="2" offsetY="-32" />
-          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-4" offsetY="-32" />
-      </Line>
       <Control name="$(parent)Headers">
         <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="51" />
         <Dimensions y="32" />
