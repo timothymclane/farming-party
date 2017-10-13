@@ -6,6 +6,7 @@ function FarmingPartyMemberList:New()
     return obj
 end
 
+local listContainer
 local members = {}
 local saveData = {}
 function FarmingPartyMemberList:Initialize()
