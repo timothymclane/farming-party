@@ -76,7 +76,7 @@ function FarmingPartyMemberList:WindowResizeHandler(control)
     local width, height = control:GetDimensions()
     local settings = FarmingPartySettings:GetSettings()
     settings.window.width = width
-    settings.window.height = height
+    settings.window.height = height    
     
     local scrollData = ZO_ScrollList_GetDataList(listContainer)
     ZO_ScrollList_Commit(listContainer)
@@ -115,10 +115,21 @@ function FarmingPartyMemberList:UpdateScrollList()
     local scrollData = ZO_ScrollList_GetDataList(listContainer)
     ZO_ScrollList_Clear(listContainer)
     
-    local groupMembers = members:GetKeys()
-    for i = 1, #groupMembers do
+    local memberKeys = members:GetKeys()
+    local memberList = members:GetMembers()
+    local memberArray = {}
+    for i = 1, #memberKeys do
+        memberArray[#memberArray + 1] = members:GetMember(memberKeys[i])
+    end
+    table.sort(memberArray, function(a, b)
+        if (a.totalValue == b.totalValue) then
+            return a.displayName < b.displayName
+        end
+        return a.totalValue > b.totalValue
+    end)
+    for i = 1, #memberArray do
         scrollData[#scrollData + 1] =
-            ZO_ScrollList_CreateDataEntry(FarmingParty.DataTypes.MEMBER, {rawData = members:GetMember(groupMembers[i])})
+            ZO_ScrollList_CreateDataEntry(FarmingParty.DataTypes.MEMBER, {rawData = memberArray[i]})
     end
     
     ZO_ScrollList_Commit(listContainer)
