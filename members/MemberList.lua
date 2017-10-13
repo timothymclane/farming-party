@@ -129,7 +129,7 @@ function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
     
     memberName:SetText(data.displayName)
     bestItem:SetText(data.bestItem.itemLink)
-    totalValue:SetText(data.totalValue .. 'g')
+    totalValue:SetText(self:FormatNumber(data.totalValue, 2) .. 'g')
 end
 
 function FarmingPartyMemberList:ToggleMembersWindow()
@@ -174,7 +174,7 @@ function FarmingPartyMemberList:ShowAllGroupMembers()
 end
 
 function FarmingPartyMemberList:FormatNumber(num, numDecimalPlaces)
-    return tonumber(string.format("%." .. (numDecimalPlaces or 0) .. "f", num))
+    return string.format("%0." .. (numDecimalPlaces or 0) .. "f", num)
 end
 
 -- EVENT_LOOT_RECEIVED
