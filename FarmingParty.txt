@@ -23,7 +23,7 @@ libs/LibAddonMenu-2.0/controls/texture.lua
 members/Members.lua
 members/MemberItem.lua
 members/MemberList.lua
-members/MemberList.xml
+members/MembersWindow.xml
 members/MemberItems.lua
 members/MemberItems.xml
 Startup.lua
