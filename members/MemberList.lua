@@ -76,7 +76,7 @@ function FarmingPartyMemberList:WindowResizeHandler(control)
     local width, height = control:GetDimensions()
     local settings = FarmingPartySettings:GetSettings()
     settings.window.width = width
-    settings.window.height = height    
+    settings.window.height = height
     
     local scrollData = ZO_ScrollList_GetDataList(listContainer)
     ZO_ScrollList_Commit(listContainer)
@@ -160,7 +160,7 @@ function FarmingPartyMemberList:AddAllGroupMembers()
     local countMembers = GetGroupSize()
     local rawMembers = {}
     local playerName = GetUnitName("player")
-    rawMembers[GetUnitName("player")] = UndecorateDisplayName(GetDisplayName("player"))
+    rawMembers[playerName] = UndecorateDisplayName(GetDisplayName("player"))
     
     -- Get list of member names in current group
     for i = 1, countMembers do
@@ -279,7 +279,6 @@ function FarmingPartyMemberList:GetItemPrice(itemLink)
     return price
 end
 
--- Member Items Funcs --
 function FarmingPartyMemberList:AddNewLootedItem(memberName, itemLink, itemValue, count)
     local items = members:GetItemsForMember(memberName)
     local itemDetails = items[itemLink]
