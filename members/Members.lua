@@ -7,6 +7,9 @@ function FarmingPartyMembers:New(saveData)
     return storage
 end
 
+function FarmingPartyMembers:Finalize()
+end
+
 function FarmingPartyMembers:GetMembers()
     return self.members
 end
