@@ -12,6 +12,9 @@ FarmingParty.DataTypes = {
 }
 FarmingParty.SaveData = {}
 FarmingParty.Settings = {}
+FarmingParty.FormatNumber = function(num, numDecimalPlaces)
+        return string.format("%0." .. (numDecimalPlaces or 0) .. "f", num)
+    end
 
 local function OnPlayerDeactivated(eventCode)
     FarmingParty:Finalize()
@@ -37,6 +40,8 @@ end
 
 function FarmingParty:Initialize()
     self.Modules.MemberList = FarmingPartyMemberList:New()
+    self.Modules.Logger = FarmingPartyLogger:New()
+    self.Modules.Loot = FarmingPartyLoot:New()
     FarmingParty:ConsoleCommands()
 end
 

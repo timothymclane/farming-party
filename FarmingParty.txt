@@ -26,6 +26,8 @@ members/MemberList.lua
 members/MembersWindow.xml
 members/MemberItems.lua
 members/MemberItems.xml
+logger/Logger.lua
+loot/Loot.lua
 Startup.lua
 Settings.lua
 FarmingParty.xml
