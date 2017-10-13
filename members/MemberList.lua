@@ -77,6 +77,9 @@ function FarmingPartyMemberList:WindowResizeHandler(control)
     local settings = FarmingPartySettings:GetSettings()
     settings.window.width = width
     settings.window.height = height
+    
+    local scrollData = ZO_ScrollList_GetDataList(listContainer)
+    ZO_ScrollList_Commit(listContainer)
 end
 
 -- EVENT_GROUP_MEMBER_JOINED
@@ -96,6 +99,7 @@ end
 
 function FarmingPartyMemberList:SetupScrollList()
     listContainer = FarmingPartyMembersWindow:GetNamedChild("List")
+    ZO_ScrollList_AddResizeOnScreenResize(listContainer)
     ZO_ScrollList_AddDataType(
         listContainer,
         FarmingParty.DataTypes.MEMBER,
