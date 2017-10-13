@@ -203,8 +203,11 @@ function FarmingPartyMemberList:OnItemLooted(eventCode, name, itemLink, quantity
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
     
+    local getMember = function()
+        if members:HasMember(looterName) then return members:GetMember(looterName) else self:AddAllGroupMembers() return members:GetMember(looterName) end
+    end
+    local looterMember = getMember()    
     FarmingPartyMemberList:AddNewLootedItem(looterName, itemLink, itemValue, quantity)
-    local looterMember = members:GetMember(looterName)
     FarmingPartyMemberList:LogLootItem(looterMember.displayName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
 end
 
