@@ -197,7 +197,7 @@ function FarmingPartyMemberList:PrintScoresToChat()
     local groupMembers = members:GetKeys()
     for i = 1, #groupMembers do
         local member = members:GetMember(groupMembers[i])
-        local scoreData = {name = groupMembers[i], totalValue = member.totalValue, displayName = groupMembers[i].displayName}
+        local scoreData = {name = groupMembers[i], totalValue = member.totalValue, displayName = member.displayName}
         array[#array + 1] = scoreData
     end
     table.sort(array, function(a, b) return a.totalValue > b.totalValue end)
