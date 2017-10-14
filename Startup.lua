@@ -50,9 +50,8 @@ function FarmingParty:ConsoleCommands()
     SLASH_COMMANDS["/fphelp"] = function()
         d("-- Farming Party commands --")
         d("/fp         Show or hide the highscore window.")
-        d("/fpc        Print highscores to the chat.")
-        d("/fpreset    Reset all highscore values (doesn't remove).")
-        d("/fpdelete   Remove everything from highscores.")
+        d("/fpc        Puts high score output into the chat box.")
+        d("/fpreset    Resets all loot data.")
     end
 
     -- Toggle the highscore window
@@ -68,13 +67,6 @@ function FarmingParty:ConsoleCommands()
     SLASH_COMMANDS["/fpreset"] = function()
         self.Modules.MemberList:Reset()
         d("Farming Party has been reset")
-    end
-
-    -- Show all registered modules
-    SLASH_COMMANDS["/fpm"] = function()
-        for moduleName, moduleObject in pairs(self.Modules) do
-            d(moduleName)
-        end
     end
 end
 
