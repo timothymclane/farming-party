@@ -42,6 +42,7 @@ function FarmingParty:Initialize()
     self.Modules.MemberList = FarmingPartyMemberList:New()
     self.Modules.Logger = FarmingPartyLogger:New()
     self.Modules.Loot = FarmingPartyLoot:New()
+    self.Modules.MemberItems = FarmingPartyMemberItems:Initialize()
     FarmingParty:ConsoleCommands()
 end
 
@@ -61,6 +62,10 @@ function FarmingParty:ConsoleCommands()
 
     SLASH_COMMANDS["/fpc"] = function()
         self.Modules.MemberList:PrintScoresToChat()
+    end
+
+    SLASH_COMMANDS["/fpm"] = function()
+        FarmingPartyMemberItems:ToggleWindow()
     end
 
     -- Reset all stats from the .member table
