@@ -10,14 +10,11 @@ end
 
 function FarmingPartyMemberItems:Initialize()
     listContainer = FarmingPartyMemberItemsWindow:GetNamedChild("List")
-    ZO_ScrollList_AddResizeOnScreenResize(listContainer)
-    ZO_ScrollList_AddDataType(listContainer, FarmingParty.DataTypes.MEMBER_ITEM, "FarmingPartyItemDataRow", 20,
-        function(listControl, data)
-            self:SetupItemRow(listControl, data)
-        end)
+    FarmingPartyMemberItemsWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
     members = FarmingParty.Modules.Members    
     self:SetupScrollList()
     self:UpdateScrollList()
+    members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
 
 
@@ -25,8 +22,8 @@ function FarmingPartyMemberItems:SetupScrollList()
     ZO_ScrollList_AddResizeOnScreenResize(listContainer)
     ZO_ScrollList_AddDataType(
         listContainer,
-        FarmingParty.DataTypes.MEMBER,
-        "FarmingPartyMemberDataRow",
+        FarmingParty.DataTypes.MEMBER_ITEM,
+        "FarmingPartyItemDataRow",
         20,
         function(listControl, data)
             self:SetupItemRow(listControl, data)
@@ -62,17 +59,18 @@ end
 function FarmingPartyMemberItems:SetupItemRow(rowControl, rowData)
     rowControl.data = rowData
     local data = rowData.rawData
-    local memberName = GetControl(rowControl, "Farmer")
     local itemName = GetControl(rowControl, "ItemName")
     local itemCount = GetControl(rowControl, "Count")
     local totalValue = GetControl(rowControl, "TotalValue")
-    
-    -- memberName:SetText(data.displayName)
+
     itemName:SetText(data.itemLink)
     itemCount:SetText(data.count)
     totalValue:SetText(FarmingParty.FormatNumber(data.totalValue, 2) .. 'g')
 end
 
+function FarmingPartyMemberItems:WindowResizeHandler(control)
+    ZO_ScrollList_Commit(listContainer)
+end
 
 function FarmingPartyMemberItems:ToggleWindow()
     FarmingPartyMemberItemsWindow:SetHidden(not FarmingPartyMemberItemsWindow:IsHidden())
