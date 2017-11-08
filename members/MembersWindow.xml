@@ -107,52 +107,52 @@
     </Control>
 
     <Control name="FarmingPartyMemberDataRow" inherits="FarmingPartyListRow" virtual="true">
+      <Controls>
+        <Label name="$(parent)Farmer" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
+          <Dimensions x="200" y="32" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="15" offsetY="0"/>
+        </Label>
+        <Control name="$(parent)BestItemName" inheritAlpha="true" mouseEnabled="true">
+          <Dimensions x="200" y="32" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" offsetY="0"/>
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" offsetY="0"/>
+          <OnInitialized>
+            self.GetText = function(control)
+              return control:GetNamedChild("Link"):GetText()
+            end
+            self.SetText = function(control, text)
+                control:GetNamedChild("Link"):SetText(text)
+            end
+          </OnInitialized>            
+          <OnMouseEnter>
+              if(string.len(self:GetText()) > 0) then
+                InitializeTooltip(ItemTooltip, self)
+                ItemTooltip:SetLink(self:GetText())
+              end
+          </OnMouseEnter>
+          <OnMouseExit>
+              if(string.len(self:GetText()) > 0) then
+                ClearTooltip(ItemTooltip)
+              end
+          </OnMouseExit>
+          <OnMouseUp>
+              if upInside then
+                  ZO_LinkHandler_OnLinkClicked(self:GetText(), button, self)
+              end
+          </OnMouseUp>
           <Controls>
-              <Label name="$(parent)Farmer" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-                  <Dimensions x="200" y="32" />
-                  <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="15" offsetY="0"/>
-              </Label>
-              <Control name="$(parent)BestItemName" inheritAlpha="true" mouseEnabled="true">
+            <Label name="$(parent)Link" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
                 <Dimensions x="200" y="32" />
-                <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" offsetY="0"/>
-                <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" offsetY="0"/>
-                <OnInitialized>
-                  self.GetText = function(control)
-                    return control:GetNamedChild("Link"):GetText()
-                  end
-                  self.SetText = function(control, text)
-                      control:GetNamedChild("Link"):SetText(text)
-                  end
-                </OnInitialized>            
-                <OnMouseEnter>
-                    if(string.len(self:GetText()) > 0) then
-                      InitializeTooltip(ItemTooltip, self)
-                      ItemTooltip:SetLink(self:GetText())
-                    end
-                </OnMouseEnter>
-                <OnMouseExit>
-                    if(string.len(self:GetText()) > 0) then
-                      ClearTooltip(ItemTooltip)
-                    end
-                </OnMouseExit>
-                <OnMouseUp>
-                    if upInside then
-                        ZO_LinkHandler_OnLinkClicked(self:GetText(), button, self)
-                    end
-                </OnMouseUp>
-                <Controls>
-                  <Label name="$(parent)Link" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-                      <Dimensions x="200" y="32" />
-                      <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="0" offsetY="0"/>
-                  </Label>
-                </Controls>
-              </Control>
-              <Label name="$(parent)TotalValue" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="RIGHT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-                  <Dimensions x="100" y="32" />
-                  <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="40" offsetY="0"/>
-                  <Anchor point="BOTTOMLEFT" relativeTo="$(parent)BestItemName" relativePoint="BOTTOMRIGHT" offsetX="40" offsetY="0"/>
-              </Label>
+                <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="0" offsetY="0"/>
+            </Label>
           </Controls>
-      </Control>
+        </Control>
+        <Label name="$(parent)TotalValue" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="RIGHT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
+          <Dimensions x="100" y="32" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="40" offsetY="0"/>
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)BestItemName" relativePoint="BOTTOMRIGHT" offsetX="40" offsetY="0"/>
+        </Label>
+      </Controls>
+    </Control>
   </Controls>
 </GuiXml>
