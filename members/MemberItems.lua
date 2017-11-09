@@ -11,7 +11,7 @@ end
 function FarmingPartyMemberItems:Initialize()
     listContainer = FarmingPartyMemberItemsWindow:GetNamedChild("List")
     FarmingPartyMemberItemsWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
-    members = FarmingParty.Modules.Members    
+    members = FarmingParty.Modules.Members
     self:SetupScrollList()
     self:UpdateScrollList()
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
@@ -36,6 +36,11 @@ function FarmingPartyMemberItems:UpdateScrollList()
     ZO_ScrollList_Clear(listContainer)
     
     local member = members:GetMember("Aldanga")
+    -- We're probably in the middle of resetting members,
+    -- so leave before things explode
+    if (member == nil) then
+        return
+    end
     local memberItems = members:GetItemsForMember("Aldanga")
     local memberItemArray = {}
     for key, value in pairs(memberItems) do
@@ -62,7 +67,7 @@ function FarmingPartyMemberItems:SetupItemRow(rowControl, rowData)
     local itemName = GetControl(rowControl, "ItemName")
     local itemCount = GetControl(rowControl, "Count")
     local totalValue = GetControl(rowControl, "TotalValue")
-
+    
     itemName:SetText(data.itemLink)
     itemCount:SetText(data.count)
     totalValue:SetText(FarmingParty.FormatNumber(data.totalValue, 2) .. 'g')
