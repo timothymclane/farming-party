@@ -1,5 +1,6 @@
 local listContainer
 FarmingPartyMemberItems = ZO_Object:Subclass()
+local memberKey = GetUnitName("player")
 local members = {}
 
 function FarmingPartyMemberItems:New()
@@ -12,11 +13,11 @@ function FarmingPartyMemberItems:Initialize()
     listContainer = FarmingPartyMemberItemsWindow:GetNamedChild("List")
     FarmingPartyMemberItemsWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
     members = FarmingParty.Modules.Members
+    self:SetTitle()
     self:SetupScrollList()
     self:UpdateScrollList()
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
-
 
 function FarmingPartyMemberItems:SetupScrollList()
     ZO_ScrollList_AddResizeOnScreenResize(listContainer)
@@ -35,13 +36,13 @@ function FarmingPartyMemberItems:UpdateScrollList()
     local scrollData = ZO_ScrollList_GetDataList(listContainer)
     ZO_ScrollList_Clear(listContainer)
     
-    local member = members:GetMember("Aldanga")
+    local member = members:GetMember(memberKey)
     -- We're probably in the middle of resetting members,
     -- so leave before things explode
     if (member == nil) then
         return
     end
-    local memberItems = members:GetItemsForMember("Aldanga")
+    local memberItems = members:GetItemsForMember(memberKey)
     local memberItemArray = {}
     for key, value in pairs(memberItems) do
         value.itemLink = key
@@ -77,6 +78,27 @@ function FarmingPartyMemberItems:WindowResizeHandler(control)
     ZO_ScrollList_Commit(listContainer)
 end
 
+function FarmingPartyMemberItems:SetAndToggle(key)
+    if (memberKey == key) then
+        FarmingPartyMemberItems:ToggleWindow()
+    else
+        memberKey = key
+        self:SetTitle()        
+        self.OpenWindow()
+        self.UpdateScrollList()
+    end
+end
+
+function FarmingPartyMemberItems:SetTitle()
+    local title = FarmingPartyMemberItemsWindow:GetNamedChild("Title")
+    local member = members:GetMember(memberKey)
+    title:SetText(member.displayName .. "'s Farmed Items")
+end
+
 function FarmingPartyMemberItems:ToggleWindow()
     FarmingPartyMemberItemsWindow:SetHidden(not FarmingPartyMemberItemsWindow:IsHidden())
+end
+
+function FarmingPartyMemberItems:OpenWindow()
+    FarmingPartyMemberItemsWindow:SetHidden(false)
 end

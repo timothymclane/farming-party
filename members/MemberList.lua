@@ -122,7 +122,9 @@ function FarmingPartyMemberList:UpdateScrollList()
     local memberList = members:GetMembers()
     local memberArray = {}
     for i = 1, #memberKeys do
-        memberArray[#memberArray + 1] = members:GetMember(memberKeys[i])
+        local mem = members:GetMember(memberKeys[i])
+        mem.id = memberKeys[i]
+        memberArray[#memberArray + 1] = mem
     end
     table.sort(memberArray, function(a, b)
         if (a.totalValue == b.totalValue) then
@@ -141,10 +143,12 @@ end
 function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
     rowControl.data = rowData
     local data = rowData.rawData
+    local memberId = GetControl(rowControl, "FarmerId")
     local memberName = GetControl(rowControl, "Farmer")
     local bestItem = GetControl(rowControl, "BestItemName")
     local totalValue = GetControl(rowControl, "TotalValue")
-    
+
+    memberId:SetText(data.id)
     memberName:SetText(data.displayName)
     bestItem:SetText(data.bestItem.itemLink)
     totalValue:SetText(FarmingParty.FormatNumber(data.totalValue, 2) .. 'g')
