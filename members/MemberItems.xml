@@ -27,7 +27,7 @@
         <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="-10" offsetY="5" />
       </Label>
       <Control name="$(parent)Headers">
-        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="51" />
+        <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="53" />
         <Dimensions y="32" />
         <Controls>
           <Control name="$(parent)BestItemName" mouseEnabled="true">
@@ -36,7 +36,7 @@
             <Dimensions x="200" y="32" />  
             <Controls>
               <Label name="$(parent)Name" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Best Item">
-                <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT" offsetX="15" />
                 <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
               </Label>
             </Controls>
@@ -48,21 +48,21 @@
             </OnMouseExit>
           </Control>
           <Control name="$(parent)Count">
-            <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="40" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="112" />
             <Dimensions x="100" y="32" />
             <Controls>
               <Label name="$(parent)Count" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Count">
-                <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
                 <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
               </Label>
             </Controls>
           </Control>
           <Control name="$(parent)TotalValue">
-            <Anchor point="TOPLEFT" relativeTo="$(parent)Count" relativePoint="TOPRIGHT" offsetX="40" />
+            <Anchor point="TOPLEFT" relativeTo="$(parent)Count" relativePoint="TOPRIGHT" offsetX="10" />
             <Dimensions x="100" y="32" />
             <Controls>
               <Label name="$(parent)TotalValue" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL"  modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Total Value">
-                <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+                <Anchor point="TOPLEFT" relativePoint="TOPLEFT" offsetX="-2"/>
                 <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
               </Label>
             </Controls>
