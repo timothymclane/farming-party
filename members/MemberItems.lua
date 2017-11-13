@@ -33,6 +33,16 @@ function FarmingPartyMemberItems:Initialize()
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
 
+function FarmingPartyMemberItems:Finalize()
+    local _, _, _, _, offsetX, offsetY = FarmingPartyMemberItemsWindow:GetAnchor(0)
+    
+    local settings = FarmingPartySettings:GetSettings()
+    settings.itemsWindow.positionLeft = FarmingPartyMemberItemsWindow:GetLeft()
+    settings.itemsWindow.positionTop = FarmingPartyMemberItemsWindow:GetTop()
+    settings.itemsWindow.width = FarmingPartyMemberItemsWindow:GetWidth()
+    settings.itemsWindow.height = FarmingPartyMemberItemsWindow:GetHeight()
+end
+
 function FarmingPartyMemberItems:SetupScrollList()
     ZO_ScrollList_AddResizeOnScreenResize(listContainer)
     ZO_ScrollList_AddDataType(
