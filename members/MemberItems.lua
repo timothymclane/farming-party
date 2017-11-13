@@ -12,7 +12,21 @@ end
 function FarmingPartyMemberItems:Initialize()
     listContainer = FarmingPartyMemberItemsWindow:GetNamedChild("List")
     FarmingPartyMemberItemsWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
-    members = FarmingParty.Modules.Members
+    members = FarmingParty.Modules.Members    
+    
+    FarmingPartyMemberItemsWindow:ClearAnchors()
+    local settings = FarmingPartySettings:GetSettings()
+    FarmingPartyMemberItemsWindow:SetAnchor(
+        TOPLEFT,
+        GuiRoot,
+        TOPLEFT,
+        settings.itemsWindow.positionLeft,
+        settings.itemsWindow.positionTop
+    )
+    FarmingPartyMemberItemsWindow:SetDimensions(settings.itemsWindow.width, settings.itemsWindow.height)
+    self:SetWindowTransparency()
+    self:SetWindowBackgroundTransparency()
+    
     self:SetTitle()
     self:SetupScrollList()
     self:UpdateScrollList()
@@ -83,7 +97,7 @@ function FarmingPartyMemberItems:SetAndToggle(key)
         FarmingPartyMemberItems:ToggleWindow()
     else
         memberKey = key
-        self:SetTitle()        
+        self:SetTitle()
         self.OpenWindow()
         self.UpdateScrollList()
     end
@@ -101,4 +115,20 @@ end
 
 function FarmingPartyMemberItems:OpenWindow()
     FarmingPartyMemberItemsWindow:SetHidden(false)
+end
+
+function FarmingPartyMemberItems:SetWindowTransparency(value)
+    local settings = FarmingPartySettings:GetSettings()
+    if value ~= nil then
+        settings.itemsWindow.transparency = value
+    end
+    FarmingPartyMemberItemsWindow:SetAlpha(settings.itemsWindow.transparency / 100)
+end
+
+function FarmingPartyMemberItems:SetWindowBackgroundTransparency(value)
+    local settings = FarmingPartySettings:GetSettings()
+    if value ~= nil then
+        settings.itemsWindow.backgroundTransparency = value
+    end
+    FarmingPartyMemberItemsWindow:GetNamedChild("BG"):SetAlpha(settings.itemsWindow.backgroundTransparency / 100)
 end

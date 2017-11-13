@@ -42,7 +42,7 @@ function FarmingParty:Initialize()
     self.Modules.MemberList = FarmingPartyMemberList:New()
     self.Modules.Logger = FarmingPartyLogger:New()
     self.Modules.Loot = FarmingPartyLoot:New()
-    self.Modules.MemberItems = FarmingPartyMemberItems:Initialize()
+    self.Modules.MemberItems = FarmingPartyMemberItems:New()
     FarmingParty:ConsoleCommands()
 end
 

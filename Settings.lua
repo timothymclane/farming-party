@@ -24,7 +24,8 @@ function FarmingPartySettings:Initialize()
         positionTop = nil,
         displayLootValue = true,
         manualHighscoreReset = true,
-        window = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 0, width = 650, height = 150}
+        window = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 0, width = 650, height = 150},
+        itemsWindow = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 150, width = 650, height = 150},
     }
     
     --
@@ -126,6 +127,26 @@ function FarmingPartySettings:Initialize()
             min = 0, max = 100, step = 5,
             getFunc = function() return FarmingPartySettings:GetSettings().window.transparency end,
             setFunc = function(value)FarmingParty.Modules.MemberList:SetWindowTransparency(value) end,
+            width = "full",
+            default = 0
+        },
+        {
+            type = "slider",
+            name = "Member items window background transparency",
+            tooltip = "Change the transparency of the background of the member items window",
+            min = 0, max = 100, step = 5,
+            getFunc = function() return FarmingPartySettings:GetSettings().itemsWindow.backgroundTransparency end,
+            setFunc = function(value)FarmingParty.Modules.MemberItems:SetWindowBackgroundTransparency(value) end,
+            width = "full",
+            default = 0
+        },
+        {
+            type = "slider",
+            name = "Member items window transparency",
+            tooltip = "Change the transparency of the member items window",
+            min = 0, max = 100, step = 5,
+            getFunc = function() return FarmingPartySettings:GetSettings().itemsWindow.transparency end,
+            setFunc = function(value)FarmingParty.Modules.MemberItems:SetWindowTransparency(value) end,
             width = "full",
             default = 0
         }
