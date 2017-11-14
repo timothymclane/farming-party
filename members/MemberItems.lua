@@ -24,8 +24,8 @@ function FarmingPartyMemberItems:Initialize()
         settings.itemsWindow.positionTop
     )
     FarmingPartyMemberItemsWindow:SetDimensions(settings.itemsWindow.width, settings.itemsWindow.height)
-    self:SetWindowTransparency()
-    self:SetWindowBackgroundTransparency()
+    self:SetWindowTransparency(nil, 'itemsWindow')
+    self:SetWindowBackgroundTransparency(nil, 'itemsWindow')
     
     self:SetTitle()
     self:SetupScrollList()
@@ -117,28 +117,4 @@ function FarmingPartyMemberItems:SetTitle()
     local title = FarmingPartyMemberItemsWindow:GetNamedChild("Title")
     local member = members:GetMember(memberKey)
     title:SetText(member.displayName .. "'s Farmed Items")
-end
-
-function FarmingPartyMemberItems:ToggleWindow()
-    FarmingPartyMemberItemsWindow:SetHidden(not FarmingPartyMemberItemsWindow:IsHidden())
-end
-
-function FarmingPartyMemberItems:OpenWindow()
-    FarmingPartyMemberItemsWindow:SetHidden(false)
-end
-
-function FarmingPartyMemberItems:SetWindowTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
-    if value ~= nil then
-        settings.itemsWindow.transparency = value
-    end
-    FarmingPartyMemberItemsWindow:SetAlpha(settings.itemsWindow.transparency / 100)
-end
-
-function FarmingPartyMemberItems:SetWindowBackgroundTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
-    if value ~= nil then
-        settings.itemsWindow.backgroundTransparency = value
-    end
-    FarmingPartyMemberItemsWindow:GetNamedChild("BG"):SetAlpha(settings.itemsWindow.backgroundTransparency / 100)
 end

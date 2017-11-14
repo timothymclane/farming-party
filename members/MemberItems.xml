@@ -1,6 +1,6 @@
 <GuiXml>
   <Controls>    
-    <TopLevelControl name="FarmingPartyMemberItemsWindow" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="true" resizeHandleSize="8" tier="MEDIUM">
+    <TopLevelControl name="FarmingPartyMemberItemsWindow" inherits="FarmingPartyWindowBase" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="true" resizeHandleSize="8" tier="MEDIUM">
     <OnUpdate>
       local w, h = self:GetDimensions()
       if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then

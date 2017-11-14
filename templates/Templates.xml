@@ -1,0 +1,9 @@
+<GuiXml>
+    <Controls>
+        <Control name="FarmingPartyWindowBase" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="true" resizeHandleSize="8" tier="MEDIUM">
+            <OnInitialized>
+                FarmingParty.Templates.Window:Initialize(self)
+            </OnInitialized>
+        </Control>
+    </Controls>
+</GuiXml>

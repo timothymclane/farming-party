@@ -136,7 +136,7 @@ function FarmingPartySettings:Initialize()
             tooltip = "Change the transparency of the background of the member items window",
             min = 0, max = 100, step = 5,
             getFunc = function() return FarmingPartySettings:GetSettings().itemsWindow.backgroundTransparency end,
-            setFunc = function(value)FarmingParty.Modules.MemberItems:SetWindowBackgroundTransparency(value) end,
+            setFunc = function(value)FarmingPartyMemberItems:SetWindowBackgroundTransparency(value) end,
             width = "full",
             default = 0
         },
@@ -146,7 +146,7 @@ function FarmingPartySettings:Initialize()
             tooltip = "Change the transparency of the member items window",
             min = 0, max = 100, step = 5,
             getFunc = function() return FarmingPartySettings:GetSettings().itemsWindow.transparency end,
-            setFunc = function(value)FarmingParty.Modules.MemberItems:SetWindowTransparency(value) end,
+            setFunc = function(value)FarmingPartyMemberItems:SetWindowTransparency(value) end,
             width = "full",
             default = 0
         }

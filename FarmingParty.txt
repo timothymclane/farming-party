@@ -29,5 +29,7 @@ members/MemberItems.xml
 logger/Logger.lua
 loot/Loot.lua
 Startup.lua
+templates/Templates.lua
+templates/Templates.xml
 Settings.lua
 FarmingParty.xml
