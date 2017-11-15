@@ -166,7 +166,7 @@
         <Button name="$(parent)ViewItems">
           <Dimensions x="20" y="8"/>
           <OnClicked>
-              FarmingPartyMemberItems:SetAndToggle(self:GetParent():GetNamedChild("FarmerId"):GetText())
+              FarmingParty.Modules.MemberItems:SetAndToggle(self:GetParent():GetNamedChild("FarmerId"):GetText())
           </OnClicked>
           <Anchor point="TOPLEFT" relativeTo="$(parent)TotalValue" relativePoint="TOPRIGHT" offsetX="5" offsetY="0"/>
           <Anchor point="BOTTOMLEFT" relativeTo="$(parent)TotalValue" relativePoint="BOTTOMRIGHT" offsetX="5" offsetY="0"/>

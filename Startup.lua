@@ -5,6 +5,7 @@ local listContainer
 local highscoreWindowIsHidden = true
 
 FarmingParty = ZO_Object:Subclass()
+FarmingParty.NAME = ADDON_NAME
 FarmingParty.Modules = {}
 FarmingParty.DataTypes = {
     MEMBER = 1,
@@ -39,10 +40,13 @@ function FarmingParty:Finalize()
 end
 
 function FarmingParty:Initialize()
-    self.Modules.MemberList = FarmingPartyMemberList:New()
-    self.Modules.Logger = FarmingPartyLogger:New()
-    self.Modules.Loot = FarmingPartyLoot:New()
-    self.Modules.MemberItems = FarmingPartyMemberItems:New()
+    -- self.Modules.MemberList = FarmingPartyMemberList:New()
+    -- self.Modules.Logger = FarmingPartyLogger:New()
+    -- self.Modules.Loot = FarmingPartyLoot:New()
+    -- self.Modules.MemberItems = FarmingPartyMembermembers
+    for moduleName, moduleObject in pairs(self.Modules) do
+        moduleObject:Initialize()
+    end
     FarmingParty:ConsoleCommands()
 end
 
@@ -65,7 +69,14 @@ function FarmingParty:ConsoleCommands()
     end
 
     SLASH_COMMANDS["/fpm"] = function()
-        FarmingPartyMemberItems:ToggleWindow()
+        self.Modules.MemberItems:ToggleWindow()
+    end
+
+    SLASH_COMMANDS["/fpmod"] = function()
+        
+        for moduleName, moduleObject in pairs(self.Modules) do
+            d(moduleName)
+        end
     end
 
     -- Reset all stats from the .member table

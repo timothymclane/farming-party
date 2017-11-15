@@ -1,10 +1,14 @@
-FarmingPartyMembers = ZO_CallbackObject:Subclass()
+local FarmingPartyMembers = ZO_CallbackObject:Subclass()
+FarmingParty.Modules.Members = FarmingPartyMembers
 
 function FarmingPartyMembers:New(saveData)
     local storage = ZO_CallbackObject.New(self)
     storage.members = saveData.members or {}
     saveData.members = storage.members
     return storage
+end
+
+function FarmingPartyMembers:Initialize()
 end
 
 function FarmingPartyMembers:Finalize()

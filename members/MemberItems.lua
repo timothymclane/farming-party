@@ -1,6 +1,7 @@
+FarmingParty.Modules.MemberItems = FarmingParty.Templates.Module:New(FarmingParty.NAME .. "MemberItems")
+local FarmingPartyMemberItems = FarmingParty.Modules.MemberItems
 local listContainer
-FarmingPartyMemberItems = ZO_Object:Subclass()
-local memberKey = GetUnitName("player")
+local memberKey = ''
 local members = {}
 
 function FarmingPartyMemberItems:New()
@@ -24,12 +25,10 @@ function FarmingPartyMemberItems:Initialize()
         settings.itemsWindow.positionTop
     )
     FarmingPartyMemberItemsWindow:SetDimensions(settings.itemsWindow.width, settings.itemsWindow.height)
-    self:SetWindowTransparency(nil, 'itemsWindow')
-    self:SetWindowBackgroundTransparency(nil, 'itemsWindow')
+    FarmingPartyMemberItemsWindow:SetWindowTransparency(nil, 'itemsWindow')
+    FarmingPartyMemberItemsWindow:SetWindowBackgroundTransparency(nil, 'itemsWindow')
     
-    self:SetTitle()
     self:SetupScrollList()
-    self:UpdateScrollList()
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
 
@@ -104,7 +103,7 @@ end
 
 function FarmingPartyMemberItems:SetAndToggle(key)
     if (memberKey == key) then
-        FarmingPartyMemberItems:ToggleWindow()
+        FarmingPartyMemberItemsWindow:ToggleWindow()
     else
         memberKey = key
         self:SetTitle()

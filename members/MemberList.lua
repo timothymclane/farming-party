@@ -1,11 +1,6 @@
 local RELEASE_COUNT = 3
-
-FarmingPartyMemberList = ZO_Object:Subclass()
-function FarmingPartyMemberList:New()
-    local obj = ZO_Object.New(self)
-    self:Initialize()
-    return obj
-end
+FarmingParty.Modules.MemberList = FarmingParty.Templates.Module:New(FarmingParty.NAME .. "MemberList")
+local FarmingPartyMemberList = FarmingParty.Modules.MemberList
 
 local listContainer
 local members = {}
@@ -15,7 +10,6 @@ function FarmingPartyMemberList:Initialize()
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
     saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", RELEASE_COUNT, nil, {members = {}})
-    FarmingParty.Modules.Members = FarmingPartyMembers:New(saveData)
     members = FarmingParty.Modules.Members
     FarmingPartyMembersWindow:ClearAnchors()
     local settings = FarmingPartySettings:GetSettings()

@@ -20,6 +20,10 @@ libs/LibAddonMenu-2.0/controls/header.lua
 libs/LibAddonMenu-2.0/controls/slider.lua
 libs/LibAddonMenu-2.0/controls/texture.lua
 
+Startup.lua
+templates/Templates.lua
+templates/Modules.lua
+templates/Templates.xml
 members/Members.lua
 members/MemberItem.lua
 members/MemberList.lua
@@ -28,8 +32,5 @@ members/MemberItems.lua
 members/MemberItems.xml
 logger/Logger.lua
 loot/Loot.lua
-Startup.lua
-templates/Templates.lua
-templates/Templates.xml
 Settings.lua
 FarmingParty.xml
