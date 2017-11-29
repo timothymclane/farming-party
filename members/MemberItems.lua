@@ -13,10 +13,10 @@ end
 function FarmingPartyMemberItems:Initialize()
     listContainer = FarmingPartyMemberItemsWindow:GetNamedChild("List")
     FarmingPartyMemberItemsWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
-    members = FarmingParty.Modules.Members    
+    members = FarmingParty.Modules.Members
     
     FarmingPartyMemberItemsWindow:ClearAnchors()
-    local settings = FarmingPartySettings:GetSettings()
+    local settings = FarmingPartyData.Settings:GetSettings()
     FarmingPartyMemberItemsWindow:SetAnchor(
         TOPLEFT,
         GuiRoot,
@@ -107,8 +107,8 @@ function FarmingPartyMemberItems:SetAndToggle(key)
     else
         memberKey = key
         self:SetTitle()
-        self.OpenWindow()
-        self.UpdateScrollList()
+        FarmingPartyMemberItemsWindow:OpenWindow()
+        self:UpdateScrollList()
     end
 end
 

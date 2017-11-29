@@ -1,4 +1,5 @@
-FarmingPartyLogger = ZO_Object:Subclass()
+FarmingParty.Modules.Logger = FarmingParty.Templates.Module:New(FarmingParty.NAME .. "Logger")
+local FarmingPartyLogger = FarmingParty.Modules.Logger
 
 function FarmingPartyLogger:Finalize()
 end
@@ -20,7 +21,7 @@ end
 function FarmingPartyLogger:LogLootItem(looterName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
     local icon = GetItemIcon(itemLink, lootType, questItemIcon)
     local itemText
-    local itemValueText = FarmingParty.Settings:DisplayLootValue() and zo_strformat(' - |cFFFFFF<<1>>|r|t16:16:EsoUI/Art/currency/currency_gold.dds|t', totalValue) or ''
+    local itemValueText = FarmingPartySettings:DisplayLootValue() and zo_strformat(' - |cFFFFFF<<1>>|r|t16:16:EsoUI/Art/currency/currency_gold.dds|t', totalValue) or ''
     if quantity == 1 then
         itemText = zo_strformat(icon .. itemLink .. itemValueText)
     else
@@ -31,10 +32,10 @@ function FarmingPartyLogger:LogLootItem(looterName, lootedByPlayer, itemLink, qu
     if not lootedByPlayer then
         lootMessage = zo_strformat("|cFFFFFF<<C:1>>|r |c228B22received|r <<2>>", looterName, itemText)
     else
-        if not FarmingParty.Settings:DisplayOwnLoot() then return end
+        if not FarmingPartySettings:DisplayOwnLoot() then return end
         lootMessage = zo_strformat("|c228B22Received|r <<1>>", itemText)
     end
-    if FarmingParty.Settings:DisplayInChat() then
+    if FarmingPartySettings:DisplayInChat() then
         CHAT_SYSTEM:AddMessage(lootMessage)
     end
     

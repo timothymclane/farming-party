@@ -27,16 +27,13 @@ function FarmingParty:OnAddOnLoaded(event, addonName)
         return
     end
 
+    FarmingPartyData = FarmingPartyData or {}    
+    FarmingPartyData.Settings = FarmingPartySettings:Initialize()
+    -- FarmingPartyData.Settings = {key = 'abc', value = 123}
+
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_PLAYER_DEACTIVATED, OnPlayerDeactivated)
     EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_ADD_ON_LOADED)
-    FarmingParty.Settings = FarmingPartySettings:New()
     self:Initialize()
-end
-
-function FarmingParty:Finalize()
-    for moduleName, moduleObject in pairs(self.Modules) do
-        moduleObject:Finalize()
-    end
 end
 
 function FarmingParty:Initialize()
@@ -48,6 +45,12 @@ function FarmingParty:Initialize()
         moduleObject:Initialize()
     end
     FarmingParty:ConsoleCommands()
+end
+
+function FarmingParty:Finalize()
+    for moduleName, moduleObject in pairs(self.Modules) do
+        moduleObject:Finalize()
+    end
 end
 
 function FarmingParty:ConsoleCommands()

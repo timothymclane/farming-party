@@ -1,11 +1,12 @@
 local FarmingPartyMembers = ZO_CallbackObject:Subclass()
 FarmingParty.Modules.Members = FarmingPartyMembers
+local storage
 
 function FarmingPartyMembers:New(saveData)
-    local storage = ZO_CallbackObject.New(self)
+    storage = ZO_CallbackObject.New(self)
     storage.members = saveData.members or {}
     saveData.members = storage.members
-    return storage
+    FarmingParty.Modules.Members = self
 end
 
 function FarmingPartyMembers:Initialize()
@@ -15,12 +16,12 @@ function FarmingPartyMembers:Finalize()
 end
 
 function FarmingPartyMembers:GetMembers()
-    return self.members
+    return storage.members
 end
 
 function FarmingPartyMembers:GetCleanMembers()
     local cleanMembers = {}
-    for key, member in pairs(self.members) do
+    for key, member in pairs(storage.members) do
         cleanMembers[key] = {bestItem = member.bestItem, totalValue = member.totalValue, items = member.items, displayName = member.displayName}
     end
     return cleanMembers
@@ -28,7 +29,7 @@ end
 
 function FarmingPartyMembers:GetKeys()
     local keys = {}
-    for key in pairs(self.members) do
+    for key in pairs(storage.members) do
         keys[#keys + 1] = key
     end
     table.sort(keys)
@@ -36,52 +37,52 @@ function FarmingPartyMembers:GetKeys()
 end
 
 function FarmingPartyMembers:GetMember(key)
-    return self.members[key]
+    return storage.members[key]
 end
 
 function FarmingPartyMembers:HasMember(key)
-    return self.members[key] ~= nil
+    return storage.members[key] ~= nil
 end
 
 function FarmingPartyMembers:HasMembers()
-    return next(self.members) ~= nil
+    return next(storage.members) ~= nil
 end
 
 function FarmingPartyMembers:SetMember(key, member)
     local keyExists = self:HasMember(key)
-    self.members[key] = member
+    storage.members[key] = member
     if (not keyExists) then
-        self:FireCallbacks("OnKeysUpdated")
+        storage:FireCallbacks("OnKeysUpdated")
     end
 end
 
 function FarmingPartyMembers:DeleteMember(key)
     local keyExists = self:HasMember(key)
-    self.members[key] = nil
+    storage.members[key] = nil
     if (keyExists) then
-        self:FireCallbacks("OnKeysUpdated")
+        storage:FireCallbacks("OnKeysUpdated")
     end
 end
 
 function FarmingPartyMembers:DeleteAllMembers()
     local hasMembers = self:HasMembers()
-    ZO_ClearTable(self.members)
+    ZO_ClearTable(storage.members)
     if (hasMembers) then
-        self:FireCallbacks("OnKeysUpdated")
+        storage:FireCallbacks("OnKeysUpdated")
     end
 end
 
 function FarmingPartyMembers:GetItemsForMember(key)
-    local member = self:GetMember(key)
+    local member = storage:GetMember(key)
     local items = member.items
     return items
 end
 
 function FarmingPartyMembers:SetItemsForMember(key, items)
-    local member = self:GetMember(key)
+    local member = storage:GetMember(key)
     member.items = items
     self:SetMember(member)
-    self:FireCallbacks("OnKeysUpdated")
+    storage:FireCallbacks("OnKeysUpdated")
     return member
 end
 
@@ -93,7 +94,7 @@ function FarmingPartyMembers:NewMember(name, displayName)
         items = {},
         displayName = displayName
     }
-    self:FireCallbacks("OnKeysUpdated")
+    storage:FireCallbacks("OnKeysUpdated")
     return newMember
 end
 
@@ -110,5 +111,5 @@ function FarmingPartyMembers:UpdateTotalValueAndSetBestItem(name)
     end
     member.bestItem = bestItem
     member.totalValue = totalValue
-    self:FireCallbacks("OnKeysUpdated")
+    storage:FireCallbacks("OnKeysUpdated")
 end

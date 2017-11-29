@@ -3,16 +3,8 @@ local ADDON_VERSION = "1.2.2"
 
 local LAM2 = LibStub("LibAddonMenu-2.0")
 if not LAM2 then return end
-
-FarmingPartySettings = ZO_Object:Subclass()
-
+FarmingPartySettings = {}
 local settings = nil
-
-function FarmingPartySettings:New()
-    local obj = ZO_Object.New(self)
-    self:Initialize()
-    return obj
-end
 
 function FarmingPartySettings:Initialize()
     local FarmingPartyDefaults = {
@@ -27,9 +19,9 @@ function FarmingPartySettings:Initialize()
         window = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 0, width = 650, height = 150},
         itemsWindow = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 150, width = 650, height = 150},
     }
-    
+    local savedSettings = ZO_SavedVars:New("FarmingPartySettings", 2, nil, FarmingPartyDefaults)
     --
-    settings = ZO_SavedVars:New("FarmingPartySettings_db", 2, nil, FarmingPartyDefaults)
+    settings = savedSettings
     --
     if not settings.displayOnWindow then FarmingPartyWindow:SetHidden(not settings.displayOnWindow) end
     local sceneFragment = ZO_HUDFadeSceneFragment:New(FarmingPartyWindow)
@@ -153,6 +145,7 @@ function FarmingPartySettings:Initialize()
     }
     
     LAM2:RegisterOptionControls(ADDON_NAME .. "Panel", optionsTable)
+    return self
 end
 
 function FarmingPartySettings:GetSettings()

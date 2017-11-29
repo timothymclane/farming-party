@@ -27,17 +27,12 @@ local function GetItemPrice(itemLink)
     return price
 end
 
-FarmingPartyLoot = ZO_Object:Subclass()
+FarmingParty.Modules.Loot = FarmingParty.Templates.Module:New(FarmingParty.NAME .. "Loot")
+local FarmingPartyLoot = FarmingParty.Modules.Loot
 
 local Members
 local MembersList
 local Logger
-
-function FarmingPartyLoot:New()
-    local obj = ZO_Object.New(self)
-    self:Initialize()
-    return obj
-end
 
 function FarmingPartyLoot:Initialize()
     EVENT_MANAGER:RegisterForEvent(
@@ -67,7 +62,6 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
     local totalValue = FarmingParty.FormatNumber(itemValue * quantity, 2)--GetItemLinkValue(itemLink, true) * quantity
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
-    
     local getMember = function(looterName)
         if Members:HasMember(looterName) then
             return Members:GetMember(looterName)

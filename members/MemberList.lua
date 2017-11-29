@@ -9,10 +9,11 @@ local saveData = {}
 function FarmingPartyMemberList:Initialize()
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
-    saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", RELEASE_COUNT, nil, {members = {}})
+    saveData = ZO_SavedVars:New("FarmingPartyMemberList", RELEASE_COUNT, nil, {members = {}})
+    FarmingParty.Modules.Members:New(saveData)
     members = FarmingParty.Modules.Members
     FarmingPartyMembersWindow:ClearAnchors()
-    local settings = FarmingPartySettings:GetSettings()
+    local settings = FarmingPartyData.Settings:GetSettings()
     FarmingPartyMembersWindow:SetAnchor(
         TOPLEFT,
         GuiRoot,
@@ -33,7 +34,7 @@ end
 function FarmingPartyMemberList:Finalize()
     local _, _, _, _, offsetX, offsetY = FarmingPartyMembersWindow:GetAnchor(0)
     
-    local settings = FarmingPartySettings:GetSettings()
+    local settings = FarmingPartyData.Settings:GetSettings()
     settings.window.positionLeft = FarmingPartyMembersWindow:GetLeft()
     settings.window.positionTop = FarmingPartyMembersWindow:GetTop()
     settings.window.width = FarmingPartyMembersWindow:GetWidth()
@@ -46,7 +47,7 @@ function FarmingPartyMemberList:GetWindowTransparency()
 end
 
 function FarmingPartyMemberList:SetWindowTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
+    local settings = FarmingPartyData.Settings:GetSettings()
     if value ~= nil then
         settings.window.transparency = value
     end
@@ -54,7 +55,7 @@ function FarmingPartyMemberList:SetWindowTransparency(value)
 end
 
 function FarmingPartyMemberList:SetWindowBackgroundTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
+    local settings = FarmingPartyData.Settings:GetSettings()
     if value ~= nil then
         settings.window.backgroundTransparency = value
     end
@@ -63,7 +64,7 @@ end
 
 function FarmingPartyMemberList:WindowResizeHandler(control)
     local width, height = control:GetDimensions()
-    local settings = FarmingPartySettings:GetSettings()
+    local settings = FarmingPartyData.Settings:GetSettings()
     settings.window.width = width
     settings.window.height = height
     
