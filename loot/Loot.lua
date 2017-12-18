@@ -32,6 +32,7 @@ FarmingPartyLoot = ZO_Object:Subclass()
 local Members
 local MembersList
 local Logger
+local Settings
 
 function FarmingPartyLoot:New()
     local obj = ZO_Object.New(self)
@@ -50,6 +51,7 @@ function FarmingPartyLoot:Initialize()
     Members = FarmingParty.Modules.Members
     MembersList = FarmingParty.Modules.MembersList
     Logger = FarmingParty.Modules.Logger
+    Settings = FarmingParty.Settings
 end
 
 function FarmingPartyLoot:Finalize()
@@ -58,6 +60,8 @@ end
 
 -- EVENT_LOOT_RECEIVED
 function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, itemSound, lootType, lootedByPlayer, isPickpocketLoot, questItemIcon, itemId)
+    if not lootedByPlayer and not Settings:TrackGroupLoot() then return end
+    if lootedByPlayer and not Settings:TrackSelfLoot() then return end
     if (lootType == LOOT_TYPE_QUEST_ITEM) then return end
     local looterName = zo_strformat(SI_UNIT_NAME, name)
     local itemValue = GetItemPrice(itemLink)

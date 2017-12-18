@@ -1,5 +1,5 @@
 local ADDON_NAME = "Farming Party"
-local ADDON_VERSION = "1.2.2"
+local ADDON_VERSION = "1.3.0"
 
 local LAM2 = LibStub("LibAddonMenu-2.0")
 if not LAM2 then return end
@@ -16,6 +16,8 @@ end
 
 function FarmingPartySettings:Initialize()
     local FarmingPartyDefaults = {
+        trackGroupLoot = true,
+        trackSelfLoot = true,
         displayOnWindow = true,
         displayOnChat = true,
         displayOwnLoot = true,
@@ -57,35 +59,26 @@ function FarmingPartySettings:Initialize()
     local optionsTable = {
         {
             type = "header",
-            name = "Display and Count",
+            name = "Loot Tracking",
             width = "full",
         },
         {
             type = "checkbox",
-            name = "Own loot",
-            tooltip = "Show or hide loot the loot you get.",
-            getFunc = function() return settings.displayOwnLoot end,
-            setFunc = function(value)self:ToggleOwnLoot(value) end,
+            name = "Group members",
+            tooltip = "Track items looted by group members.",
+            getFunc = function() return settings.trackGroupLoot end,
+            setFunc = function(value)self:ToggleTrackGroupLoot(value) end,
             width = "full",
-            default = FarmingPartyDefaults.displayOwnLoot,
+            default = FarmingPartyDefaults.trackGroupLoot,
         },
         {
             type = "checkbox",
-            name = "Group loot",
-            tooltip = "Show or hide the loot group members get.",
-            getFunc = function() return settings.displayGroupLoot end,
-            setFunc = function(value)self:ToggleFarmingParty(value) end,
+            name = "Self",
+            tooltip = "Track items looted by you.",
+            getFunc = function() return settings.trackSelfLoot end,
+            setFunc = function(value)self:ToggleTrackSelfLoot(value) end,
             width = "full",
-            default = FarmingPartyDefaults.displayGroupLoot,
-        },
-        {
-            type = "checkbox",
-            name = "Loot value",
-            tooltip = "Show or hide loot value on chat/window.",
-            getFunc = function() return settings.displayLootValue end,
-            setFunc = function(value)self:ToggleLootValue(value) end,
-            width = "full",
-            default = FarmingPartyDefaults.displayLootValue,
+            default = FarmingPartyDefaults.trackSelfLoot,
         },
         {
             type = "header",
@@ -94,7 +87,34 @@ function FarmingPartySettings:Initialize()
         },
         {
             type = "checkbox",
-            name = "Display on chat",
+            name = "Log own loot",
+            tooltip = "Show or hide loot the loot you get.",
+            getFunc = function() return settings.displayOwnLoot end,
+            setFunc = function(value)self:ToggleOwnLoot(value) end,
+            width = "full",
+            default = FarmingPartyDefaults.displayOwnLoot,
+        },
+        {
+            type = "checkbox",
+            name = "Log group loot",
+            tooltip = "Show or hide the loot group members get.",
+            getFunc = function() return settings.displayGroupLoot end,
+            setFunc = function(value)self:ToggleFarmingParty(value) end,
+            width = "full",
+            default = FarmingPartyDefaults.displayGroupLoot,
+        },
+        {
+            type = "checkbox",
+            name = "Show loot value",
+            tooltip = "Show or hide loot value on chat/window.",
+            getFunc = function() return settings.displayLootValue end,
+            setFunc = function(value)self:ToggleLootValue(value) end,
+            width = "full",
+            default = FarmingPartyDefaults.displayLootValue,
+        },
+        {
+            type = "checkbox",
+            name = "Log to chat",
             tooltip = "Show or hide loot on chat.",
             getFunc = function() return settings.displayOnChat end,
             setFunc = function(value)self:ToggleOnChat(value) end,
@@ -103,7 +123,7 @@ function FarmingPartySettings:Initialize()
         },
         {
             type = "checkbox",
-            name = "Display on window",
+            name = "Log to loot window",
             tooltip = "Show or hide loot on the window.",
             getFunc = function() return settings.displayOnWindow end,
             setFunc = function(value)self:ToggleOnWindow(value) end,
@@ -159,6 +179,14 @@ function FarmingPartySettings:GetSettings()
     return settings
 end
 
+function FarmingPartySettings:TrackGroupLoot()
+    return settings.trackGroupLoot
+end
+
+function FarmingPartySettings:TrackSelfLoot()
+    return settings.trackSelfLoot
+end
+
 function FarmingPartySettings:DisplayInChat()
     return settings.displayOnChat
 end
@@ -212,6 +240,14 @@ end
 Addon menu functions
 ]]
 --
+function FarmingPartySettings:ToggleTrackGroupLoot(value)
+    settings.trackGroupLoot = value
+end
+
+function FarmingPartySettings:ToggleTrackSelfLoot(value)
+    settings.trackSelfLoot = value
+end
+
 function FarmingPartySettings:ToggleOnChat(value)
     settings.displayOnChat = value
 end
