@@ -76,7 +76,6 @@ end
 function FarmingPartyMembers:SetItemsForMember(key, items)
     local member = self:GetMember(key)
     member.items = items
-    self:SetMember(member)
     self:FireCallbacks("OnKeysUpdated")
     return member
 end
@@ -93,18 +92,14 @@ function FarmingPartyMembers:NewMember(name, displayName)
     return newMember
 end
 
-function FarmingPartyMembers:UpdateTotalValueAndSetBestItem(name)
+function FarmingPartyMembers:UpdateTotalValueAndSetBestItem(name, item, valueToAdd)
     local member = self:GetMember(name)
-    local totalValue = 0
     local bestItem = member.bestItem
-    for link, item in pairs(member.items) do
-        if (item.value > bestItem.value) then
-            bestItem = item
-            bestItem.itemLink = link
-        end
-        totalValue = totalValue + item.totalValue
+    if(item.value > bestItem.value) then
+        bestItem = item
+        bestItem.itemLink = item.itemLink
     end
     member.bestItem = bestItem
-    member.totalValue = totalValue
+    member.totalValue = member.totalValue + valueToAdd
     self:FireCallbacks("OnKeysUpdated")
 end

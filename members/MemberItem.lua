@@ -2,6 +2,7 @@ FarmingPartyMemberItem = {}
 
 function FarmingPartyMemberItem:New(itemLink)
     return {
+        itemLink = itemLink,
         count = 0,
         value = 0,
         totalValue = 0

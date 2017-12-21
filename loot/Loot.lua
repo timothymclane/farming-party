@@ -93,5 +93,6 @@ function FarmingPartyLoot:AddNewLootedItem(memberName, itemLink, itemValue, coun
     itemDetails = FarmingPartyMemberItem:UpdateItemCount(itemDetails, itemValue, count)
     items[itemLink] = itemDetails
     Members:SetItemsForMember(memberName, items)
-    Members:UpdateTotalValueAndSetBestItem(memberName)
+    local lootedValue = itemValue * count
+    Members:UpdateTotalValueAndSetBestItem(memberName, itemDetails, lootedValue)
 end
