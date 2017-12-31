@@ -30,7 +30,7 @@ end
 FarmingPartyLoot = ZO_Object:Subclass()
 
 local Members
-local MembersList
+local MemberList
 local Logger
 local Settings
 
@@ -49,7 +49,7 @@ function FarmingPartyLoot:Initialize()
         end
     )
     Members = FarmingParty.Modules.Members
-    MembersList = FarmingParty.Modules.MembersList
+    MemberList = FarmingParty.Modules.MemberList
     Logger = FarmingParty.Modules.Logger
     Settings = FarmingParty.Settings
 end
@@ -75,7 +75,7 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
     local getMember = function(looterName)
         if Members:HasMember(looterName) then
             return Members:GetMember(looterName)
-        else MembersList:AddAllGroupMembers()
+        else MemberList:AddAllGroupMembers()
             return Members:GetMember(looterName) end
     end
     local looterMember = getMember(looterName)
