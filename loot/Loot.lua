@@ -41,21 +41,28 @@ function FarmingPartyLoot:New()
 end
 
 function FarmingPartyLoot:Initialize()
-    EVENT_MANAGER:RegisterForEvent(
-        ADDON_NAME,
-        EVENT_LOOT_RECEIVED,
-        function(...)
-            self:OnItemLooted(...)
-        end
-    )
     Members = FarmingParty.Modules.Members
     MemberList = FarmingParty.Modules.MemberList
     Logger = FarmingParty.Modules.Logger
     Settings = FarmingParty.Settings
+
+    if (Settings:GetSettings().status == FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
+        self:AddEventHandlers()
+    end
 end
 
 function FarmingPartyLoot:Finalize()
 
+end
+
+function FarmingPartyLoot:AddEventHandlers()    
+    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_LOOT_RECEIVED, function(...)self:OnItemLooted(...) end)
+    FarmingPartySettings:GetSettings().status = FarmingParty.Settings.TRACKING_STATUS.ENABLED
+end
+
+function FarmingPartyLoot:RemoveEventHandlers()
+    EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_LOOT_RECEIVED)
+    FarmingPartySettings:GetSettings().status = FarmingParty.Settings.TRACKING_STATUS.DISABLED    
 end
 
 -- EVENT_LOOT_RECEIVED

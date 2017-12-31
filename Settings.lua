@@ -7,6 +7,10 @@ if not LAM2 then return end
 FarmingPartySettings = ZO_Object:Subclass()
 
 local settings = nil
+FarmingPartySettings.TRACKING_STATUS = {
+    ENABLED = 'ENABLED',
+    DISABLED = 'DISABLED',
+}
 
 function FarmingPartySettings:New()
     local obj = ZO_Object.New(self)
@@ -28,6 +32,7 @@ function FarmingPartySettings:Initialize()
         manualHighscoreReset = true,
         window = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 0, width = 650, height = 150},
         itemsWindow = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 150, width = 650, height = 150},
+        status = FarmingPartySettings.TRACKING_STATUS.ENABLED,
     }
     
     --

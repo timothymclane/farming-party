@@ -12,8 +12,6 @@ local members = {}
 local saveData = {}
 
 function FarmingPartyMemberList:Initialize()
-    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
-    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
     saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", RELEASE_COUNT, nil, {members = {}})
     FarmingParty.Modules.Members = FarmingPartyMembers:New(saveData)
     members = FarmingParty.Modules.Members
@@ -33,7 +31,23 @@ function FarmingPartyMemberList:Initialize()
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
+    if (settings.status == FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
+        self:AddEventHandlers()
+    end
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
+end
+
+-- I should handle this with callbacks from the settings, if possible
+function FarmingPartyMemberList:AddEventHandlers()
+    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
+    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
+    FarmingPartySettings:GetSettings().status = FarmingParty.Settings.TRACKING_STATUS.ENABLED
+end
+
+function FarmingPartyMemberList:RemoveEventHandlers()
+    EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED)
+    EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT)
+    FarmingPartySettings:GetSettings().status = FarmingParty.Settings.TRACKING_STATUS.DISABLED
 end
 
 function FarmingPartyMemberList:Finalize()
@@ -45,6 +59,7 @@ function FarmingPartyMemberList:Finalize()
     settings.window.width = FarmingPartyMembersWindow:GetWidth()
     settings.window.height = FarmingPartyMembersWindow:GetHeight()
     saveData.members = members:GetCleanMembers()
+    self:RemoveEventHandlers()
 end
 
 function FarmingPartyMemberList:GetWindowTransparency()
@@ -147,7 +162,7 @@ function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
     local memberName = GetControl(rowControl, "Farmer")
     local bestItem = GetControl(rowControl, "BestItemName")
     local totalValue = GetControl(rowControl, "TotalValue")
-
+    
     memberId:SetText(data.id)
     memberName:SetText(data.displayName)
     bestItem:SetText(data.bestItem.itemLink)

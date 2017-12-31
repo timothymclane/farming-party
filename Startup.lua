@@ -41,8 +41,8 @@ end
 function FarmingParty:Initialize()
     self.Modules.MemberList = FarmingPartyMemberList:New()
     self.Modules.Logger = FarmingPartyLogger:New()
-    self.Modules.Loot = FarmingPartyLoot:New()
     self.Modules.MemberItems = FarmingPartyMemberItems:New()
+    self.Modules.Loot = FarmingPartyLoot:New()
     FarmingParty:ConsoleCommands()
 end
 
@@ -50,14 +50,40 @@ function FarmingParty:ConsoleCommands()
     -- Print all available commands to chat
     SLASH_COMMANDS["/fphelp"] = function()
         d("-- Farming Party commands --")
-        d("/fp         Show or hide the highscore window.")
-        d("/fpc        Puts high score output into the chat box.")
-        d("/fpreset    Resets all loot data.")
+        d("/fp                  Show or hide the highscore window.")
+        d("/fp [start||stop]    Start or stop loot tracking.")
+        d("/fp [status]         Show loot tracking status.")
+        d("/fpc                 Puts high score output into the chat box.")
+        d("/fpreset             Resets all loot data.")
     end
 
     -- Toggle the highscore window
-    SLASH_COMMANDS["/fp"] = function()
-        self.Modules.MemberList:ToggleMembersWindow()
+    SLASH_COMMANDS["/fp"] = function(param)
+        local trimmedParam = string.gsub(param, "%s$", "")
+        if(trimmedParam == "") then
+            self.Modules.MemberList:ToggleMembersWindow()            
+        elseif (trimmedParam == 'start') then
+            if (FarmingParty.Settings:GetSettings().status == FarmingParty.Settings.TRACKING_STATUS.DISABLED) then
+                self.Modules.MemberList:AddEventHandlers()
+                self.Modules.Loot:AddEventHandlers()
+            end
+            d("[Farming Party]: Tracking looted items")
+        elseif (trimmedParam == 'stop' or trimmedParam == 'pause') then
+            if (FarmingParty.Settings:GetSettings().status == FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
+                self.Modules.MemberList:RemoveEventHandlers()
+                self.Modules.Loot:RemoveEventHandlers()
+            end
+            d("[Farming Party]: Not tracking looted items")
+        elseif (trimmedParam == 'status') then
+            if (FarmingParty.Settings:GetSettings().status== FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
+                d("[Farming Party]: Tracking is on")
+            else
+                d("[Farming Party]: Tracking is off")
+            end
+        else
+            d(string.format('Invalid parameter %s.', trimmedParam))
+            SLASH_COMMANDS["/fphelp"]()
+        end
     end
 
     SLASH_COMMANDS["/fpc"] = function()
