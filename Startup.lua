@@ -46,22 +46,29 @@ function FarmingParty:Initialize()
     FarmingParty:ConsoleCommands()
 end
 
+function FarmingParty:Reset()
+    self.Modules.MemberList:Reset()
+    d("[Farming Party] Tracking data has been reset")
+end
+
 function FarmingParty:ConsoleCommands()
     -- Print all available commands to chat
     SLASH_COMMANDS["/fphelp"] = function()
         d("-- Farming Party commands --")
         d("/fp                  Show or hide the highscore window.")
+        d("/fp reset            Resets all loot data.")
         d("/fp [start||stop]    Start or stop loot tracking.")
         d("/fp [status]         Show loot tracking status.")
         d("/fpc                 Puts high score output into the chat box.")
-        d("/fpreset             Resets all loot data.")
     end
 
     -- Toggle the highscore window
     SLASH_COMMANDS["/fp"] = function(param)
-        local trimmedParam = string.gsub(param, "%s$", "")
+        local trimmedParam = string.gsub(param, "%s$", ""):lower()
         if(trimmedParam == "") then
-            self.Modules.MemberList:ToggleMembersWindow()            
+            self.Modules.MemberList:ToggleMembersWindow()
+        elseif (trimmedParam == 'reset') then
+            self:Reset()
         elseif (trimmedParam == 'start') then
             if (FarmingParty.Settings:Status() == FarmingParty.Settings.TRACKING_STATUS.DISABLED) then
                 self.Modules.MemberList:AddEventHandlers()
@@ -90,12 +97,6 @@ function FarmingParty:ConsoleCommands()
 
     SLASH_COMMANDS["/fpm"] = function()
         FarmingPartyMemberItems:ToggleWindow()
-    end
-
-    -- Reset all stats from the .member table
-    SLASH_COMMANDS["/fpreset"] = function()
-        self.Modules.MemberList:Reset()
-        d("Farming Party has been reset")
     end
 end
 
