@@ -67,13 +67,11 @@ function FarmingParty:ConsoleCommands()
                 self.Modules.MemberList:AddEventHandlers()
                 self.Modules.Loot:AddEventHandlers()
             end
-            d("[Farming Party]: Tracking looted items")
+            d("[Farming Party]: Tracking is on")
         elseif (trimmedParam == 'stop' or trimmedParam == 'pause') then
-            if (FarmingParty.Settings:GetSettings().status == FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
-                self.Modules.MemberList:RemoveEventHandlers()
-                self.Modules.Loot:RemoveEventHandlers()
-            end
-            d("[Farming Party]: Not tracking looted items")
+            self.Modules.MemberList:RemoveEventHandlers()
+            self.Modules.Loot:RemoveEventHandlers()
+            d("[Farming Party]: Tracking is off")
         elseif (trimmedParam == 'status') then
             if (FarmingParty.Settings:GetSettings().status== FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
                 d("[Farming Party]: Tracking is on")
