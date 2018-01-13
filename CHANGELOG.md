@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 - `/fpreset` command to `/fp reset`
 ### Fixed
-- Issue where tracking would not turn off even when user 
+- Issue where tracking would not turn off even when user ran pause or stop command
 - Instances where settings were not shared across modules
 
 ## [1.3.0] - 2018-01-01
