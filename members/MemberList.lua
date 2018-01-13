@@ -10,28 +10,29 @@ end
 local listContainer
 local members = {}
 local saveData = {}
+local Settings
 
 function FarmingPartyMemberList:Initialize()
     saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", RELEASE_COUNT, nil, {members = {}})
     FarmingParty.Modules.Members = FarmingPartyMembers:New(saveData)
     members = FarmingParty.Modules.Members
     FarmingPartyMembersWindow:ClearAnchors()
-    local settings = FarmingPartySettings:GetSettings()
+    Settings = FarmingParty.Settings
     FarmingPartyMembersWindow:SetAnchor(
         TOPLEFT,
         GuiRoot,
         TOPLEFT,
-        settings.window.positionLeft,
-        settings.window.positionTop
+        Settings:Window().positionLeft,
+        Settings:Window().positionTop
     )
-    FarmingPartyMembersWindow:SetDimensions(settings.window.width, settings.window.height)
+    FarmingPartyMembersWindow:SetDimensions(Settings:Window().width, Settings:Window().height)
     FarmingPartyMembersWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
     FarmingPartyMemberList:SetWindowTransparency()
     FarmingPartyMemberList:SetWindowBackgroundTransparency()
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
-    if (settings.status == FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
+    if (Settings.Status() == Settings.TRACKING_STATUS.ENABLED) then
         self:AddEventHandlers()
     end
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
@@ -41,52 +42,48 @@ end
 function FarmingPartyMemberList:AddEventHandlers()
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED, function(...)self:OnMemberJoined(...) end)
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT, function(...)self:OnMemberLeft(...) end)
-    FarmingPartySettings:GetSettings().status = FarmingParty.Settings.TRACKING_STATUS.ENABLED
+    Settings:ToggleStatusValue(Settings.TRACKING_STATUS.ENABLED)
 end
 
 function FarmingPartyMemberList:RemoveEventHandlers()
     EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_JOINED)
     EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_GROUP_MEMBER_LEFT)
-    FarmingPartySettings:GetSettings().status = FarmingParty.Settings.TRACKING_STATUS.DISABLED
+    Settings:ToggleStatusValue(Settings.TRACKING_STATUS.DISABLED)
 end
 
 function FarmingPartyMemberList:Finalize()
     local _, _, _, _, offsetX, offsetY = FarmingPartyMembersWindow:GetAnchor(0)
     
-    local settings = FarmingPartySettings:GetSettings()
-    settings.window.positionLeft = FarmingPartyMembersWindow:GetLeft()
-    settings.window.positionTop = FarmingPartyMembersWindow:GetTop()
-    settings.window.width = FarmingPartyMembersWindow:GetWidth()
-    settings.window.height = FarmingPartyMembersWindow:GetHeight()
+    Settings:Window().positionLeft = FarmingPartyMembersWindow:GetLeft()
+    Settings:Window().positionTop = FarmingPartyMembersWindow:GetTop()
+    Settings:Window().width = FarmingPartyMembersWindow:GetWidth()
+    Settings:Window().height = FarmingPartyMembersWindow:GetHeight()
     saveData.members = members:GetCleanMembers()
     self:RemoveEventHandlers()
 end
 
 function FarmingPartyMemberList:GetWindowTransparency()
-    return settings.window.transparency
+    return Settings:Window().transparency
 end
 
 function FarmingPartyMemberList:SetWindowTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
     if value ~= nil then
-        settings.window.transparency = value
+        Settings:Window().transparency = value
     end
-    FarmingPartyMembersWindow:SetAlpha(settings.window.transparency / 100)
+    FarmingPartyMembersWindow:SetAlpha(Settings:Window().transparency / 100)
 end
 
 function FarmingPartyMemberList:SetWindowBackgroundTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
     if value ~= nil then
-        settings.window.backgroundTransparency = value
+        Settings:Window().backgroundTransparency = value
     end
-    FarmingPartyMembersWindow:GetNamedChild("BG"):SetAlpha(settings.window.backgroundTransparency / 100)
+    FarmingPartyMembersWindow:GetNamedChild("BG"):SetAlpha(Settings:Window().backgroundTransparency / 100)
 end
 
 function FarmingPartyMemberList:WindowResizeHandler(control)
     local width, height = control:GetDimensions()
-    local settings = FarmingPartySettings:GetSettings()
-    settings.window.width = width
-    settings.window.height = height
+    Settings:Window().width = width
+    Settings:Window().height = height
     
     local scrollData = ZO_ScrollList_GetDataList(listContainer)
     ZO_ScrollList_Commit(listContainer)

@@ -63,7 +63,7 @@ function FarmingParty:ConsoleCommands()
         if(trimmedParam == "") then
             self.Modules.MemberList:ToggleMembersWindow()            
         elseif (trimmedParam == 'start') then
-            if (FarmingParty.Settings:GetSettings().status == FarmingParty.Settings.TRACKING_STATUS.DISABLED) then
+            if (FarmingParty.Settings:Status() == FarmingParty.Settings.TRACKING_STATUS.DISABLED) then
                 self.Modules.MemberList:AddEventHandlers()
                 self.Modules.Loot:AddEventHandlers()
             end
@@ -73,7 +73,7 @@ function FarmingParty:ConsoleCommands()
             self.Modules.Loot:RemoveEventHandlers()
             d("[Farming Party]: Tracking is off")
         elseif (trimmedParam == 'status') then
-            if (FarmingParty.Settings:GetSettings().status== FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
+            if (FarmingParty.Settings:Status() == FarmingParty.Settings.TRACKING_STATUS.ENABLED) then
                 d("[Farming Party]: Tracking is on")
             else
                 d("[Farming Party]: Tracking is off")

@@ -208,6 +208,18 @@ function FarmingPartySettings:DisplayLootValue()
     return settings.displayLootValue
 end
 
+function FarmingPartySettings:Status()
+    return settings.status
+end
+
+function FarmingPartySettings:Window()
+    return settings.window
+end
+
+function FarmingPartySettings:ItemsWindow()
+    return settings.itemsWindow
+end
+
 function FarmingPartySettings:MoveStart()
     FarmingPartyWindowBG:SetAlpha(0.5)
     FarmingPartyWindowBuffer:ShowFadedLines()
@@ -272,4 +284,8 @@ end
 
 function FarmingPartySettings:ToggleLootValue(value)
     settings.displayLootValue = value
+end
+
+function FarmingPartySettings:ToggleStatusValue(value)
+    settings.status = value
 end

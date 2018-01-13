@@ -2,6 +2,7 @@ local listContainer
 FarmingPartyMemberItems = ZO_Object:Subclass()
 local memberKey = GetUnitName("player")
 local members = {}
+local Settings
 
 function FarmingPartyMemberItems:New()
     local obj = ZO_Object.New(self)
@@ -15,15 +16,15 @@ function FarmingPartyMemberItems:Initialize()
     members = FarmingParty.Modules.Members    
     
     FarmingPartyMemberItemsWindow:ClearAnchors()
-    local settings = FarmingPartySettings:GetSettings()
+    Settings = FarmingParty.Settings
     FarmingPartyMemberItemsWindow:SetAnchor(
         TOPLEFT,
         GuiRoot,
         TOPLEFT,
-        settings.itemsWindow.positionLeft,
-        settings.itemsWindow.positionTop
+        Settings:ItemsWindow().positionLeft,
+        Settings:ItemsWindow().positionTop
     )
-    FarmingPartyMemberItemsWindow:SetDimensions(settings.itemsWindow.width, settings.itemsWindow.height)
+    FarmingPartyMemberItemsWindow:SetDimensions(Settings:ItemsWindow().width, Settings:ItemsWindow().height)
     self:SetWindowTransparency()
     self:SetWindowBackgroundTransparency()
     
@@ -36,11 +37,10 @@ end
 function FarmingPartyMemberItems:Finalize()
     local _, _, _, _, offsetX, offsetY = FarmingPartyMemberItemsWindow:GetAnchor(0)
     
-    local settings = FarmingPartySettings:GetSettings()
-    settings.itemsWindow.positionLeft = FarmingPartyMemberItemsWindow:GetLeft()
-    settings.itemsWindow.positionTop = FarmingPartyMemberItemsWindow:GetTop()
-    settings.itemsWindow.width = FarmingPartyMemberItemsWindow:GetWidth()
-    settings.itemsWindow.height = FarmingPartyMemberItemsWindow:GetHeight()
+    Settings:ItemsWindow().positionLeft = FarmingPartyMemberItemsWindow:GetLeft()
+    Settings:ItemsWindow().positionTop = FarmingPartyMemberItemsWindow:GetTop()
+    Settings:ItemsWindow().width = FarmingPartyMemberItemsWindow:GetWidth()
+    Settings:ItemsWindow().height = FarmingPartyMemberItemsWindow:GetHeight()
 end
 
 function FarmingPartyMemberItems:SetupScrollList()
@@ -128,17 +128,15 @@ function FarmingPartyMemberItems:OpenWindow()
 end
 
 function FarmingPartyMemberItems:SetWindowTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
     if value ~= nil then
-        settings.itemsWindow.transparency = value
+        Settings:ItemsWindow().transparency = value
     end
-    FarmingPartyMemberItemsWindow:SetAlpha(settings.itemsWindow.transparency / 100)
+    FarmingPartyMemberItemsWindow:SetAlpha(Settings:ItemsWindow().transparency / 100)
 end
 
 function FarmingPartyMemberItems:SetWindowBackgroundTransparency(value)
-    local settings = FarmingPartySettings:GetSettings()
     if value ~= nil then
-        settings.itemsWindow.backgroundTransparency = value
+        Settings:ItemsWindow().backgroundTransparency = value
     end
-    FarmingPartyMemberItemsWindow:GetNamedChild("BG"):SetAlpha(settings.itemsWindow.backgroundTransparency / 100)
+    FarmingPartyMemberItemsWindow:GetNamedChild("BG"):SetAlpha(Settings:ItemsWindow().backgroundTransparency / 100)
 end
