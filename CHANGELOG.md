@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.0.0] - 2018-01-13
+### Changed
+- `/fpreset` command to `/fp reset`
+### Fixed
+- Issue where tracking would not turn off even when user 
+- Instances where settings were not shared across modules
+
 ## [1.3.0] - 2018-01-01
 ### Added
 - Items button and window to view all items looted by a particular member
