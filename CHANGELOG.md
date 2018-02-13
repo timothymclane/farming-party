@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.1.0] - 2018-02-12
+### Changed
+- Supported API version to 100022
+
 ## [2.0.0] - 2018-01-13
 ### Changed
 - `/fpreset` command to `/fp reset`

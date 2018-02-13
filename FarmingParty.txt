@@ -1,8 +1,8 @@
 ## Title: Farming Party
 ## Description: Displays the loot gathered by group members. Based upon Temeez's Group Loot.
 ## Author: Aldanga
-## Version: 2.0.0
-## APIVersion: 100021
+## Version: 2.1.0
+## APIVersion: 100022
 ## OptionalDependsOn: LibAddonMenu-2.0
 ## SavedVariables: FarmingPartyMemberList_db FarmingPartySettings_db
 
