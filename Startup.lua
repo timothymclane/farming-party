@@ -46,6 +46,17 @@ function FarmingParty:Initialize()
     FarmingParty:ConsoleCommands()
 end
 
+function FarmingParty:Prune()
+    self.Modules.MemberList:PruneMissingMembers()
+    d("[Farming Party] Members have been pruned")    
+end
+
+function FarmingParty:UpdateMembers()
+    self.Modules.MemberList:PruneMissingMembers()
+    self.Modules.MemberList:AddAllGroupMembers()
+    d("[Farming Party] Members have been updated")  
+end
+
 function FarmingParty:Reset()
     self.Modules.MemberList:Reset()
     d("[Farming Party] Tracking data has been reset")
@@ -56,9 +67,11 @@ function FarmingParty:ConsoleCommands()
     SLASH_COMMANDS["/fphelp"] = function()
         d("-- Farming Party commands --")
         d("/fp                  Show or hide the highscore window.")
+        d("/fp prune            Removes members no longer in group. (Useful when tracking is off and you want to remove members who have left.)")
         d("/fp reset            Resets all loot data.")
         d("/fp [start||stop]    Start or stop loot tracking.")
         d("/fp [status]         Show loot tracking status.")
+        d("/fp update           Adds or removes members to match current group. (Useful when tracking is off and you want to update the members.)")
         d("/fpc                 Puts high score output into the chat box.")
     end
 
@@ -67,6 +80,8 @@ function FarmingParty:ConsoleCommands()
         local trimmedParam = string.gsub(param, "%s$", ""):lower()
         if(trimmedParam == "") then
             self.Modules.MemberList:ToggleMembersWindow()
+        elseif (trimmedParam == 'prune') then
+            self:Prune()
         elseif (trimmedParam == 'reset') then
             self:Reset()
         elseif (trimmedParam == 'start') then
@@ -85,6 +100,10 @@ function FarmingParty:ConsoleCommands()
             else
                 d("[Farming Party]: Tracking is off")
             end
+        elseif (trimmedParam == 'update') then
+            self:UpdateMembers()
+        elseif (trimmedParam == 'help') then
+            SLASH_COMMANDS["/fphelp"]()
         else
             d(string.format('Invalid parameter %s.', trimmedParam))
             SLASH_COMMANDS["/fphelp"]()

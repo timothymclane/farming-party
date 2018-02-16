@@ -16,9 +16,9 @@ function FarmingPartyMemberList:Initialize()
     saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", RELEASE_COUNT, nil, {members = {}})
     FarmingParty.Modules.Members = FarmingPartyMembers:New(saveData)
     members = FarmingParty.Modules.Members
-
+    
     listContainer = FarmingPartyMembersWindow:GetNamedChild("List")
-
+    
     FarmingPartyMembersWindow:ClearAnchors()
     Settings = FarmingParty.Settings
     FarmingPartyMembersWindow:SetAnchor(
@@ -28,22 +28,21 @@ function FarmingPartyMemberList:Initialize()
         Settings:Window().positionLeft,
         Settings:Window().positionTop
     )
-
     FarmingPartyMembersWindow:SetDimensions(Settings:Window().width, Settings:Window().height)
     FarmingPartyMembersWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
     FarmingPartyMembersWindow.onResize = self.onResize
     
     FarmingPartyMemberList:SetWindowTransparency()
     FarmingPartyMemberList:SetWindowBackgroundTransparency()
-
+    
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
-
+    
     if (Settings.Status() == Settings.TRACKING_STATUS.ENABLED) then
         self:AddEventHandlers()
     end
-
+    
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
 
@@ -186,12 +185,10 @@ function FarmingPartyMemberList:Reset()
     self:AddAllGroupMembers()
 end
 
-function FarmingPartyMemberList:AddAllGroupMembers()
+function FarmingPartyMemberList:GetAllGroupMembers()
     local countMembers = GetGroupSize()
     local rawMembers = {}
-    local playerName = GetUnitName("player")
-    rawMembers[playerName] = UndecorateDisplayName(GetDisplayName("player"))
-    
+    rawMembers[GetUnitName("player")] = UndecorateDisplayName(GetDisplayName("player"))
     -- Get list of member names in current group
     for i = 1, countMembers do
         local unitTag = GetGroupUnitTagByIndex(i)
@@ -202,9 +199,28 @@ function FarmingPartyMemberList:AddAllGroupMembers()
             end
         end
     end
+    return rawMembers
+end
+
+function FarmingPartyMemberList:RemoveMissingMembers(currentGroupMembers)
+    local savedMembers = members:GetMembers()
+    for name, displayName in pairs(savedMembers) do
+        if currentGroupMembers[name] == nil then
+            members:DeleteMember(name)
+        end
+    end
+end
+
+function FarmingPartyMemberList:PruneMissingMembers()
+    local membersInGroup = self:GetAllGroupMembers()
+    self:RemoveMissingMembers(membersInGroup)
+end
+
+function FarmingPartyMemberList:AddAllGroupMembers()
+    local membersInGroup = self:GetAllGroupMembers()
     
     -- Add all missing members
-    for name, displayName in pairs(rawMembers) do
+    for name, displayName in pairs(membersInGroup) do
         if not members:HasMember(name) then
             local newMember = members:NewMember(name, displayName)
             members:SetMember(name, newMember)
