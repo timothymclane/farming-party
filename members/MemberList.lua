@@ -68,7 +68,6 @@ function FarmingPartyMemberList:Finalize()
     Settings:Window().width = FarmingPartyMembersWindow:GetWidth()
     Settings:Window().height = FarmingPartyMembersWindow:GetHeight()
     saveData.members = members:GetCleanMembers()
-    self:RemoveEventHandlers()
 end
 
 function FarmingPartyMemberList:GetWindowTransparency()
