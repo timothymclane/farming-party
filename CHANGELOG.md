@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.2.0] - 2018-02-16
+### Added
+- Ability to prune members no longer in group—useful when you want to clean up the list when tracking is off.
+### Fixed
+- Various UI and layout bugs
+- Issue where tracking status would not persist between reloads
+
 ## [2.1.0] - 2018-02-12
 ### Changed
 - Supported API version to 100022
