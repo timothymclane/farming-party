@@ -6,6 +6,9 @@
         if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then
           self.currentWidth = w
           self.currentHeight = h
+          if(self.onResize) then
+            self.onResize()
+          end
         end
       </OnUpdate>
       <DimensionConstraints minX="660" minY="150" />

@@ -1,5 +1,10 @@
 local RELEASE_COUNT = 3
 
+local listContainer
+local members = {}
+local saveData = {}
+local Settings
+
 FarmingPartyMemberList = ZO_Object:Subclass()
 function FarmingPartyMemberList:New()
     local obj = ZO_Object.New(self)
@@ -7,15 +12,13 @@ function FarmingPartyMemberList:New()
     return obj
 end
 
-local listContainer
-local members = {}
-local saveData = {}
-local Settings
-
 function FarmingPartyMemberList:Initialize()
     saveData = ZO_SavedVars:New("FarmingPartyMemberList_db", RELEASE_COUNT, nil, {members = {}})
     FarmingParty.Modules.Members = FarmingPartyMembers:New(saveData)
     members = FarmingParty.Modules.Members
+
+    listContainer = FarmingPartyMembersWindow:GetNamedChild("List")
+
     FarmingPartyMembersWindow:ClearAnchors()
     Settings = FarmingParty.Settings
     FarmingPartyMembersWindow:SetAnchor(
@@ -25,16 +28,22 @@ function FarmingPartyMemberList:Initialize()
         Settings:Window().positionLeft,
         Settings:Window().positionTop
     )
+
     FarmingPartyMembersWindow:SetDimensions(Settings:Window().width, Settings:Window().height)
     FarmingPartyMembersWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
+    FarmingPartyMembersWindow.onResize = self.onResize
+    
     FarmingPartyMemberList:SetWindowTransparency()
     FarmingPartyMemberList:SetWindowBackgroundTransparency()
+
     self:AddAllGroupMembers()
     self:SetupScrollList()
     self:UpdateScrollList()
+
     if (Settings.Status() == Settings.TRACKING_STATUS.ENABLED) then
         self:AddEventHandlers()
     end
+
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
 
@@ -113,7 +122,6 @@ function FarmingPartyMemberList:OnMemberLeft(event, memberName, reason, wasLocal
 end
 
 function FarmingPartyMemberList:SetupScrollList()
-    listContainer = FarmingPartyMembersWindow:GetNamedChild("List")
     ZO_ScrollList_AddResizeOnScreenResize(listContainer)
     ZO_ScrollList_AddDataType(
         listContainer,
@@ -164,6 +172,10 @@ function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
     memberName:SetText(data.displayName)
     bestItem:SetText(data.bestItem.itemLink)
     totalValue:SetText(FarmingParty.FormatNumber(data.totalValue, 2) .. 'g')
+end
+
+function FarmingPartyMemberList.onResize()
+    ZO_ScrollList_Commit(listContainer)
 end
 
 function FarmingPartyMemberList:ToggleMembersWindow()

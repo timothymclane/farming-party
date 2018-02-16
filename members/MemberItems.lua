@@ -1,9 +1,11 @@
+
+
 local listContainer
-FarmingPartyMemberItems = ZO_Object:Subclass()
 local memberKey = GetUnitName("player")
 local members = {}
 local Settings
 
+FarmingPartyMemberItems = ZO_Object:Subclass()
 function FarmingPartyMemberItems:New()
     local obj = ZO_Object.New(self)
     self:Initialize()
@@ -11,9 +13,10 @@ function FarmingPartyMemberItems:New()
 end
 
 function FarmingPartyMemberItems:Initialize()
+
+    members = FarmingParty.Modules.Members
+
     listContainer = FarmingPartyMemberItemsWindow:GetNamedChild("List")
-    FarmingPartyMemberItemsWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
-    members = FarmingParty.Modules.Members    
     
     FarmingPartyMemberItemsWindow:ClearAnchors()
     Settings = FarmingParty.Settings
@@ -24,13 +27,18 @@ function FarmingPartyMemberItems:Initialize()
         Settings:ItemsWindow().positionLeft,
         Settings:ItemsWindow().positionTop
     )
+
     FarmingPartyMemberItemsWindow:SetDimensions(Settings:ItemsWindow().width, Settings:ItemsWindow().height)
+    FarmingPartyMemberItemsWindow:SetHandler("OnResizeStop", function(...)self:WindowResizeHandler(...) end)
+    FarmingPartyMemberItemsWindow.onResize = self.onResize
+
     self:SetWindowTransparency()
     self:SetWindowBackgroundTransparency()
     
     self:SetTitle()
     self:SetupScrollList()
     self:UpdateScrollList()
+    
     members:RegisterCallback("OnKeysUpdated", self.UpdateScrollList)
 end
 
@@ -98,7 +106,16 @@ function FarmingPartyMemberItems:SetupItemRow(rowControl, rowData)
     totalValue:SetText(FarmingParty.FormatNumber(data.totalValue, 2) .. 'g')
 end
 
+function FarmingPartyMemberItems.onResize()
+    ZO_ScrollList_Commit(listContainer)
+end
+
 function FarmingPartyMemberItems:WindowResizeHandler(control)
+    local width, height = control:GetDimensions()
+    Settings:ItemsWindow().width = width
+    Settings:ItemsWindow().height = height
+    
+    local scrollData = ZO_ScrollList_GetDataList(listContainer)
     ZO_ScrollList_Commit(listContainer)
 end
 

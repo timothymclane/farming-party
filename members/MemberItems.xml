@@ -2,12 +2,15 @@
   <Controls>
     <TopLevelControl name="FarmingPartyMemberItemsWindow" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="true" resizeHandleSize="8" tier="MEDIUM">
       <OnUpdate>
-      local w, h = self:GetDimensions()
-      if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then
-        self.currentWidth = w
-        self.currentHeight = h
-      end
-    </OnUpdate>
+        local w, h = self:GetDimensions()
+        if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then
+          self.currentWidth = w
+          self.currentHeight = h
+          if(self.onResize) then
+            self.onResize()
+          end
+        end
+      </OnUpdate>
       <DimensionConstraints minX="550" minY="150" />
       <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
       <OnMoveStop>
@@ -23,20 +26,30 @@
           FarmingPartyMemberItemsWindow:SetHidden(true)
         </OnClicked>
         </Button>
-        <Label name="$(parent)Title" font="ZoFontHeader3" height="25" inheritAlpha="true" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Items">
+        <Label name="$(parent)Title" font="ZoFontHeader3" height="25" inheritAlpha="true" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" verticalAlignment="TOP" horizontalAlignment="CENTER" text="Farming Party Members">
           <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="-10" offsetY="5" />
         </Label>
         <Control name="$(parent)Headers">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="53" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="10" offsetY="51" />
           <Dimensions y="32" />
           <Controls>
-            <Control name="$(parent)BestItemName" mouseEnabled="true">
-              <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="15" />
-              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" />
+            <Control name="$(parent)Item" mouseEnabled="true">
+              <Anchor point="TOPLEFT" offsetX="15"/>
               <Dimensions x="200" y="32" />
               <Controls>
-                <Label name="$(parent)Name" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Best Item">
-                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT" offsetX="15" />
+                <Label name="$(parent)Name" font="ZoFontGame" color="3689EF" modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Item">
+                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+                  <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+                </Label>
+              </Controls>
+            </Control>
+            <Control name="$(parent)Count" mouseEnabled="true">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)Item" relativePoint="TOPRIGHT" offsetX="40" />
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Item" relativePoint="BOTTOMRIGHT" offsetX="40" />
+              <Dimensions x="100" y="32" />
+              <Controls>
+                <Label name="$(parent)Value" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" modifyTextType="NONE" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="Count">
+                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
                   <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
                 </Label>
               </Controls>
@@ -47,22 +60,12 @@
                 <!-- ClearTooltip(InformationTooltip) -->
               </OnMouseExit>
             </Control>
-            <Control name="$(parent)Count">
-              <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="112" />
-              <Dimensions x="100" y="32" />
-              <Controls>
-                <Label name="$(parent)Count" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Count">
-                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT" />
-                  <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
-                </Label>
-              </Controls>
-            </Control>
             <Control name="$(parent)TotalValue">
-              <Anchor point="TOPLEFT" relativeTo="$(parent)Count" relativePoint="TOPRIGHT" offsetX="10" />
+              <Anchor point="TOPLEFT" relativeTo="$(parent)Count" relativePoint="TOPRIGHT" offsetX="40" />
               <Dimensions x="100" y="32" />
               <Controls>
-                <Label name="$(parent)TotalValue" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" modifyTextType="NONE" horizontalAlignment="LEFT" verticalAlignment="CENTER" text="Total Value">
-                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT" offsetX="-2"/>
+                <Label name="$(parent)TotalValue" font="ZoFontGame" color="INTERFACE_COLOR_TYPE_TEXT_COLORS:INTERFACE_TEXT_COLOR_NORMAL" modifyTextType="NONE" horizontalAlignment="RIGHT" verticalAlignment="CENTER" text="Total Value">
+                  <Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
                   <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
                 </Label>
               </Controls>
@@ -75,14 +78,17 @@
         </Control>
       </Controls>
     </TopLevelControl>
-
-    <!-- Full-size Data Row (virtual) -->
     <Control name="FarmingPartyItemDataRow" inherits="FarmingPartyListRow" virtual="true">
       <Controls>
-        <Control name="$(parent)ItemName" inherits="FarmingPartyItemColumn" inheritAlpha="true" mouseEnabled="true">
+        <!-- I don't know why I have to do this, but it's needed to ensure the item column has the correct height. -->
+        <Label name="$(parent)Farmer" hidden="true" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15" text="Farmer">
           <Dimensions x="200" />
           <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="15" offsetY="0"/>
-          <!-- <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="15" offsetY="0"/> -->
+        </Label>
+        <Control name="$(parent)ItemName" inherits="FarmingPartyItemColumn" inheritAlpha="true" mouseEnabled="true">
+          <Dimensions x="200" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPLEFT" offsetX="0" offsetY="0"/>
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0"/>
         </Control>
         <Label name="$(parent)Count" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="RIGHT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
           <Dimensions x="100" />
