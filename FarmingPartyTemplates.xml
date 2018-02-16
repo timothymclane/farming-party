@@ -1,0 +1,47 @@
+<GuiXml>
+    <Controls>            
+        <!-- Full-size Data Row (virtual) -->
+        <Control name="FarmingPartyListRow" virtual="true">
+            <Dimensions y="32" />
+            <Controls>
+            <Label name="$(parent)Index" inheritAlpha="true" verticalAlignment="TOP" horizontalAlignment="LEFT" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|12">
+                <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="-4"/>
+            </Label>
+            </Controls>
+        </Control>
+        <Control name="FarmingPartyItemColumn" virtual="true" inheritAlpha="true" mouseEnabled="true">
+            <Dimensions y="32" />
+            <!-- <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" offsetY="0"/><Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" offsetY="0"/> -->
+            <OnInitialized>
+            self.GetText = function(control)
+              return control:GetNamedChild("Link"):GetText()
+            end
+            self.SetText = function(control, text)
+                control:GetNamedChild("Link"):SetText(text)
+            end
+          </OnInitialized>
+            <OnMouseEnter>
+              if(string.len(self:GetText()) > 0) then
+                InitializeTooltip(ItemTooltip, self)
+                ItemTooltip:SetLink(self:GetText())
+              end
+          </OnMouseEnter>
+            <OnMouseExit>
+              if(string.len(self:GetText()) > 0) then
+                ClearTooltip(ItemTooltip)
+              end
+          </OnMouseExit>
+            <OnMouseUp>
+              if upInside then
+                  ZO_LinkHandler_OnLinkClicked(self:GetText(), button, self)
+              end
+          </OnMouseUp>
+            <Controls>
+                <Label name="$(parent)Link" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
+                    <Dimensions x="200" y="32" />
+                    <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="0" offsetY="0"/>
+                </Label>
+            </Controls>
+        </Control>
+    </Controls>
+</GuiXml>

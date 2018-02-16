@@ -30,4 +30,5 @@ logger/Logger.lua
 loot/Loot.lua
 Startup.lua
 Settings.lua
+FarmingPartyTemplates.xml
 FarmingParty.xml

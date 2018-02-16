@@ -2,12 +2,12 @@
   <Controls>
     <TopLevelControl name="FarmingPartyMembersWindow" movable="true" mouseEnabled="true" clampedToScreen="true" hidden="true" resizeHandleSize="8" tier="MEDIUM">
       <OnUpdate>
-      local w, h = self:GetDimensions()
-      if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then
-        self.currentWidth = w
-        self.currentHeight = h
-      end
-    </OnUpdate>
+        local w, h = self:GetDimensions()
+        if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then
+          self.currentWidth = w
+          self.currentHeight = h
+        end
+      </OnUpdate>
       <DimensionConstraints minX="660" minY="150" />
       <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
       <OnMoveStop>
@@ -76,36 +76,15 @@
           </Controls>
         </Control>
         <Control name="$(parent)List" inherits="ZO_ScrollList">
-          <DimensionConstraints minX="600" minY="50" />
           <Anchor point="TOPLEFT" relativeTo="$(parent)Headers" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="5"/>
-          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="0"/>
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="-5"/>
         </Control>
       </Controls>
     </TopLevelControl>
-    <!-- Full-size Data Row (virtual) -->
-    <Control name="FarmingPartyListRow" virtual="true">
-      <Dimensions y="30" />
-      <OnInitialized>
-        <!-- local headers = self:GetParent():GetParent():GetParent():GetNamedChild("Headers")
-            local headersName = headers:GetName()
 
-            for i = 1, headers:GetNumChildren() do
-                local header = headers:GetChild(i)
-
-                if ((header.key) and (header.key ~= "headerSettings")) then
-                    local column = header:GetName():gsub(headersName, "")
-                    self:GetNamedChild(column).header = header
-                end
-            end -->
-      </OnInitialized>
-      <Controls>
-        <Label name="$(parent)Index" inheritAlpha="true" verticalAlignment="TOP" horizontalAlignment="LEFT" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|12">
-          <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="-4"/>
-        </Label>
-      </Controls>
-    </Control>
     <Control name="FarmingPartyMemberDataRow" inherits="FarmingPartyListRow" virtual="true">
       <Controls>
+        <!-- <Texture name="$(parent)BG" inherits="ZO_ThinListBgStrip" /> -->
         <Control name="$(parent)FarmerId" hidden="true">
           <OnInitialized>
             self.GetText = function(control)
@@ -120,51 +99,21 @@
           </Controls>
         </Control>
         <Label name="$(parent)Farmer" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-          <Dimensions x="200" y="32" />
+          <Dimensions x="200" />
           <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="15" offsetY="0"/>
         </Label>
-        <Control name="$(parent)BestItemName" inheritAlpha="true" mouseEnabled="true">
-          <Dimensions x="200" y="32" />
+        <Control name="$(parent)BestItemName" inherits="FarmingPartyItemColumn" inheritAlpha="true" mouseEnabled="true">
+          <Dimensions x="200" />
           <Anchor point="TOPLEFT" relativeTo="$(parent)Farmer" relativePoint="TOPRIGHT" offsetX="60" offsetY="0"/>
           <Anchor point="BOTTOMLEFT" relativeTo="$(parent)Farmer" relativePoint="BOTTOMRIGHT" offsetX="60" offsetY="0"/>
-          <OnInitialized>
-            self.GetText = function(control)
-              return control:GetNamedChild("Link"):GetText()
-            end
-            self.SetText = function(control, text)
-                control:GetNamedChild("Link"):SetText(text)
-            end
-          </OnInitialized>
-          <OnMouseEnter>
-              if(string.len(self:GetText()) > 0) then
-                InitializeTooltip(ItemTooltip, self)
-                ItemTooltip:SetLink(self:GetText())
-              end
-          </OnMouseEnter>
-          <OnMouseExit>
-              if(string.len(self:GetText()) > 0) then
-                ClearTooltip(ItemTooltip)
-              end
-          </OnMouseExit>
-          <OnMouseUp>
-              if upInside then
-                  ZO_LinkHandler_OnLinkClicked(self:GetText(), button, self)
-              end
-          </OnMouseUp>
-          <Controls>
-            <Label name="$(parent)Link" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="LEFT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-              <Dimensions x="200" y="32" />
-              <Anchor point="LEFT" relativeTo="$(parent)" relativePoint="LEFT" offsetX="0" offsetY="0"/>
-            </Label>
-          </Controls>
         </Control>
         <Label name="$(parent)TotalValue" inheritAlpha="true" verticalAlignment="CENTER" horizontalAlignment="RIGHT" wrapMode="ELLIPSIS" font="EsoUI/Common/Fonts/ProseAntiquePSMT.otf|15">
-          <Dimensions x="100" y="32" />
+          <Dimensions x="100" />
           <Anchor point="TOPLEFT" relativeTo="$(parent)BestItemName" relativePoint="TOPRIGHT" offsetX="40" offsetY="0"/>
           <Anchor point="BOTTOMLEFT" relativeTo="$(parent)BestItemName" relativePoint="BOTTOMRIGHT" offsetX="40" offsetY="0"/>
         </Label>
         <Button name="$(parent)ViewItems">
-          <Dimensions x="20" y="8"/>
+          <Dimensions x="20" />
           <OnClicked>
               FarmingPartyMemberItems:SetAndToggle(self:GetParent():GetNamedChild("FarmerId"):GetText())
           </OnClicked>
