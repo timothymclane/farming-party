@@ -19,8 +19,20 @@ local function GetMMPrice(itemLink)
     end
 end
 
+local function GetTTCPrice(itemLink)
+    if (TamrielTradeCentrePrice == nil) then
+        return nil
+    end
+    local priceInfo = TamrielTradeCentrePrice:GetPriceInfo(itemLink)
+    if (priceInfo == nil) then
+        return priceInfo
+    else
+        return priceInfo.SuggestedPrice
+    end
+end
+
 local function GetItemPrice(itemLink)
-    local price = GetATTPrice(itemLink) or GetMMPrice(itemLink)
+    local price = GetATTPrice(itemLink) or GetMMPrice(itemLink) or GetTTCPrice(itemLink)
     if (price == nil or price == 0) then
         price = GetItemLinkValue(itemLink, true)
     end
