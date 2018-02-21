@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.3.0] - 2018-02-20
+### Added
+- Tamriel Trade Centre fallback when neither ATT nor MM are enabled
+
 ## [2.2.0] - 2018-02-16
 ### Added
 - Ability to prune members no longer in group—useful when you want to clean up the list when tracking is off.
