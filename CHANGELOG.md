@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.4.0] - 2018-02-23
+### Added
+- Key bind for toggling the highscore window
+
 ## [2.3.0] - 2018-02-20
 ### Added
 - Tamriel Trade Centre fallback when neither ATT nor MM are enabled

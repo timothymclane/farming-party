@@ -1,5 +1,5 @@
 local ADDON_NAME = "Farming Party"
-local ADDON_VERSION = "2.3.0"
+local ADDON_VERSION = "2.4.0"
 
 local LAM2 = LibStub("LibAddonMenu-2.0")
 if not LAM2 then return end
@@ -50,8 +50,8 @@ function FarmingPartySettings:Initialize()
     
     local panelData = {
         type = "panel",
-        name = "Farming Party",
-        displayName = "Farming Party",
+        name = ADDON_NAME,
+        displayName = ADDON_NAME,
         author = "Aldanga",
         version = ADDON_VERSION,
         slashCommand = "/fp",
