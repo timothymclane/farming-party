@@ -32,3 +32,4 @@ Startup.lua
 Settings.lua
 FarmingPartyTemplates.xml
 FarmingParty.xml
+Bindings.xml

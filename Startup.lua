@@ -26,6 +26,8 @@ function FarmingParty:OnAddOnLoaded(event, addonName)
         return
     end
 
+    ZO_CreateStringId("SI_BINDING_NAME_TOGGLE_SCOREBOARD", "Toggle Scoreboard")
+    
     EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_PLAYER_DEACTIVATED, OnPlayerDeactivated)
     EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_ADD_ON_LOADED)
     FarmingParty.Settings = FarmingPartySettings:New()

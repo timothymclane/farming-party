@@ -1,0 +1,9 @@
+<Bindings>
+  <Layer name="SI_KEYBINDINGS_LAYER_GENERAL" allowFallthrough="false">
+    <Category name="Farming Party">
+      <Action name="TOGGLE_SCOREBOARD">
+        <Down>FarmingPartyMemberList:ToggleMembersWindow()</Down>
+      </Action>
+    </Category>
+  </Layer>
+</Bindings>
