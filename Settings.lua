@@ -6,6 +6,8 @@ if not LAM2 then return end
 
 FarmingPartySettings = ZO_Object:Subclass()
 
+local qualityChoiceValues = {ITEM_QUALITY_TRASH, ITEM_QUALITY_NORMAL, ITEM_QUALITY_MAGIC, ITEM_QUALITY_ARCANE, ITEM_QUALITY_ARTIFACT, ITEM_QUALITY_LEGENDARY}
+
 local settings = nil
 FarmingPartySettings.TRACKING_STATUS = {
     ENABLED = 'ENABLED',
@@ -24,6 +26,7 @@ function FarmingPartySettings:Initialize()
             gear = false,
             motifs = false,
         },
+        minimumLootQuality = qualityChoiceValues[1],
         trackGroupLoot = true,
         trackSelfLoot = true,
         displayOnWindow = true,
@@ -72,6 +75,16 @@ function FarmingPartySettings:Initialize()
             width = "full",
         },
         {
+            type = "dropdown",
+            name = "Minimum Item Quality",
+            choices = {"Trash", "Normal", "Fine", "Superior", "Epic", "Legendary"},
+            choicesValues = qualityChoiceValues,
+            tooltip = "Minimum item quality tracked.",
+            getFunc = function() return self:MinimumLootQuality() end,
+            setFunc = function(value)self:ToggleMinimumLootQuality(value) end,
+            width = "full",
+            default = FarmingPartyDefaults.minimumLootQuality,
+        },
         {
             type = "checkbox",
             name = "Gear",
@@ -207,6 +220,10 @@ function FarmingPartySettings:GetSettings()
     return settings
 end
 
+function FarmingPartySettings:MinimumLootQuality()
+    return settings.minimumLootQuality
+end
+
 function FarmingPartySettings:TrackMotifLoot()
     return not settings.excludeFromTracking.motifs
 end
@@ -288,6 +305,10 @@ end
 Addon menu functions
 ]]
 --
+function FarmingPartySettings:ToggleMinimumLootQuality(value)
+    settings.minimumLootQuality = value
+end
+
 function FarmingPartySettings:ToggleTrackMotifLoot(value)
     settings.excludeFromTracking.motifs = not value
 end

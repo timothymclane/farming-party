@@ -84,16 +84,17 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
     if lootedByPlayer and not Settings:TrackSelfLoot() then return end
     local icon, sellPrice, meetsUsageRequirement, equipType, itemStyleId = GetItemLinkInfo(itemLink)
     local itemType = GetItemLinkItemType(itemLink)
+    local itemQuality = GetItemLinkQuality(itemLink)
 
     if equipType ~= NOT_EQUIPPABLE and not Settings:TrackGearLoot() then return end
     if itemType == ITEMTYPE_RACIAL_STYLE_MOTIF and not Settings:TrackMotifLoot() then return end
+    if itemQuality < Settings:MinimumLootQuality() then return end
     if (lootType == LOOT_TYPE_QUEST_ITEM) then return end
 
     local looterName = zo_strformat(SI_UNIT_NAME, name)
     local itemValue = GetItemPrice(itemLink)
     
     local lootMessage = nil
-    local itemQuality = GetItemLinkQuality(itemLink)
     local totalValue = FarmingParty.FormatNumber(itemValue * quantity, 2)--GetItemLinkValue(itemLink, true) * quantity
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
