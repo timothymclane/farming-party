@@ -30,7 +30,7 @@ function FarmingPartyLogger:LogLootItem(looterName, lootedByPlayer, itemLink, qu
     local lootMessage = ''
     if not lootedByPlayer then
         if not FarmingParty.Settings:DisplayGroupLoot() then return end
-        lootMessage = zo_strformat("|cFFFFFF<<C:1>>|r |c228B22received|r <<2>>", looterName, itemText)
+        lootMessage = zo_strformat("|cFFFFFF<<1>>|r |c228B22received|r <<2>>", looterName, itemText)
     else
         if not FarmingParty.Settings:DisplayOwnLoot() then return end
         lootMessage = zo_strformat("|c228B22Received|r <<1>>", itemText)

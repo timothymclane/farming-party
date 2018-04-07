@@ -93,7 +93,7 @@ function FarmingPartySettings:Initialize()
         {
             type = "checkbox",
             name = "Log own loot",
-            tooltip = "Show or hide loot the loot you get.",
+            tooltip = "Show or hide the loot you get.",
             getFunc = function() return settings.displayOwnLoot end,
             setFunc = function(value)self:ToggleOwnLoot(value) end,
             width = "full",
