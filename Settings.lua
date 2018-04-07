@@ -20,6 +20,10 @@ end
 
 function FarmingPartySettings:Initialize()
     local FarmingPartyDefaults = {
+        excludeFromTracking = {
+            gear = false,
+            motifs = false,
+        },
         trackGroupLoot = true,
         trackSelfLoot = true,
         displayOnWindow = true,
@@ -66,6 +70,25 @@ function FarmingPartySettings:Initialize()
             type = "header",
             name = "Loot Tracking",
             width = "full",
+        },
+        {
+        {
+            type = "checkbox",
+            name = "Gear",
+            tooltip = "Track gear items looted by group members.",
+            getFunc = function() return self:TrackGearLoot() end,
+            setFunc = function(value)self:ToggleTrackGearLoot(value) end,
+            width = "full",
+            default = FarmingPartyDefaults.excludeFromTracking.gear,
+        },
+        {
+            type = "checkbox",
+            name = "Motifs",
+            tooltip = "Track motifs looted by group members.",
+            getFunc = function() return self:TrackMotifLoot() end,
+            setFunc = function(value)self:ToggleTrackMotifLoot(value) end,
+            width = "full",
+            default = FarmingPartyDefaults.excludeFromTracking.motifs,
         },
         {
             type = "checkbox",
@@ -184,6 +207,14 @@ function FarmingPartySettings:GetSettings()
     return settings
 end
 
+function FarmingPartySettings:TrackMotifLoot()
+    return not settings.excludeFromTracking.motifs
+end
+
+function FarmingPartySettings:TrackGearLoot()
+    return not settings.excludeFromTracking.gear
+end
+
 function FarmingPartySettings:TrackGroupLoot()
     return settings.trackGroupLoot
 end
@@ -257,6 +288,14 @@ end
 Addon menu functions
 ]]
 --
+function FarmingPartySettings:ToggleTrackMotifLoot(value)
+    settings.excludeFromTracking.motifs = not value
+end
+
+function FarmingPartySettings:ToggleTrackGearLoot(value)
+    settings.excludeFromTracking.gear = not value
+end
+
 function FarmingPartySettings:ToggleTrackGroupLoot(value)
     settings.trackGroupLoot = value
 end
