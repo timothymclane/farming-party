@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.5.0] - 2018-04-07
+### Added
+- Exclusion options for gear and motifs from looted items
+- Option for minimum item quality for looted items
+### Fixed
+- Some verbiage issues
+
 ## [2.4.0] - 2018-02-23
 ### Added
 - Key bind for toggling the highscore window
