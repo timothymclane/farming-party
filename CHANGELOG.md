@@ -7,9 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.6.0] - 2018-05-26
+### Changed
+- API version for Summerset chapter
+
 ## [2.5.0] - 2018-04-07
 ### Added
-- Exclusion options for gear and motifs from looted items
+- Options to exclude gear and motifs from looted items
 - Option for minimum item quality for looted items
 ### Fixed
 - Some verbiage issues
