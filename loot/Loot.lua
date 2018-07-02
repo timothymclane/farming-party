@@ -1,9 +1,13 @@
+local SECONDS_IN_DAY = 86400
+
 -- Local functions --
 local function GetATTPrice(itemLink)
     if (ArkadiusTradeTools == nil or ArkadiusTradeTools.Modules.Sales == nil) then
         return nil
     end
-    local itemPrice = ArkadiusTradeTools.Modules.Sales:GetAveragePricePerItem(itemLink)
+    local days = ArkadiusTradeToolsSalesData.settings.tooltips.days
+    local startingDate = GetTimeStamp() - (SECONDS_IN_DAY * days)
+    local itemPrice = ArkadiusTradeTools.Modules.Sales:GetAveragePricePerItem(itemLink, startingDate)
     return itemPrice
 end
 
