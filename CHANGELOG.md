@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.7.0] - 2018-07-01
+### Changed
+- Arkadius' Trade Tools price queries to use the tooltip date range setting instead of the price from the last 30 days
+
 ## [2.6.0] - 2018-05-26
 ### Changed
 - API version for Summerset chapter
