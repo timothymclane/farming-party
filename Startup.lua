@@ -50,18 +50,18 @@ end
 
 function FarmingParty:Prune()
     self.Modules.MemberList:PruneMissingMembers()
-    d("[Farming Party] Members have been pruned")    
+    d("[Farming Party]: Members have been pruned")    
 end
 
 function FarmingParty:UpdateMembers()
     self.Modules.MemberList:PruneMissingMembers()
     self.Modules.MemberList:AddAllGroupMembers()
-    d("[Farming Party] Members have been updated")  
+    d("[Farming Party]: Members have been updated")  
 end
 
 function FarmingParty:Reset()
     self.Modules.MemberList:Reset()
-    d("[Farming Party] Tracking data has been reset")
+    d("[Farming Party]: Tracking data has been reset")
 end
 
 function FarmingParty:ConsoleCommands()
