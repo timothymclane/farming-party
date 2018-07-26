@@ -20,7 +20,7 @@ end
 function FarmingPartyLogger:LogLootItem(looterName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
     local icon = GetItemIcon(itemLink, lootType, questItemIcon)
     local itemText
-    local itemValueText = FarmingParty.Settings:DisplayLootValue() and zo_strformat(' - |cFFFFFF<<1>>|r|t16:16:EsoUI/Art/currency/currency_gold.dds|t', totalValue) or ''
+    local itemValueText = FarmingParty.Settings:DisplayLootValue() and zo_strformat(' - |cFFFFFF<<1>>|r|t16:16:EsoUI/Art/currency/currency_gold.dds|t', FarmingParty.FormatNumber(totalValue, 2)) or ''
     if quantity == 1 then
         itemText = zo_strformat(icon .. itemLink .. itemValueText)
     else

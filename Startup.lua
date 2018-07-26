@@ -13,7 +13,7 @@ FarmingParty.DataTypes = {
 FarmingParty.SaveData = {}
 FarmingParty.Settings = {}
 FarmingParty.FormatNumber = function(num, numDecimalPlaces)
-        return string.format("%0." .. (numDecimalPlaces or 0) .. "f", num)
+        return ZO_LocalizeDecimalNumber(tonumber(string.format("%0." .. (numDecimalPlaces or 0) .. "f", num)))
     end
 
 local function OnPlayerDeactivated(eventCode)
