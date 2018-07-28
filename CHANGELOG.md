@@ -60,3 +60,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Serious (usually silent) bug/performance issue which occurred when a member looted an item
+
+[2.7.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.6.0...release%2Fv2.7.0
+[2.6.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.5.0...release%2Fv2.6.0
+[2.5.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.4.0...release%2Fv2.5.0
+[2.4.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.3.0...release%2Fv2.4.0
+[2.3.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.2.0...release%2Fv2.3.0
+[2.2.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.1.0...release%2Fv2.2.0
+[2.1.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.0.0...release%2Fv2.1.0
+[2.0.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv1.3.0...release%2Fv2.0.0
+[1.3.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv1.2.1...release%2Fv1.3.0
