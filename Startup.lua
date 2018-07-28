@@ -17,30 +17,30 @@ local DIGIT_GROUP_REPLACER = ","
 local DIGIT_GROUP_DECIMAL_REPLACER = "."
 local DIGIT_GROUP_REPLACER_THRESHOLD = zo_pow(10, GetDigitGroupingSize())
 
--- Because the ZOS function doesn't handle strings and I don't want to reparse the string later to require 2 decimal places
+-- Because the ZOS function doesn't handle strings and I don't want to reparse the string later to require 2 decimal places.
+-- Maybe I can use the ZOS function with some finagling, but I don't feel like doing that right now.
 function FP_LocalizeDecimalNumber(amount)
     -- Guards against negative 0 as a displayed numeric value
     if amount == 0 then
-        amount = 0
+        amount = "0"
     end
 
     local amountNumber = tonumber(amount)
-
     if amountNumber >= DIGIT_GROUP_REPLACER_THRESHOLD then
         -- We have a number like 10000.5, so localize the non-decimal digit group separators (e.g., 10000 becomes 10,000)
-        local decimalSeparatorIndex = zo_strfind(amount, "%"..DIGIT_GROUP_DECIMAL_REPLACER) -- Look for the literal separator
+        local decimalSeparatorIndex = zo_strfind(amount, "%" .. DIGIT_GROUP_DECIMAL_REPLACER) -- Look for the literal separator
         local decimalPartString = decimalSeparatorIndex and zo_strsub(amount, decimalSeparatorIndex) or ""
         local wholePartString = zo_strsub(amount, 1, decimalSeparatorIndex and decimalSeparatorIndex - 1)
 
-        amount = ZO_CommaDelimitNumber(tonumber(wholePartString))..decimalPartString
+        amount = ZO_CommaDelimitNumber(tonumber(wholePartString)) .. decimalPartString
     end
 
     return amount
 end
 
-FarmingParty.FormatNumber = function(num, numDecimalPlaces)
-        return FP_LocalizeDecimalNumber(string.format("%0." .. (numDecimalPlaces or 0) .. "f", num))
-    end
+function FarmingParty.FormatNumber(num, numDecimalPlaces)
+    return FP_LocalizeDecimalNumber(string.format("%0." .. (numDecimalPlaces or 0) .. "f", num))
+end
 
 local function OnPlayerDeactivated(eventCode)
     FarmingParty:Finalize()

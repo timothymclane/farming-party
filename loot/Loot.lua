@@ -99,7 +99,7 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
     local itemValue = GetItemPrice(itemLink)
     
     local lootMessage = nil
-    local totalValue = FarmingParty.FormatNumber(itemValue * quantity, 2)--GetItemLinkValue(itemLink, true) * quantity
+    local totalValue = itemValue * quantity
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
     
