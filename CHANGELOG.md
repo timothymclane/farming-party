@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.8.0] - 2018-07-28
+### Changed
+- Price formatting to use delimiters
+- Chat logging to make it more consistent
+
 ## [2.7.0] - 2018-07-01
 ### Changed
 - Arkadius' Trade Tools price queries to use the tooltip date range setting instead of the price from the last 30 days
@@ -61,6 +66,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Serious (usually silent) bug/performance issue which occurred when a member looted an item
 
+[2.8.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.7.0...release%2Fv2.8.0
 [2.7.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.6.0...release%2Fv2.7.0
 [2.6.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.5.0...release%2Fv2.6.0
 [2.5.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.4.0...release%2Fv2.5.0
