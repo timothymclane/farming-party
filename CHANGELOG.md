@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.9.0] - 2018-08-13
+### Added
+- Addon terms from ZOS
+### Changed
+- API version for Wolfhunter DLC
+
 ## [2.8.0] - 2018-07-28
 ### Changed
 - Price formatting to use delimiters
@@ -66,6 +72,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Serious (usually silent) bug/performance issue which occurred when a member looted an item
 
+[2.9.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.8.0...release%2Fv2.9.0
 [2.8.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.7.0...release%2Fv2.8.0
 [2.7.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.6.0...release%2Fv2.7.0
 [2.6.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.5.0...release%2Fv2.6.0
