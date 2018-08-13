@@ -2,7 +2,7 @@
 ## Description: Displays the loot gathered by group members. Originally based upon Temeez's Group Loot.
 ## Author: Aldanga
 ## Version: 2.8.0
-## APIVersion: 100023
+## APIVersion: 100024
 ## OptionalDependsOn: LibAddonMenu-2.0
 ## SavedVariables: FarmingPartyMemberList_db FarmingPartySettings_db
 
