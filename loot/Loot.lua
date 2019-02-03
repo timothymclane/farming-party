@@ -1,42 +1,7 @@
 local SECONDS_IN_DAY = 86400
 
--- Local functions --
-local function GetATTPrice(itemLink)
-    if (ArkadiusTradeTools == nil or ArkadiusTradeTools.Modules.Sales == nil) then
-        return nil
-    end
-    local days = ArkadiusTradeToolsSalesData.settings.tooltips.days
-    local startingDate = GetTimeStamp() - (SECONDS_IN_DAY * days)
-    local itemPrice = ArkadiusTradeTools.Modules.Sales:GetAveragePricePerItem(itemLink, startingDate)
-    return itemPrice
-end
-
-local function GetMMPrice(itemLink)
-    if (MasterMerchant == nil) then
-        return nil
-    end
-    local itemStats = MasterMerchant:itemStats(itemLink, false)
-    if (itemStats == nil) then
-        return itemStats
-    else
-        return itemStats.avgPrice
-    end
-end
-
-local function GetTTCPrice(itemLink)
-    if (TamrielTradeCentrePrice == nil) then
-        return nil
-    end
-    local priceInfo = TamrielTradeCentrePrice:GetPriceInfo(itemLink)
-    if (priceInfo == nil) then
-        return priceInfo
-    else
-        return priceInfo.SuggestedPrice
-    end
-end
-
 local function GetItemPrice(itemLink)
-    local price = GetATTPrice(itemLink) or GetMMPrice(itemLink) or GetTTCPrice(itemLink)
+    local price = LibPrice.ItemLinkToPriceGold(itemLink)
     if (price == nil or price == 0) then
         price = GetItemLinkValue(itemLink, true)
     end

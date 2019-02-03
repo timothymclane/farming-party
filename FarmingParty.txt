@@ -7,6 +7,7 @@
 ## Author: Aldanga
 ## Version: 2.9.0
 ## APIVersion: 100026
+## DependsOn: LibPrice
 ## OptionalDependsOn: LibAddonMenu-2.0
 ## SavedVariables: FarmingPartyMemberList_db FarmingPartySettings_db
 
