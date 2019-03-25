@@ -61,29 +61,28 @@ function FarmingPartySettings:Initialize()
             width = 650,
             height = 150
         },
-        status = FarmingPartySettings.TRACKING_STATUS.ENABLED,
+        status = self.TRACKING_STATUS.ENABLED,
         chatPrefix = "FARMING SCORES:"
     }
-
-    --
+    
     self.settings = ZO_SavedVars:New("FarmingPartySettings_db", 2, nil, FarmingPartyDefaults)
-    --
-    if not self.settings.displayOnWindow then
-        FarmingPartyWindow:SetHidden(not self.settings.displayOnWindow)
+
+    if not self:DisplayOnWindow() then
+        FarmingPartyWindow:SetHidden(true)
     end
     local sceneFragment = ZO_HUDFadeSceneFragment:New(FarmingPartyWindow)
     sceneFragment:SetConditional(
         function()
-            return self.settings.displayOnWindow
+            return self:DisplayOnWindow()
         end
     )
     HUD_SCENE:AddFragment(sceneFragment)
     HUD_UI_SCENE:AddFragment(sceneFragment)
-    --
+
     if self.settings.displayOnWindow then
         self:SetWindowValues()
     end
-
+    
     local panelData = {
         type = "panel",
         name = ADDON_NAME,
@@ -94,9 +93,9 @@ function FarmingPartySettings:Initialize()
         registerForRefresh = true,
         registerForDefaults = true
     }
-
+    
     LAM2:RegisterAddonPanel(ADDON_NAME .. "Panel", panelData)
-
+    
     local optionsTable = {
         {
             type = "header",
@@ -146,7 +145,7 @@ function FarmingPartySettings:Initialize()
             name = "Group members",
             tooltip = "Track items looted by group members.",
             getFunc = function()
-                return self.TrackGroupLoot()
+                return self:TrackGroupLoot()
             end,
             setFunc = function(value)
                 self:ToggleTrackGroupLoot(value)
@@ -310,7 +309,7 @@ function FarmingPartySettings:Initialize()
             width = "full"
         }
     }
-
+    
     LAM2:RegisterOptionControls(ADDON_NAME .. "Panel", optionsTable)
 end
 
@@ -340,6 +339,10 @@ end
 
 function FarmingPartySettings:DisplayInChat()
     return self.settings.displayOnChat
+end
+
+function FarmingPartySettings:DisplayOnWindow()
+    return self.settings.displayOnWindow
 end
 
 function FarmingPartySettings:DisplayOwnLoot()
@@ -384,18 +387,18 @@ end
 function FarmingPartySettings:SetWindowValues()
     local left = self.settings.positionLeft
     local top = self.settings.positionTop
-
+    
     FarmingPartyWindow:ClearAnchors()
     FarmingPartyWindow:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
     FarmingPartyWindow:SetAlpha(0.5)
     FarmingPartyWindowBG:SetAlpha(0)
     FarmingPartyWindow:SetHidden(false)
-
+    
     FarmingPartyWindowBuffer:ClearAnchors()
     FarmingPartyWindowBuffer:SetAnchor(TOP, FarmingPartyWindow, TOP, 0, 0)
     FarmingPartyWindowBuffer:SetWidth(400)
     FarmingPartyWindowBuffer:SetHeight(80)
-
+    
     --use the same font as in chat window
     local face = ZoFontEditChat:GetFontInfo()
     local fontSize = GetChatFontSize()

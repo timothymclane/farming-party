@@ -39,7 +39,7 @@ function FarmingPartyMemberList:Initialize()
     self:SetupScrollList()
     self:UpdateScrollList()
     
-    if (Settings.Status() == Settings.TRACKING_STATUS.ENABLED) then
+    if (Settings:Status() == Settings.TRACKING_STATUS.ENABLED) then
         self:AddEventHandlers()
     end
     
@@ -247,7 +247,7 @@ function FarmingPartyMemberList:PrintScoresToChat()
         array[#array + 1] = scoreData
     end
     table.sort(array, function(a, b) return a.totalValue > b.totalValue end)
-    local farmingScores = { [1] = Settings.ChatPrefix() }
+    local farmingScores = { [1] = Settings:ChatPrefix() }
     for _,farmer in ipairs(array) do
         farmingScores[#farmingScores+1] = BuildScoreString(farmer)
     end
