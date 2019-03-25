@@ -234,8 +234,11 @@ function FarmingPartyMemberList:ShowAllGroupMembers()
     d("Total value: " .. tostring(player.totalValue))
 end
 
+local function BuildScoreString(farmer)
+    return farmer.displayName .. ': ' .. FarmingParty.FormatNumber(farmer.totalValue, 2) .. 'g. '
+end
+
 function FarmingPartyMemberList:PrintScoresToChat()
-    local topScorers = 'FARMING SCORES: '
     local array = {}
     local groupMembers = members:GetKeys()
     for i = 1, #groupMembers do
@@ -244,8 +247,10 @@ function FarmingPartyMemberList:PrintScoresToChat()
         array[#array + 1] = scoreData
     end
     table.sort(array, function(a, b) return a.totalValue > b.totalValue end)
-    for i = 1, #array do
-        topScorers = topScorers .. array[i].displayName .. ': ' .. FarmingParty.FormatNumber(array[i].totalValue, 2) .. 'g. '
+    local farmingScores = { [1] = Settings.ChatPrefix() }
+    for _,farmer in ipairs(array) do
+        farmingScores[#farmingScores+1] = BuildScoreString(farmer)
     end
-    ZO_ChatWindowTextEntryEditBox:SetText(topScorers)
+    -- In an ideal scenario, we'd check the length of the string and split the message to prevent truncation.
+    StartChatInput(table.concat(farmingScores, ' '))
 end

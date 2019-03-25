@@ -40,6 +40,7 @@ function FarmingPartySettings:Initialize()
         window = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 0, width = 650, height = 150},
         itemsWindow = {transparency = 100, backgroundTransparency = 100, positionLeft = 0, positionTop = 150, width = 650, height = 150},
         status = FarmingPartySettings.TRACKING_STATUS.ENABLED,
+        chatPrefix = 'FARMING SCORES:',
     }
     
     --
@@ -210,7 +211,20 @@ function FarmingPartySettings:Initialize()
             setFunc = function(value)FarmingParty.Modules.MemberItems:SetWindowTransparency(value) end,
             width = "full",
             default = 0
-        }
+        },
+        {
+            type = "header",
+            name = "Chat Settings",
+            width = "full",
+        },
+        {
+            type = "editbox",
+            name = "Scores to Chat Prefix",
+            tooltip = "Change the text that's output before scores when using /fpc",
+            getFunc = function() return FarmingPartySettings:ChatPrefix() end,
+            setFunc = function(value) FarmingPartySettings:SetChatPrefix(value) end,
+            width = "full",
+        },
     }
     
     LAM2:RegisterOptionControls(ADDON_NAME .. "Panel", optionsTable)
@@ -254,6 +268,10 @@ end
 
 function FarmingPartySettings:DisplayLootValue()
     return settings.displayLootValue
+end
+
+function FarmingPartySettings:ChatPrefix()
+    return settings.chatPrefix
 end
 
 function FarmingPartySettings:Status()
@@ -348,4 +366,8 @@ end
 
 function FarmingPartySettings:ToggleStatusValue(value)
     settings.status = value
+end
+
+function FarmingPartySettings:SetChatPrefix(value)
+    settings.chatPrefix = value
 end
