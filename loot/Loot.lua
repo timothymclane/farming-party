@@ -47,7 +47,6 @@ function FarmingPartyLoot:RemoveEventHandlers()
     Settings:ToggleStatusValue(FarmingParty.Settings.TRACKING_STATUS.DISABLED)
 end
 
--- EVENT_LOOT_RECEIVED
 function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, itemSound, lootType, lootedByPlayer, isPickpocketLoot, questItemIcon, itemId)
     if not lootedByPlayer and not Settings:TrackGroupLoot() then return end
     if lootedByPlayer and not Settings:TrackSelfLoot() then return end

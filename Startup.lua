@@ -46,7 +46,6 @@ local function OnPlayerDeactivated(eventCode)
     FarmingParty:Finalize()
 end
 
--- EVENT_ADD_ON_LOADED
 function FarmingParty:OnAddOnLoaded(event, addonName)
     if (addonName ~= ADDON_NAME) then
         return
@@ -103,7 +102,6 @@ function FarmingParty:ConsoleCommands()
         d("/fpc                 Puts high score output into the chat box.")
     end
 
-    -- Toggle the highscore window
     SLASH_COMMANDS["/fp"] = function(param)
         local trimmedParam = string.gsub(param, "%s$", ""):lower()
         if(trimmedParam == "") then
@@ -147,7 +145,6 @@ function FarmingParty:ConsoleCommands()
     end
 end
 
--- Load the addon with this
 EVENT_MANAGER:RegisterForEvent(
     ADDON_NAME,
     EVENT_ADD_ON_LOADED,

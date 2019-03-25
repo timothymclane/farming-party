@@ -96,12 +96,10 @@ function FarmingPartyMemberList:WindowResizeHandler(control)
     ZO_ScrollList_Commit(listContainer)
 end
 
--- EVENT_GROUP_MEMBER_JOINED
 function FarmingPartyMemberList:OnMemberJoined(event, memberName)
     self:AddAllGroupMembers()
 end
 
--- EVENT_GROUP_MEMBER_LEFT
 function FarmingPartyMemberList:OnMemberLeft(event, memberName, reason, wasLocalPlayer)
     -- Disbanding a group counts as the local player leaving the group
     -- so we want to not remove their items if they're on the event
@@ -189,7 +187,7 @@ function FarmingPartyMemberList:GetAllGroupMembers()
     local countMembers = GetGroupSize()
     local rawMembers = {}
     rawMembers[GetUnitName("player")] = UndecorateDisplayName(GetDisplayName("player"))
-    -- Get list of member names in current group
+    
     for i = 1, countMembers do
         local unitTag = GetGroupUnitTagByIndex(i)
         if unitTag then

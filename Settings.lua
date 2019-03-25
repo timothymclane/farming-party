@@ -406,10 +406,6 @@ function FarmingPartySettings:SetWindowValues()
     FarmingPartyWindowBuffer:SetFont(zo_strjoin("|", face, fontSize, decoration))
 end
 
---[[
-Addon menu functions
-]]
---
 function FarmingPartySettings:ToggleMinimumLootQuality(value)
     self.settings.minimumLootQuality = value
 end
