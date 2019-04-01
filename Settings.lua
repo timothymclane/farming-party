@@ -61,15 +61,25 @@ function FarmingPartySettings:Initialize()
             width = 650,
             height = 150
         },
+        logWindow = {
+            backgroundTransparency = 100,
+            positionLeft = 0,
+            positionTop = 150,
+            width = 400,
+            height = 80
+        },
         status = self.TRACKING_STATUS.ENABLED,
         chatPrefix = "FARMING SCORES:"
     }
-    
+
     self.settings = ZO_SavedVars:New("FarmingPartySettings_db", 2, nil, FarmingPartyDefaults)
 
-    if not self:DisplayOnWindow() then
-        FarmingPartyWindow:SetHidden(true)
-    end
+    FarmingPartyWindow:SetHandler(
+        "OnResizeStop",
+        function(...)
+            FarmingParty:WindowResizeHandler(...)
+        end
+    )
     local sceneFragment = ZO_HUDFadeSceneFragment:New(FarmingPartyWindow)
     sceneFragment:SetConditional(
         function()
@@ -79,10 +89,8 @@ function FarmingPartySettings:Initialize()
     HUD_SCENE:AddFragment(sceneFragment)
     HUD_UI_SCENE:AddFragment(sceneFragment)
 
-    if self.settings.displayOnWindow then
-        self:SetWindowValues()
-    end
-    
+    self:SetWindowValues()
+
     local panelData = {
         type = "panel",
         name = ADDON_NAME,
@@ -93,9 +101,9 @@ function FarmingPartySettings:Initialize()
         registerForRefresh = true,
         registerForDefaults = true
     }
-    
+
     LAM2:RegisterAddonPanel(ADDON_NAME .. "Panel", panelData)
-    
+
     local optionsTable = {
         {
             type = "header",
@@ -231,8 +239,23 @@ function FarmingPartySettings:Initialize()
         },
         {
             type = "slider",
-            name = "Member window background transparency",
-            tooltip = "Change the transparency of the background of the member window",
+            name = "Loot window background opacity",
+            tooltip = "Change the opacity of the background of the loot window",
+            min = 0,
+            max = 100,
+            step = 5,
+            getFunc = function()
+                return self:GetSettings().logWindow.backgroundTransparency
+            end,
+            setFunc = function(value)
+                self:SetWindowBackgroundTransparency(value)
+            end,
+            width = "full"
+        },
+        {
+            type = "slider",
+            name = "Member window background opacity",
+            tooltip = "Change the opacity of the background of the member window",
             min = 0,
             max = 100,
             step = 5,
@@ -246,8 +269,8 @@ function FarmingPartySettings:Initialize()
         },
         {
             type = "slider",
-            name = "Member window transparency",
-            tooltip = "Change the transparency of the member window",
+            name = "Member window opacity",
+            tooltip = "Change the opacity of the member window",
             min = 0,
             max = 100,
             step = 5,
@@ -261,8 +284,8 @@ function FarmingPartySettings:Initialize()
         },
         {
             type = "slider",
-            name = "Member items window background transparency",
-            tooltip = "Change the transparency of the background of the member items window",
+            name = "Member items window background opacity",
+            tooltip = "Change the opacity of the background of the member items window",
             min = 0,
             max = 100,
             step = 5,
@@ -277,8 +300,8 @@ function FarmingPartySettings:Initialize()
         },
         {
             type = "slider",
-            name = "Member items window transparency",
-            tooltip = "Change the transparency of the member items window",
+            name = "Member items window opacity",
+            tooltip = "Change the opacity of the member items window",
             min = 0,
             max = 100,
             step = 5,
@@ -309,8 +332,17 @@ function FarmingPartySettings:Initialize()
             width = "full"
         }
     }
-    
+
     LAM2:RegisterOptionControls(ADDON_NAME .. "Panel", optionsTable)
+end
+
+function FarmingParty:WindowResizeHandler(control)
+    local width, height = control:GetDimensions()
+    FarmingPartySettings:GetSettings().width = width
+    FarmingPartySettings:GetSettings().height = height
+    local textBuffer = FarmingPartyWindow:GetNamedChild("Buffer")
+    textBuffer:SetHeight(height)
+    textBuffer:SetWidth(width)
 end
 
 function FarmingPartySettings:GetSettings()
@@ -373,37 +405,47 @@ function FarmingPartySettings:ItemsWindow()
     return self.settings.itemsWindow
 end
 
+-- All of the functions around the log window need to be moved to their own module
 function FarmingPartySettings:MoveStart()
-    FarmingPartyWindowBG:SetAlpha(0.5)
-    FarmingPartyWindowBuffer:ShowFadedLines()
+    FarmingPartyWindowBG:SetAlpha(1)
 end
 
 function FarmingPartySettings:MoveStop()
-    FarmingPartyWindowBG:SetAlpha(0)
-    self.settings.positionLeft = math.floor(FarmingPartyWindow:GetLeft())
-    self.settings.positionTop = math.floor(FarmingPartyWindow:GetTop())
+    FarmingPartyWindowBG:SetAlpha(self.settings.logWindow.backgroundTransparency)
+    self.settings.logWindow.positionLeft = math.floor(FarmingPartyWindow:GetLeft())
+    self.settings.logWindow.positionTop = math.floor(FarmingPartyWindow:GetTop())
 end
 
 function FarmingPartySettings:SetWindowValues()
-    local left = self.settings.positionLeft
-    local top = self.settings.positionTop
-    
+    local left = self.settings.logWindow.positionLeft
+    local top = self.settings.logWindow.positionTop
+    local windowTransparency = self.settings.logWindow.transparency
+    local height = self.settings.logWindow.height
+    local width = self.settings.logWindow.width
+    local display = self.settings.displayOnWindow
+
     FarmingPartyWindow:ClearAnchors()
     FarmingPartyWindow:SetAnchor(TOPLEFT, GuiRoot, TOPLEFT, left, top)
-    FarmingPartyWindow:SetAlpha(0.5)
-    FarmingPartyWindowBG:SetAlpha(0)
-    FarmingPartyWindow:SetHidden(false)
-    
+    FarmingPartyWindow:GetNamedChild("BG"):SetAlpha(self.settings.logWindow.backgroundTransparency / 100)
+    FarmingPartyWindow:SetHidden(not display)
+
     FarmingPartyWindowBuffer:ClearAnchors()
     FarmingPartyWindowBuffer:SetAnchor(TOP, FarmingPartyWindow, TOP, 0, 0)
-    FarmingPartyWindowBuffer:SetWidth(400)
-    FarmingPartyWindowBuffer:SetHeight(80)
-    
+    FarmingPartyWindowBuffer:SetWidth(width)
+    FarmingPartyWindowBuffer:SetHeight(height)
+
     --use the same font as in chat window
     local face = ZoFontEditChat:GetFontInfo()
     local fontSize = GetChatFontSize()
     local decoration = (fontSize <= 14 and "soft-shadow-thin" or "soft-shadow-thick")
     FarmingPartyWindowBuffer:SetFont(zo_strjoin("|", face, fontSize, decoration))
+end
+
+function FarmingPartySettings:SetWindowBackgroundTransparency(value)
+    if value ~= nil then
+        self.settings.logWindow.backgroundTransparency = value
+    end
+    FarmingPartyWindow:GetNamedChild("BG"):SetAlpha(self.settings.logWindow.backgroundTransparency / 100)
 end
 
 function FarmingPartySettings:ToggleMinimumLootQuality(value)

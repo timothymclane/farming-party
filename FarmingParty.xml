@@ -1,8 +1,17 @@
 <GuiXml>
   <Controls>
-    <TopLevelControl name="FarmingPartyWindow" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true">
-      <Dimensions x="400" y="80" />
-
+    <TopLevelControl name="FarmingPartyWindow" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true" resizeHandleSize="8">
+      <OnUpdate>
+        local w, h = self:GetDimensions()
+        if ((self.currentWidth ~= w) or (self.currentHeight ~= h)) then
+          self.currentWidth = w
+          self.currentHeight = h
+          if(self.onResize) then
+            self.onResize()
+          end
+        end
+      </OnUpdate>
+      <DimensionConstraints minX="400" minY="80" />
       <OnMoveStart>FarmingPartySettings:MoveStart()</OnMoveStart>
       <OnMoveStop>FarmingPartySettings:MoveStop()</OnMoveStop>
 
@@ -13,7 +22,7 @@
           inheritAlpha="true" 
           font="ZoFontGameSmall" 
           linkEnabled="true" 
-          maxHistoryLines="30"/>
+          maxHistoryLines="200"/>
       </Controls>
 
     </TopLevelControl>
