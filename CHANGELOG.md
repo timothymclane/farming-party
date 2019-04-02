@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.11.0] - 2019-04-01
+### Added
+- Configuration option for `/fpc` chat output
+- Resize support to the loot window
+- Timestamp support to the loot window
+
 ## [2.10.1] - 2019-02-03
 ### Fixed
 - Errantly removed API version for Murkmire.
@@ -82,6 +88,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Serious (usually silent) bug/performance issue which occurred when a member looted an item
 
+[2.11.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.10.1...release%2Fv2.11.0
 [2.10.1]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.10.0...release%2Fv2.10.1
 [2.10.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.9.0...release%2Fv2.10.0
 [2.9.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.8.0...release%2Fv2.9.0
