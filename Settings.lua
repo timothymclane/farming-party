@@ -66,7 +66,9 @@ function FarmingPartySettings:Initialize()
             positionLeft = 0,
             positionTop = 150,
             width = 400,
-            height = 80
+            height = 80,
+            showTimestamp = true,
+            timestampFormat = "[MM.DD.YYYY HH:mm:ss]"
         },
         status = self.TRACKING_STATUS.ENABLED,
         chatPrefix = "FARMING SCORES:"
@@ -228,12 +230,36 @@ function FarmingPartySettings:Initialize()
         {
             type = "checkbox",
             name = "Log to loot window",
-            tooltip = "Show or hide loot on the window.",
+            tooltip = "Show or hide loot on the loot window.",
             getFunc = function()
                 return self:DisplayOnWindow()
             end,
             setFunc = function(value)
                 self:ToggleOnWindow(value)
+            end,
+            width = "full"
+        },
+        {
+            type = "checkbox",
+            name = "Show timestamp on loot window",
+            tooltip = "Show or hide timestamp on the window.",
+            getFunc = function()
+                return self:ShowWindowTimestamp()
+            end,
+            setFunc = function(value)
+                self:SetShowWindowTimestamp(value)
+            end,
+            width = "full"
+        },
+        {
+            type = "editbox",
+            name = "Timestamp Format",
+            tooltip = "Change the format of the loot window timestamp",
+            getFunc = function()
+                return self:GetSettings().logWindow.timestampFormat
+            end,
+            setFunc = function(value)
+                self:SetTimestampFormat(value)
             end,
             width = "full"
         },
@@ -497,4 +523,16 @@ end
 
 function FarmingPartySettings:SetChatPrefix(value)
     self.settings.chatPrefix = value
+end
+
+function FarmingPartySettings:SetTimestampFormat(value)
+    self.settings.logWindow.timestampFormat = value
+end
+
+function FarmingPartySettings:ShowWindowTimestamp()
+    return self.settings.logWindow.showTimestamp
+end
+
+function FarmingPartySettings:SetShowWindowTimestamp(value)
+    self.settings.logWindow.showTimestamp = value
 end
