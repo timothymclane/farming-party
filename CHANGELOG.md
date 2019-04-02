@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.11.2] - 2019-04-02
+### Fixed
+- Incorrect folder name (this is why we automate, amirite?)
+
 ## [2.11.1] - 2019-04-01
 ### Fixed
 - Missing .xml file

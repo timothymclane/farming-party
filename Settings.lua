@@ -1,5 +1,5 @@
 local ADDON_NAME = "Farming Party"
-local ADDON_VERSION = "2.11.1"
+local ADDON_VERSION = "2.11.2"
 
 local LAM2 = LibStub("LibAddonMenu-2.0")
 if not LAM2 then
