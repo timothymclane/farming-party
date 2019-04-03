@@ -1,3 +1,9 @@
+# FAKE build files
+.fake/
+
+# Build output
+build/
+
 # Compiled Lua sources
 luac.out
 
