@@ -233,7 +233,7 @@ function FarmingPartyMemberList:ShowAllGroupMembers()
 end
 
 local function BuildScoreString(farmer)
-    return farmer.displayName .. ': ' .. FarmingParty.FormatNumber(farmer.totalValue, 2) .. 'g. '
+    return farmer.displayName .. ': ' .. FarmingParty.FormatNumber(farmer.totalValue, 2) .. 'g.'
 end
 
 function FarmingPartyMemberList:PrintScoresToChat()
