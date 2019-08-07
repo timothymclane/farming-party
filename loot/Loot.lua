@@ -78,7 +78,7 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
     Logger:LogLootItem(looterMember.displayName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
 end
 
-function FarmingPartyLoot:AddNewLootedItem(self, memberName, itemLink, itemValue, count)
+function FarmingPartyLoot:AddNewLootedItem(memberName, itemLink, itemValue, count)
     local itemDetails = Members:GetItemForMember(memberName, itemLink)
     if (itemDetails == nil) then
         itemDetails = FarmingPartyMemberItem:New(itemLink)
