@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.12.1] - 2019-08-07
+### Fixed
+- Broken looting function signature
+
 ## [2.12.0] - 2019-08-07
 ### Added
 - LibAsync dependency to help mitigate potential stutters
@@ -107,6 +111,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Serious (usually silent) bug/performance issue which occurred when a member looted an item
 
+[2.12.1]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.12.0...release%2Fv2.12.1
+[2.12.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.11.1...release%2Fv2.12.0
 [2.11.1]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.11.0...release%2Fv2.11.1
 [2.11.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.10.1...release%2Fv2.11.0
 [2.10.1]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.10.0...release%2Fv2.10.1
