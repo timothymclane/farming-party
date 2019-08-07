@@ -1,6 +1,9 @@
 # FAKE build files
 .fake/
 
+# Ionide files
+.ionide/
+
 # Build output
 build/
 

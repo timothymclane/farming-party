@@ -32,6 +32,7 @@ Target.create "Copy" (fun _ ->
 Target.create "Deploy" (fun p ->
   (sprintf "farming-party-%s.zip" p.Context.Arguments.Head, !! "build/FarmingParty/**")
   ||> Zip.zip "build/"
+  Shell.cleanDir buildDir
 )
 
 Target.create "Default" ignore
