@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+## [2.12.0] - 2019-08-07
+### Added
+- LibAsync dependency to help mitigate potential stutters
+### Changed
+- API Version for Scalebreaker DLC
+- Loot handling code to fix some performance problems
+### Fixed
+- Superfluous whitespace in scores chat output
+### Removed
+- LibStub dependency
+
 ## [2.11.2] - 2019-04-02
 ### Fixed
 - Incorrect folder name (this is why we automate, amirite?)
