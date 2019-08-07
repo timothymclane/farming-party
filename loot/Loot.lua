@@ -36,15 +36,22 @@ end
 function FarmingPartyLoot:Finalize()
 
 end
-
+local async = LibAsync
 function FarmingPartyLoot:AddEventHandlers()
-    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_LOOT_RECEIVED, function(...)self:OnItemLooted(...) end)
+    EVENT_MANAGER:RegisterForEvent(ADDON_NAME, EVENT_LOOT_RECEIVED, function(...)async:Call(self:OnItemLooted(...)) end)
     Settings:ToggleStatusValue(FarmingParty.Settings.TRACKING_STATUS.ENABLED)
 end
 
 function FarmingPartyLoot:RemoveEventHandlers()
     EVENT_MANAGER:UnregisterForEvent(ADDON_NAME, EVENT_LOOT_RECEIVED)
     Settings:ToggleStatusValue(FarmingParty.Settings.TRACKING_STATUS.DISABLED)
+end
+    
+local getMember = function(looterName)
+    if Members:HasMember(looterName) then
+        return Members:GetMember(looterName)
+    else MemberList:AddAllGroupMembers()
+        return Members:GetMember(looterName) end
 end
 
 function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, itemSound, lootType, lootedByPlayer, isPickpocketLoot, questItemIcon, itemId)
@@ -66,28 +73,19 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
     local totalValue = itemValue * quantity
     local itemName = zo_strformat("<<t:1>>", itemLink)
     local itemFound = false
-    
-    local getMember = function(looterName)
-        if Members:HasMember(looterName) then
-            return Members:GetMember(looterName)
-        else MemberList:AddAllGroupMembers()
-            return Members:GetMember(looterName) end
-    end
     local looterMember = getMember(looterName)
     self:AddNewLootedItem(looterName, itemLink, itemValue, quantity)
     Logger:LogLootItem(looterMember.displayName, lootedByPlayer, itemLink, quantity, totalValue, itemName, lootType, questItemIcon)
 end
 
-function FarmingPartyLoot:AddNewLootedItem(memberName, itemLink, itemValue, count)
-    local items = Members:GetItemsForMember(memberName)
-    local itemDetails = items[itemLink]
+function FarmingPartyLoot:AddNewLootedItem(self, memberName, itemLink, itemValue, count)
+    local itemDetails = Members:GetItemForMember(memberName, itemLink)
     if (itemDetails == nil) then
         itemDetails = FarmingPartyMemberItem:New(itemLink)
     end
-    -- This update and replace might be super expensive and inefficient. Need to investigate
+    -- This could probably use a bit more fine tuning for performance
     itemDetails = FarmingPartyMemberItem:UpdateItemCount(itemDetails, itemValue, count)
-    items[itemLink] = itemDetails
-    Members:SetItemsForMember(memberName, items)
+    Members:SetItemForMember(memberName, itemLink, itemDetails)
     local lootedValue = itemValue * count
     Members:UpdateTotalValueAndSetBestItem(memberName, itemDetails, lootedValue)
 end

@@ -67,6 +67,16 @@ function FarmingPartyMembers:DeleteAllMembers()
     end
 end
 
+function FarmingPartyMembers:GetItemForMember(memberKey, itemLink)
+    local member = self:GetMember(memberKey)
+    return member.items[itemLink]
+end
+
+function FarmingPartyMembers:SetItemForMember(memberKey, itemLink, item)
+    local member = self:GetMember(memberKey)
+    member.items[itemLink] = item
+end
+
 function FarmingPartyMembers:GetItemsForMember(key)
     local member = self:GetMember(key)
     local items = member.items
