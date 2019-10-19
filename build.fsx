@@ -13,6 +13,7 @@ let buildDir = "./build/"
 
 // Targets
 Target.create "Clean" (fun _ ->
+  Directory.ensure buildDir
   Shell.cleanDir buildDir
 )
 
