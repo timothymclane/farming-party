@@ -63,6 +63,10 @@ function FarmingParty:Finalize()
     for moduleName, moduleObject in pairs(self.Modules) do
         moduleObject:Finalize()
     end
+
+    if (self.Settings:ResetStatusOnLogout()) then
+        self.Settings:ToggleStatusValue(FarmingParty.Settings.TRACKING_STATUS.DISABLED)
+    end
 end
 
 function FarmingParty:Initialize()
