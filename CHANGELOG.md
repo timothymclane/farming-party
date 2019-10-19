@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 - Nothing at this time
 
+
+## [2.13.0] - 2019-10-19
+### Added
+- Option to disable loot tracking upon logout
+### Changed
+- API version for Dragonhold DLC
+
 ## [2.12.1] - 2019-08-07
 ### Fixed
 - Broken looting function signature
@@ -15,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - LibAsync dependency to help mitigate potential stutters
 ### Changed
-- API Version for Scalebreaker DLC
+- API version for Scalebreaker DLC
 - Loot handling code to fix some performance problems
 ### Fixed
 - Superfluous whitespace in scores chat output
@@ -111,6 +118,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Serious (usually silent) bug/performance issue which occurred when a member looted an item
 
+[2.13.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.12.1...release%2Fv2.13.0
 [2.12.1]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.12.0...release%2Fv2.12.1
 [2.12.0]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.11.1...release%2Fv2.12.0
 [2.11.1]: https://github.com/timothymclane/farming-party/compare/release%2Fv2.11.0...release%2Fv2.11.1
