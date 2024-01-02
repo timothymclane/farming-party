@@ -8,6 +8,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Nothing at this time
 
 
+## [2.15.0] - 2024-01-01
+### Changed
+- API version for Secret of the Telvanni
+### Added
+- Ignore Leads
+
+## [2.14.0] - 2020-02-24
+### Changed
+- API version for Harrowstorm DLC
+
 ## [2.13.0] - 2019-10-19
 ### Added
 - Option to disable loot tracking upon logout
