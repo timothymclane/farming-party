@@ -10,7 +10,6 @@ end
 
 FarmingPartyLoot = ZO_Object:Subclass()
 
-local NOT_EQUIPPABLE = 0
 local Members
 local MemberList
 local Logger
@@ -61,7 +60,12 @@ local getMember = function(looterName)
   end
 end
 
-function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, itemSound, lootType, lootedByPlayer, isPickpocketLoot, questItemIcon, itemId)
+function FarmingPartyLoot:OnItemLooted(eventCode, receivedBy, itemLink, quantity, soundCategory, lootType, lootedByPlayer, isPickpocketLoot, questItemIcon, itemId, isStolen)
+  --[[ API docs state that itemLink is itemName
+
+  Which is odd because a lead like Lustrous Prong Clasps is the name
+  but other items like ore is an itemLink.
+  ]]--
   if not lootedByPlayer and not Settings:TrackGroupLoot() then
     return
   end
@@ -72,7 +76,7 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
   local itemType = GetItemLinkItemType(itemLink)
   local itemQuality = GetItemLinkQuality(itemLink)
 
-  if equipType ~= NOT_EQUIPPABLE and not Settings:TrackGearLoot() then
+  if equipType ~= EQUIP_TYPE_INVALID and not Settings:TrackGearLoot() then
     return
   end
   if itemType == ITEMTYPE_RACIAL_STYLE_MOTIF and not Settings:TrackMotifLoot() then
@@ -84,8 +88,14 @@ function FarmingPartyLoot:OnItemLooted(eventCode, name, itemLink, quantity, item
   if (lootType == LOOT_TYPE_QUEST_ITEM) then
     return
   end
+  if (lootType == LOOT_TYPE_QUEST_ITEM) then
+    return
+  end
+  if (lootType == LOOT_TYPE_ANTIQUITY_LEAD) then
+    return
+  end
 
-  local looterName = zo_strformat(SI_UNIT_NAME, name)
+  local looterName = zo_strformat(SI_UNIT_NAME, receivedBy)
   local itemValue = GetItemPrice(itemLink)
 
   local lootMessage = nil
