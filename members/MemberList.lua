@@ -180,7 +180,7 @@ function FarmingPartyMemberList:SetupMemberRow(rowControl, rowData)
   memberId:SetText(data.id)
   memberName:SetText(data.displayName)
   bestItem:SetText(data.bestItem.itemLink)
-  totalValue:SetText(FarmingParty.FormatNumber(data.totalValue, 2) .. 'g')
+  totalValue:SetText(FarmingParty.FormatNumber(data.totalValue) .. 'g')
 end
 
 function FarmingPartyMemberList.onResize()
@@ -246,7 +246,7 @@ function FarmingPartyMemberList:ShowAllGroupMembers()
 end
 
 local function BuildScoreString(farmer)
-  return farmer.displayName .. ': ' .. FarmingParty.FormatNumber(farmer.totalValue, 2) .. 'g.'
+  return farmer.displayName .. ': ' .. FarmingParty.FormatNumber(farmer.totalValue) .. 'g.'
 end
 
 function FarmingPartyMemberList:PrintScoresToChat()

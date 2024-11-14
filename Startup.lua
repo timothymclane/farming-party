@@ -38,8 +38,8 @@ function FP_LocalizeDecimalNumber(amount)
     return amount
 end
 
-function FarmingParty.FormatNumber(num, numDecimalPlaces)
-    return FP_LocalizeDecimalNumber(string.format("%0." .. (numDecimalPlaces or 0) .. "f", num))
+function FarmingParty.FormatNumber(num)
+    return FP_LocalizeDecimalNumber(string.format("%0." .. (FarmingParty.Settings:ValueDecimals() or 2) .. "f", num))
 end
 
 local function OnPlayerDeactivated(eventCode)

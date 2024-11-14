@@ -65,7 +65,8 @@ function FarmingPartySettings:Initialize()
       width = 400,
       height = 80,
       showTimestamp = true,
-      timestampFormat = '[MM.DD.YYYY HH:mm:ss]'
+      timestampFormat = '[MM.DD.YYYY HH:mm:ss]',
+      valueDecimals = 2
     },
     status = self.TRACKING_STATUS.ENABLED,
     resetStatusOnLogout = false,
@@ -275,6 +276,21 @@ function FarmingPartySettings:Initialize()
     },
     {
       type = 'slider',
+      name = "Value decimal places",
+      min = 0,
+      max = 2,
+      step = 1,
+      tooltip = "Decimal places to show for item values",
+      getFunc = function()
+        return self:ValueDecimals()
+      end,
+      setFunc = function(value)
+        self:SetValueDecimals(value)
+      end,
+      width = "full"
+    },
+    {
+      type = 'slider',
       name = 'Loot window background opacity',
       tooltip = 'Change the opacity of the background of the loot window',
       min = 0,
@@ -445,6 +461,10 @@ function FarmingPartySettings:ItemsWindow()
   return self.settings.itemsWindow
 end
 
+function FarmingPartySettings:ValueDecimals()
+  return self.settings.valueDecimals
+end
+
 -- All of the functions around the log window need to be moved to their own module
 function FarmingPartySettings:MoveStart()
   FarmingPartyWindowBG:SetAlpha(1)
@@ -553,4 +573,8 @@ end
 
 function FarmingPartySettings:SetShowWindowTimestamp(value)
   self.settings.logWindow.showTimestamp = value
+end
+
+function FarmingPartySettings:SetValueDecimals(value)
+  self.settings.valueDecimals = value
 end

@@ -103,7 +103,7 @@ function FarmingPartyMemberItems:SetupItemRow(rowControl, rowData)
     
     itemName:SetText(data.itemLink)
     itemCount:SetText(data.count)
-    totalValue:SetText(FarmingParty.FormatNumber(data.totalValue, 2) .. 'g')
+    totalValue:SetText(FarmingParty.FormatNumber(data.totalValue) .. 'g')
 end
 
 function FarmingPartyMemberItems.onResize()
